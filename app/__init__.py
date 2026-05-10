@@ -1,24 +1,25 @@
-from flask import Flask, render_template, session, g
+from flask import Flask, render_template
+from flask_login import LoginManager
 
 app = Flask(__name__)
 app.secret_key = 'invalidhelp-secret-key-2024'
+login_manager = LoginManager(app)
+login_manager.login_view = 'pharmacy.login'
+login_manager.login_message = 'Войдите, чтобы открыть эту страницу'
 
 from app.pharmacy import bp as pharmacy_bp
 app.register_blueprint(pharmacy_bp)
 
-@app.context_processor
-def inject_current_user():
-    from app.pharmacy import DBStorage, UserItem
-    user_id = session.get('user_id')
-    if user_id:
-        try:
-            db = DBStorage()
-            user = db.GetUser(user_id)
-            db.db.close()
-            return {'current_user': user}
-        except Exception:
-            pass
-    return {'current_user': None}
+@login_manager.user_loader
+def load_user(user_id):
+    from app.pharmacy import DBStorage
+    try:
+        db = DBStorage()
+        user = db.GetUser(int(user_id))
+        db.db.close()
+        return user if user.id else None
+    except Exception:
+        return None
 
 @app.route("/")
 def index():

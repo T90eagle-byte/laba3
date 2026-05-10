@@ -2,7 +2,22 @@
 import os, sqlite3, pickle, datetime, hashlib
 from dataclasses import dataclass, field
 from flask import (Blueprint, render_template, request, redirect,
-                   url_for, g, session)
+                   url_for, g)
+from flask_login import (
+    UserMixin,
+    current_user,
+    login_required,
+    login_user,
+    logout_user,
+)
+
+from app.forms import (
+    LoginForm,
+    OrderForm,
+    ProductForm,
+    ProfileForm,
+    RegisterForm,
+)
 
 bp = Blueprint('pharmacy', __name__)
 
@@ -24,7 +39,7 @@ def hash_password(password: str) -> str:
 # ─────────────────────────────────────────────────────────────────
 
 @dataclass
-class UserItem:
+class UserItem(UserMixin):
     id: int = 0
     name: str = ''
     surname: str = ''
@@ -39,6 +54,9 @@ class UserItem:
     def initials(self):
         parts = [self.surname, self.name]
         return ''.join(p[0].upper() for p in parts if p)
+
+    def get_id(self):
+        return str(self.id)
 
     def __str__(self):
         return self.full_name()
@@ -200,14 +218,16 @@ class FlaskInputOutput:
         return self.form.getlist(field)
 
     def OutputProfile(self, item):
-        return render_template('profile.tpl', it=item)
+        return render_template('profile.tpl', it=item, form=ProfileForm(obj=item))
 
     def OutputProduct(self, item):
-        return render_template('product_form.tpl', it=item)
+        return render_template('product_form.tpl', it=item, form=ProductForm(obj=item))
 
     def OutputOrder(self, item):
         products = list(get_pharmacy().storage.GetProducts())
-        return render_template('order_form.tpl', it=item, products=products)
+        form = OrderForm(obj=item)
+        form.product_ids.choices = [(p.id, f'{p.name} {p.dosage}') for p in products]
+        return render_template('order_form.tpl', it=item, products=products, form=form)
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -390,67 +410,72 @@ class Pharmacy:
 
     # --- Auth ---
     def ShowLogin(self, error=''):
-        return render_template('login.tpl', error=error)
+        return render_template('login.tpl', error=error, form=LoginForm())
 
     def DoLogin(self):
-        login    = request.form.get('login', '')
-        password = request.form.get('password', '')
-        user = self.storage.GetUserByLogin(login)
-        if user and user.password_hash == hash_password(password):
-            session['user_id'] = user.id
-            return redirect(url_for('pharmacy.my_orders'))
+        form = LoginForm()
+        if form.validate_on_submit():
+            user = self.storage.GetUserByLogin(form.login.data)
+            if user and user.password_hash == hash_password(form.password.data):
+                login_user(user)
+                next_url = request.args.get('next')
+                return redirect(next_url or url_for('pharmacy.my_orders'))
         return self.ShowLogin(error='Неверный логин или пароль')
 
     def ShowRegister(self, error=''):
-        return render_template('register.tpl', error=error)
+        return render_template('register.tpl', error=error, form=RegisterForm())
 
     def DoRegister(self):
-        login    = request.form.get('login', '').strip()
-        password = request.form.get('password', '')
-        confirm  = request.form.get('confirm', '')
+        form = RegisterForm()
+        if not form.validate_on_submit():
+            error = next(iter(form.errors.values()))[0] if form.errors else ''
+            return self.ShowRegister(error=error)
 
-        if not login or not password:
-            return self.ShowRegister(error='Заполните все обязательные поля')
-        if password != confirm:
-            return self.ShowRegister(error='Пароли не совпадают')
+        login = form.login.data.strip()
         if self.storage.LoginExists(login):
             return self.ShowRegister(error='Логин уже занят')
 
         u = UserItem(
-            name       = request.form.get('name', '').strip(),
-            surname    = request.form.get('surname', '').strip(),
-            patronymic = request.form.get('patronymic', '').strip(),
+            name       = (form.name.data or '').strip(),
+            surname    = (form.surname.data or '').strip(),
+            patronymic = (form.patronymic.data or '').strip(),
             login      = login,
-            password_hash = hash_password(password),
-            address    = request.form.get('address', '').strip(),
+            password_hash = hash_password(form.password.data),
+            address    = (form.address.data or '').strip(),
         )
         self.storage.RegisterUser(u)
         self.storage.db.commit()
         user = self.storage.GetUserByLogin(login)
-        session['user_id'] = user.id
+        login_user(user)
         return redirect(url_for('pharmacy.my_orders'))
 
     def DoLogout(self):
-        session.clear()
+        logout_user()
         return redirect(url_for('pharmacy.login'))
 
     # --- Профиль ---
     def ShowProfile(self):
-        user = self.storage.GetUser(session.get('user_id', 0))
-        return self.io.OutputProfile(user)
+        user = self.storage.GetUser(int(current_user.get_id()))
+        form = ProfileForm(obj=user)
+        return render_template('profile.tpl', it=user, form=form)
 
     def SaveProfile(self):
-        user = self.storage.GetUser(session.get('user_id', 0))
-        user.Input(self.io)
-        user.id = session['user_id']
+        user = self.storage.GetUser(int(current_user.get_id()))
+        form = ProfileForm()
+        if not form.validate_on_submit():
+            return render_template('profile.tpl', it=user, form=form)
+
+        user.name = form.name.data or ''
+        user.surname = form.surname.data or ''
+        user.patronymic = form.patronymic.data or ''
+        user.login = form.login.data or ''
+        user.address = form.address.data or ''
         self.storage.UpdateUser(user)
 
-        cur_pw  = request.form.get('current_password', '')
-        new_pw  = request.form.get('new_password', '')
-        conf_pw = request.form.get('confirm_password', '')
-        if new_pw:
-            if user.password_hash == hash_password(cur_pw) and new_pw == conf_pw:
-                self.storage.UpdatePassword(user.id, hash_password(new_pw))
+        if form.new_password.data:
+            if (user.password_hash == hash_password(form.current_password.data or '')
+                    and form.new_password.data == form.confirm_password.data):
+                self.storage.UpdatePassword(user.id, hash_password(form.new_password.data))
         return redirect(url_for('pharmacy.profile'))
 
     # --- Каталог (публичный) ---
@@ -459,13 +484,21 @@ class Pharmacy:
                                products=list(self.storage.GetProducts()))
 
     def ShowProductForm(self, id):
-        return self.storage.GetProduct(id).Output(self.io)
+        item = self.storage.GetProduct(id)
+        form = ProductForm(obj=item)
+        return render_template('product_form.tpl', it=item, form=form)
 
     def AddProduct(self):
-        item = self.storage.GetProduct(int(self.io.Input('id') or 0))
-        item.Input(self.io)
-        self.storage.AddProduct(item)
-        return redirect(url_for('pharmacy.products'))
+        item = self.storage.GetProduct(int(request.form.get('id') or 0))
+        form = ProductForm()
+        if form.validate_on_submit():
+            item.name = form.name.data
+            item.dosage = form.dosage.data or ''
+            item.price = form.price.data
+            item.in_stock = form.in_stock.data
+            self.storage.AddProduct(item)
+            return redirect(url_for('pharmacy.products'))
+        return render_template('product_form.tpl', it=item, form=form)
 
     def DeleteProduct(self, id):
         self.storage.DeleteProduct(id)
@@ -473,23 +506,46 @@ class Pharmacy:
 
     # --- Заказы (только своего пользователя) ---
     def ShowMyOrders(self):
-        user = self.storage.GetUser(session.get('user_id', 0))
+        user = self.storage.GetUser(int(current_user.get_id()))
         orders = list(self.storage.GetUserOrders(user.id))
         return render_template('orders.tpl', user=user, orders=orders)
 
     def ShowOrderForm(self, order_id):
-        user_id = session.get('user_id', 0)
+        user_id = int(current_user.get_id())
         order   = self.storage.GetOrder(order_id)
         order.user_id = user_id
-        return order.Output(self.io)
+        products = list(self.storage.GetProducts())
+        form = OrderForm(obj=order)
+        form.product_ids.choices = [(p.id, f'{p.name} {p.dosage}') for p in products]
+        form.product_ids.data = [
+            p.id for p in products
+            if any(i['name'] == p.name and i['dosage'] == p.dosage for i in order.items)
+        ]
+        if form.product_ids.data is None:
+            form.product_ids.data = []
+        return render_template('order_form.tpl', it=order, products=products, form=form)
 
     def AddOrder(self):
-        user_id = session.get('user_id', 0)
-        item    = self.storage.GetOrder(int(self.io.Input('id') or 0))
+        user_id = int(current_user.get_id())
+        item    = self.storage.GetOrder(int(request.form.get('id') or 0))
         item.user_id = user_id
-        item.Input(self.io)
-        self.storage.AddOrder(item)
-        return redirect(url_for('pharmacy.my_orders'))
+        products = list(self.storage.GetProducts())
+        form = OrderForm()
+        form.product_ids.choices = [(p.id, f'{p.name} {p.dosage}') for p in products]
+        if form.product_ids.data is None:
+            form.product_ids.data = []
+        if form.validate_on_submit():
+            item.payment = form.payment.data
+            item.items = []
+            for pid in form.product_ids.data:
+                p = self.storage.GetProduct(pid)
+                if p.id and p.in_stock:
+                    item.items.append({
+                        'name': p.name, 'dosage': p.dosage, 'price': p.price
+                    })
+            self.storage.AddOrder(item)
+            return redirect(url_for('pharmacy.my_orders'))
+        return render_template('order_form.tpl', it=item, products=products, form=form)
 
     def DeleteOrder(self, order_id):
         self.storage.DeleteOrder(order_id)
@@ -522,27 +578,13 @@ def teardown(ctx):
 
 
 # ─────────────────────────────────────────────────────────────────
-#  Декоратор: только для авторизованных
-# ─────────────────────────────────────────────────────────────────
-
-def login_required(f):
-    from functools import wraps
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        if 'user_id' not in session:
-            return redirect(url_for('pharmacy.login'))
-        return f(*args, **kwargs)
-    return decorated
-
-
-# ─────────────────────────────────────────────────────────────────
 #  Маршруты
 # ─────────────────────────────────────────────────────────────────
 
 # Auth
 @bp.route("/login", methods=['GET'])
 def login():
-    if 'user_id' in session:
+    if current_user.is_authenticated:
         return redirect(url_for('pharmacy.my_orders'))
     return get_pharmacy().ShowLogin()
 

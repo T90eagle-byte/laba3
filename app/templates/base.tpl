@@ -85,14 +85,14 @@ input:focus, select:focus { border-color: #7B1FA2; }
 <nav>
   <a class="nav-logo" href="{{ url_for('pharmacy.products') }}">Invalidhelp</a>
   <a class="nav-catalog" href="{{ url_for('pharmacy.products') }}">≡ Каталог</a>
-  {% if session.get('user_id') %}
+  {% if current_user.is_authenticated %}
     <a class="nav-link" href="{{ url_for('pharmacy.my_orders') }}">Мои заказы</a>
   {% endif %}
   <div class="nav-spacer"></div>
-  {% if session.get('user_id') %}
+  {% if current_user.is_authenticated %}
     <a class="nav-link" href="{{ url_for('pharmacy.my_orders') }}">Мои заказы</a>
     <a class="nav-avatar" href="{{ url_for('pharmacy.profile') }}"
-       title="Настройки профиля">{{ current_user.initials() if current_user else 'ФИ' }}</a>
+       title="Настройки профиля">{{ current_user.initials() }}</a>
   {% else %}
     <a class="nav-link" href="{{ url_for('pharmacy.login') }}">Войти</a>
     <a class="btn btn-primary btn-sm" href="{{ url_for('pharmacy.register') }}">Регистрация</a>

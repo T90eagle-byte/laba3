@@ -32,11 +32,12 @@ input:focus { border-color:#7B1FA2; }
     <div class="error">{{ error }}</div>
   {% endif %}
   <form method="post" action="{{ url_for('pharmacy.login_post') }}">
+    {{ form.hidden_tag() }}
     <div class="form-group">
-      <input type="text" name="login" placeholder="Логин..." required autofocus>
+      {{ form.login(placeholder="Логин...", required=True, autofocus=True) }}
     </div>
     <div class="form-group">
-      <input type="password" name="password" placeholder="Пароль..." required>
+      {{ form.password(placeholder="Пароль...", required=True) }}
     </div>
     <button class="btn btn-primary" type="submit">ВХОД</button>
   </form>

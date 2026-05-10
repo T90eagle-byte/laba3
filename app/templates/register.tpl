@@ -32,26 +32,27 @@ input:focus { border-color:#7B1FA2; }
     <div class="error">{{ error }}</div>
   {% endif %}
   <form method="post" action="{{ url_for('pharmacy.register_post') }}">
+    {{ form.hidden_tag() }}
     <div class="form-group">
-      <input type="text" name="surname" placeholder="Фамилия...">
+      {{ form.surname(placeholder="Фамилия...") }}
     </div>
     <div class="form-group">
-      <input type="text" name="name" placeholder="Имя...">
+      {{ form.name(placeholder="Имя...") }}
     </div>
     <div class="form-group">
-      <input type="text" name="patronymic" placeholder="Отчество...">
+      {{ form.patronymic(placeholder="Отчество...") }}
     </div>
     <div class="form-group">
-      <input type="text" name="login" placeholder="Логин..." required>
+      {{ form.login(placeholder="Логин...", required=True) }}
     </div>
     <div class="form-group">
-      <input type="password" name="password" placeholder="Пароль..." required>
+      {{ form.password(placeholder="Пароль...", required=True) }}
     </div>
     <div class="form-group">
-      <input type="password" name="confirm" placeholder="Подтвердите пароль..." required>
+      {{ form.confirm(placeholder="Подтвердите пароль...", required=True) }}
     </div>
     <div class="form-group">
-      <input type="text" name="address" placeholder="Адрес доставки...">
+      {{ form.address(placeholder="Адрес доставки...") }}
     </div>
     <button class="btn btn-primary" type="submit">Зарегистрироваться</button>
   </form>
