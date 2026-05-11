@@ -22,8 +22,13 @@
       {% else %}<span class="badge-red">Пользователь</span>{% endif %}
     </td>
     <td>{{ u.address }}</td>
-    <td>
+    <td style="display:flex;gap:8px;">
       <a class="btn btn-gray btn-sm" href="{{ module_url('admin_user_form', user_id=u.id) }}">Изменить</a>
+      {% if u.id != current_user.id %}
+      <a class="btn btn-danger btn-sm"
+         href="{{ module_url('admin_user_delete', user_id=u.id) }}"
+         onclick="return confirm('Удалить пользователя? Его заказы тоже будут удалены.')">Удалить</a>
+      {% endif %}
     </td>
   </tr>
   {% endfor %}

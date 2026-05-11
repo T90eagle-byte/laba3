@@ -597,6 +597,14 @@ class Pharmacy:
             self.storage.RegisterUser(item)
         return redirect(module_url('admin'))
 
+    def DeleteAdminUser(self, user_id):
+        if user_id == int(current_user.get_id()):
+            return redirect(module_url('admin'))
+        user = self.storage.GetUser(user_id)
+        if user.id:
+            self.storage.DeleteUser(user.id)
+        return redirect(module_url('admin'))
+
     # --- Профиль ---
     def ShowProfile(self):
         user = self.storage.GetUser(int(current_user.get_id()))
@@ -766,6 +774,11 @@ def admin_user_form(user_id):
 @admin_required
 def admin_user_save():
     return get_pharmacy().SaveAdminUser()
+
+@bp.route("/admin/users/delete/<int:user_id>")
+@admin_required
+def admin_user_delete(user_id):
+    return get_pharmacy().DeleteAdminUser(user_id)
 
 # Профиль
 @bp.route("/profile", methods=['GET'])
