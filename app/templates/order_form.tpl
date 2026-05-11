@@ -2,7 +2,7 @@
 {% block content %}
 <h1>{{ "Изменить заказ" if it.id else "Новый заказ" }}</h1>
 <div class="form-card" style="max-width:600px;">
-  <form action="{{ url_for('pharmacy.order_add') }}" method="post">
+  <form action="{{ module_url('order_add') }}" method="post">
     {{ form.hidden_tag() }}
     {{ form.id(value=it.id) }}
     {{ form.user_id(value=it.user_id) }}
@@ -30,12 +30,13 @@
 
     <div class="form-group" style="margin-top:16px;">
       <label>Способ оплаты</label>
-      {{ form.payment() }}
+      <input type="text" value="Наличные" disabled>
+      {{ form.payment(style='display:none;') }}
     </div>
 
     <div class="form-actions">
       <button class="btn btn-primary" type="submit">Сохранить заказ</button>
-      <a class="btn btn-gray" href="{{ url_for('pharmacy.my_orders') }}">Назад</a>
+      <a class="btn btn-gray" href="{{ module_url('my_orders') }}">Назад</a>
     </div>
   </form>
 </div>

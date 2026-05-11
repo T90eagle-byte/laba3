@@ -4,11 +4,11 @@ from flask_login import LoginManager
 app = Flask(__name__)
 app.secret_key = 'invalidhelp-secret-key-2024'
 login_manager = LoginManager(app)
-login_manager.login_view = 'pharmacy.login'
 login_manager.login_message = 'Войдите, чтобы открыть эту страницу'
 
 from app.pharmacy import bp as pharmacy_bp
 app.register_blueprint(pharmacy_bp)
+login_manager.login_view = f'{pharmacy_bp.name}.login'
 
 @login_manager.user_loader
 def load_user(user_id):

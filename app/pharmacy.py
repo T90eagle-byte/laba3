@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import os, sqlite3, pickle, datetime, hashlib
 from dataclasses import dataclass, field
+from functools import wraps
 from flask import (Blueprint, render_template, request, redirect,
-                   url_for, g)
+                   url_for, g, abort)
 from flask_login import (
     UserMixin,
     current_user,
@@ -12,6 +13,7 @@ from flask_login import (
 )
 
 from app.forms import (
+    AdminUserForm,
     LoginForm,
     OrderForm,
     ProductForm,
@@ -22,8 +24,17 @@ from app.forms import (
 bp = Blueprint('pharmacy', __name__)
 
 _BASE     = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR  = os.path.join(_BASE, 'data')
 DB_PATH   = os.path.join(_BASE, 'data', 'pharmacy.sqlite')
 PKL_PATH  = os.path.join(_BASE, 'data', 'data.pkl')
+CATALOG_PKL_PATH = os.path.join(_BASE, 'data', 'catalog.pkl')
+LEGACY_CATALOG_PKL_PATH = os.path.join(
+    os.path.dirname(_BASE), 'pharmacy_app', 'pharmacy', 'catalog.pkl')
+ADMIN_LOGIN = 'admin'
+ADMIN_PASSWORD = 'admin'
+MG_UNIT = '\u043c\u0433'
+LEGACY_MG_UNITS = ('\u00d0\u00bc\u00d0\u00b3', '\u0420\u0458\u0420\u0456', '\u00ec\u00e3')
+PAYMENT_CASH = '\u043d\u0430\u043b\u0438\u0447\u043d\u044b\u0435'
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -32,6 +43,48 @@ PKL_PATH  = os.path.join(_BASE, 'data', 'data.pkl')
 
 def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
+
+
+def normalize_dosage(dosage: str) -> str:
+    value = (dosage or '').strip()
+    if not value:
+        return ''
+    lower = value.lower().replace('.', '')
+    for suffix in (MG_UNIT, *LEGACY_MG_UNITS):
+        if lower.endswith(suffix.lower()):
+            value = value[:-len(suffix)].strip().rstrip(',').strip()
+            break
+    return f"{value}, {MG_UNIT}" if value else MG_UNIT
+
+
+def get_import_path() -> str:
+    for path in (PKL_PATH, CATALOG_PKL_PATH, LEGACY_CATALOG_PKL_PATH):
+        if os.path.exists(path):
+            return path
+    return PKL_PATH
+
+
+def module_endpoint(endpoint: str) -> str:
+    return f"{bp.name}.{endpoint}"
+
+
+def module_url(endpoint: str, **values):
+    return url_for(module_endpoint(endpoint), **values)
+
+
+@bp.app_context_processor
+def inject_module_url():
+    return {'module_url': module_url}
+
+
+def admin_required(view):
+    @wraps(view)
+    @login_required
+    def wrapped(*args, **kwargs):
+        if not getattr(current_user, 'is_admin', 0):
+            abort(403)
+        return view(*args, **kwargs)
+    return wrapped
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -47,6 +100,7 @@ class UserItem(UserMixin):
     login: str = ''
     password_hash: str = ''
     address: str = ''
+    is_admin: int = 0
 
     def full_name(self):
         return f"{self.surname} {self.name} {self.patronymic}".strip()
@@ -69,20 +123,21 @@ class UserItem(UserMixin):
         self.login         = r['login']
         self.password_hash = r['password_hash']
         self.address       = r['address']
+        self.is_admin      = r['is_admin'] if 'is_admin' in r.keys() else 0
 
     def DBStore(self, db):
         if not self.id:
             db.execute(
-                "INSERT INTO users VALUES(NULL,?,?,?,?,?,?)",
+                "INSERT INTO users VALUES(NULL,?,?,?,?,?,?,?)",
                 (self.name, self.surname, self.patronymic,
-                 self.login, self.password_hash, self.address)
+                 self.login, self.password_hash, self.address, self.is_admin)
             )
         else:
             db.execute(
                 "UPDATE users SET name=?,surname=?,patronymic=?,"
-                "login=?,address=? WHERE id=?",
+                "login=?,address=?,is_admin=? WHERE id=?",
                 (self.name, self.surname, self.patronymic,
-                 self.login, self.address, self.id)
+                 self.login, self.address, self.is_admin, self.id)
             )
 
     def Input(self, io):
@@ -111,7 +166,7 @@ class ProductItem:
     def DBLoad(self, r):
         self.id       = r['id']
         self.name     = r['name']
-        self.dosage   = r['dosage']
+        self.dosage   = normalize_dosage(r['dosage'])
         self.price    = r['price']
         self.in_stock = r['in_stock']
 
@@ -119,18 +174,18 @@ class ProductItem:
         if not self.id:
             db.execute(
                 "INSERT INTO products VALUES(NULL,?,?,?,?)",
-                (self.name, self.dosage, self.price, self.in_stock)
+                (self.name, normalize_dosage(self.dosage), self.price, self.in_stock)
             )
         else:
             db.execute(
                 "UPDATE products SET name=?,dosage=?,price=?,in_stock=? WHERE id=?",
-                (self.name, self.dosage, self.price, self.in_stock, self.id)
+                (self.name, normalize_dosage(self.dosage), self.price, self.in_stock, self.id)
             )
 
     def Input(self, io):
         self.id       = int(io.Input('id') or 0)
         self.name     = io.Input('name') or ''
-        self.dosage   = io.Input('dosage') or ''
+        self.dosage   = normalize_dosage(io.Input('dosage') or '')
         self.price    = float(io.Input('price') or 0)
         self.in_stock = int(io.Input('in_stock') or 1)
 
@@ -142,7 +197,7 @@ class ProductItem:
 class OrderItem:
     id: int = 0
     user_id: int = 0
-    payment: str = 'наличные'
+    payment: str = PAYMENT_CASH
     created: datetime.datetime = field(default_factory=datetime.datetime.now)
     items: list = field(default_factory=list)
 
@@ -155,7 +210,7 @@ class OrderItem:
     def DBLoad(self, r, dbc):
         self.id      = r['id']
         self.user_id = r['user_id']
-        self.payment = r['payment']
+        self.payment = r['payment'] or PAYMENT_CASH
         self.created = r['created']
         dbc.execute("SELECT * FROM order_items WHERE order_id=?", (self.id,))
         self.items = [
@@ -182,13 +237,13 @@ class OrderItem:
         for it in self.items:
             db.execute(
                 "INSERT INTO order_items VALUES(NULL,?,?,?,?)",
-                (self.id, it['name'], it['dosage'], it['price'])
+                (self.id, it['name'], normalize_dosage(it['dosage']), it['price'])
             )
 
     def Input(self, io):
         self.id      = int(io.Input('id') or 0)
         self.user_id = int(io.Input('user_id') or 0)
-        self.payment = io.Input('payment') or 'наличные'
+        self.payment = PAYMENT_CASH
         product_ids  = io.InputList('product_ids')
         storage = get_pharmacy().storage
         self.items = []
@@ -196,7 +251,7 @@ class OrderItem:
             p = storage.GetProduct(int(pid))
             if p.id and p.in_stock:
                 self.items.append({
-                    'name': p.name, 'dosage': p.dosage, 'price': p.price
+                    'name': p.name, 'dosage': normalize_dosage(p.dosage), 'price': p.price
                 })
 
     def Output(self, io):
@@ -239,13 +294,15 @@ class DBStorage:
         self.Load()
 
     def Load(self):
+        os.makedirs(DATA_DIR, exist_ok=True)
         self.db = sqlite3.connect(
             DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES)
         self.db.execute("""
             CREATE TABLE IF NOT EXISTS users(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT, surname TEXT, patronymic TEXT,
-                login TEXT UNIQUE, password_hash TEXT, address TEXT)""")
+                login TEXT UNIQUE, password_hash TEXT, address TEXT,
+                is_admin INTEGER DEFAULT 0)""")
         self.db.execute("""
             CREATE TABLE IF NOT EXISTS products(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -259,9 +316,32 @@ class DBStorage:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 order_id INTEGER, product_name TEXT,
                 product_dosage TEXT, price REAL)""")
+        self._migrate()
+        self._ensure_default_admin()
         self.db.commit()
         self.db.row_factory = sqlite3.Row
         self.dbc = self.db.cursor()
+
+    def _migrate(self):
+        columns = [row[1] for row in self.db.execute("PRAGMA table_info(users)").fetchall()]
+        if 'is_admin' not in columns:
+            self.db.execute("ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0")
+
+    def _ensure_default_admin(self):
+        admin_count = self.db.execute(
+            "SELECT COUNT(*) FROM users WHERE is_admin=1").fetchone()[0]
+        if admin_count:
+            return
+        existing = self.db.execute(
+            "SELECT id FROM users WHERE login=?", (ADMIN_LOGIN,)).fetchone()
+        if existing:
+            self.db.execute(
+                "UPDATE users SET is_admin=1 WHERE id=?", (existing[0],))
+            return
+        self.db.execute(
+            "INSERT INTO users VALUES(NULL,?,?,?,?,?,?,?)",
+            ('Admin', '', '', ADMIN_LOGIN, hash_password(ADMIN_PASSWORD), '', 1)
+        )
 
     def Store(self):
         self.db.commit()
@@ -277,8 +357,10 @@ class DBStorage:
             return u
         return None
 
-    def LoginExists(self, login):
-        self.dbc.execute("SELECT id FROM users WHERE login=?", (login,))
+    def LoginExists(self, login, exclude_id=0):
+        self.dbc.execute(
+            "SELECT id FROM users WHERE login=? AND id<>?",
+            (login, exclude_id))
         return self.dbc.fetchone() is not None
 
     def RegisterUser(self, item):
@@ -374,30 +456,36 @@ class DBStorage:
             return f"Ошибка чтения файла: {e}"
 
         count_u = count_p = 0
-        for u in data.get('users', []):
-            if not self.LoginExists(u.get('login', '')):
+        users = data.get('users', []) if isinstance(data, dict) else []
+        products = data.get('products', []) if isinstance(data, dict) else data
+        if not isinstance(products, list):
+            products = []
+
+        for u in users:
+            login = (u.get('login', '') or '').strip()
+            if login and not self.LoginExists(login):
                 self.db.execute(
-                    "INSERT INTO users VALUES(NULL,?,?,?,?,?,?)",
+                    "INSERT INTO users VALUES(NULL,?,?,?,?,?,?,?)",
                     (u.get('name',''), u.get('surname',''),
-                     u.get('patronymic',''), u.get('login',''),
-                     hash_password('changeme'), u.get('address','')))
+                     u.get('patronymic',''), login,
+                     hash_password('changeme'), u.get('address',''), 0))
                 count_u += 1
 
-        for p in data.get('products', []):
+        for p in products:
+            dosage = normalize_dosage(p.get('dosage', ''))
             self.dbc.execute(
                 "SELECT id FROM products WHERE name=? AND dosage=?",
-                (p.get('name',''), p.get('dosage','')))
+                (p.get('name',''), dosage))
             if not self.dbc.fetchone():
                 self.db.execute(
                     "INSERT INTO products VALUES(NULL,?,?,?,?)",
-                    (p.get('name',''), p.get('dosage',''),
+                    (p.get('name',''), dosage,
                      p.get('price', 0), int(p.get('in_stock', True))))
                 count_p += 1
 
         self.db.commit()
         note = " (пароль по умолчанию: changeme)" if count_u else ""
         return f"Импортировано: {count_u} пользователей{note}, {count_p} товаров"
-
 
 # ─────────────────────────────────────────────────────────────────
 #  Главный класс
@@ -419,7 +507,7 @@ class Pharmacy:
             if user and user.password_hash == hash_password(form.password.data):
                 login_user(user)
                 next_url = request.args.get('next')
-                return redirect(next_url or url_for('pharmacy.my_orders'))
+                return redirect(next_url or module_url('my_orders'))
         return self.ShowLogin(error='Неверный логин или пароль')
 
     def ShowRegister(self, error=''):
@@ -447,11 +535,67 @@ class Pharmacy:
         self.storage.db.commit()
         user = self.storage.GetUserByLogin(login)
         login_user(user)
-        return redirect(url_for('pharmacy.my_orders'))
+        return redirect(module_url('my_orders'))
 
     def DoLogout(self):
         logout_user()
-        return redirect(url_for('pharmacy.login'))
+        return redirect(module_url('login'))
+
+    # --- Admin ---
+    def ShowAdmin(self):
+        return render_template(
+            'admin.tpl',
+            users=list(self.storage.GetUsers()),
+            products=list(self.storage.GetProducts()),
+        )
+
+    def ShowAdminUserForm(self, user_id):
+        item = self.storage.GetUser(user_id)
+        form = AdminUserForm(obj=item)
+        return render_template('admin_user_form.tpl', it=item, form=form, error='')
+
+    def SaveAdminUser(self):
+        item = self.storage.GetUser(int(request.form.get('id') or 0))
+        form = AdminUserForm()
+        if not form.validate_on_submit():
+            error = next(iter(form.errors.values()))[0] if form.errors else ''
+            return render_template('admin_user_form.tpl', it=item, form=form, error=error)
+
+        login = (form.login.data or '').strip()
+        if self.storage.LoginExists(login, item.id):
+            return render_template(
+                'admin_user_form.tpl', it=item, form=form,
+                error='Логин уже занят')
+
+        password = form.password.data or ''
+        confirm = form.confirm.data or ''
+        if not item.id and not password:
+            return render_template(
+                'admin_user_form.tpl', it=item, form=form,
+                error='Укажите пароль для нового пользователя')
+        if password and password != confirm:
+            return render_template(
+                'admin_user_form.tpl', it=item, form=form,
+                error='Пароли не совпадают')
+
+        item.name = (form.name.data or '').strip()
+        item.surname = (form.surname.data or '').strip()
+        item.patronymic = (form.patronymic.data or '').strip()
+        item.login = login
+        item.address = (form.address.data or '').strip()
+        item.is_admin = int(form.is_admin.data or 0)
+        if item.id == int(current_user.get_id()):
+            item.is_admin = 1
+        if password:
+            item.password_hash = hash_password(password)
+
+        if item.id:
+            self.storage.UpdateUser(item)
+            if password:
+                self.storage.UpdatePassword(item.id, item.password_hash)
+        else:
+            self.storage.RegisterUser(item)
+        return redirect(module_url('admin'))
 
     # --- Профиль ---
     def ShowProfile(self):
@@ -476,7 +620,7 @@ class Pharmacy:
             if (user.password_hash == hash_password(form.current_password.data or '')
                     and form.new_password.data == form.confirm_password.data):
                 self.storage.UpdatePassword(user.id, hash_password(form.new_password.data))
-        return redirect(url_for('pharmacy.profile'))
+        return redirect(module_url('profile'))
 
     # --- Каталог (публичный) ---
     def ShowProducts(self):
@@ -493,16 +637,16 @@ class Pharmacy:
         form = ProductForm()
         if form.validate_on_submit():
             item.name = form.name.data
-            item.dosage = form.dosage.data or ''
+            item.dosage = normalize_dosage(form.dosage.data or '')
             item.price = form.price.data
             item.in_stock = form.in_stock.data
             self.storage.AddProduct(item)
-            return redirect(url_for('pharmacy.products'))
+            return redirect(module_url('admin'))
         return render_template('product_form.tpl', it=item, form=form)
 
     def DeleteProduct(self, id):
         self.storage.DeleteProduct(id)
-        return redirect(url_for('pharmacy.products'))
+        return redirect(module_url('admin'))
 
     # --- Заказы (только своего пользователя) ---
     def ShowMyOrders(self):
@@ -517,6 +661,7 @@ class Pharmacy:
         products = list(self.storage.GetProducts())
         form = OrderForm(obj=order)
         form.product_ids.choices = [(p.id, f'{p.name} {p.dosage}') for p in products]
+        form.payment.data = PAYMENT_CASH
         form.product_ids.data = [
             p.id for p in products
             if any(i['name'] == p.name and i['dosage'] == p.dosage for i in order.items)
@@ -532,29 +677,31 @@ class Pharmacy:
         products = list(self.storage.GetProducts())
         form = OrderForm()
         form.product_ids.choices = [(p.id, f'{p.name} {p.dosage}') for p in products]
+        form.payment.data = PAYMENT_CASH
         if form.product_ids.data is None:
             form.product_ids.data = []
         if form.validate_on_submit():
-            item.payment = form.payment.data
+            item.payment = PAYMENT_CASH
             item.items = []
             for pid in form.product_ids.data:
                 p = self.storage.GetProduct(pid)
                 if p.id and p.in_stock:
                     item.items.append({
-                        'name': p.name, 'dosage': p.dosage, 'price': p.price
+                        'name': p.name, 'dosage': normalize_dosage(p.dosage), 'price': p.price
                     })
             self.storage.AddOrder(item)
-            return redirect(url_for('pharmacy.my_orders'))
+            return redirect(module_url('my_orders'))
         return render_template('order_form.tpl', it=item, products=products, form=form)
 
     def DeleteOrder(self, order_id):
         self.storage.DeleteOrder(order_id)
-        return redirect(url_for('pharmacy.my_orders'))
+        return redirect(module_url('my_orders'))
 
     # --- Импорт ---
     def ImportPickle(self):
-        msg = self.storage.ImportFromPickle(PKL_PATH)
-        return render_template('import.tpl', msg=msg)
+        path = get_import_path()
+        msg = self.storage.ImportFromPickle(path)
+        return render_template('import.tpl', msg=msg, path=path)
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -585,7 +732,7 @@ def teardown(ctx):
 @bp.route("/login", methods=['GET'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('pharmacy.my_orders'))
+        return redirect(module_url('my_orders'))
     return get_pharmacy().ShowLogin()
 
 @bp.route("/login", methods=['POST'])
@@ -603,6 +750,22 @@ def register_post():
 @bp.route("/logout")
 def logout():
     return get_pharmacy().DoLogout()
+
+# Admin
+@bp.route("/admin")
+@admin_required
+def admin():
+    return get_pharmacy().ShowAdmin()
+
+@bp.route("/admin/users/form/<int:user_id>")
+@admin_required
+def admin_user_form(user_id):
+    return get_pharmacy().ShowAdminUserForm(user_id)
+
+@bp.route("/admin/users/save", methods=['POST'])
+@admin_required
+def admin_user_save():
+    return get_pharmacy().SaveAdminUser()
 
 # Профиль
 @bp.route("/profile", methods=['GET'])
@@ -622,17 +785,17 @@ def products():
     return get_pharmacy().ShowProducts()
 
 @bp.route("/products/form/<int:id>")
-@login_required
+@admin_required
 def product_form(id):
     return get_pharmacy().ShowProductForm(id)
 
 @bp.route("/products/add", methods=['POST'])
-@login_required
+@admin_required
 def product_add():
     return get_pharmacy().AddProduct()
 
 @bp.route("/products/delete/<int:id>")
-@login_required
+@admin_required
 def product_delete(id):
     return get_pharmacy().DeleteProduct(id)
 
@@ -659,5 +822,6 @@ def order_delete(order_id):
 
 # Импорт
 @bp.route("/import")
+@admin_required
 def import_pickle():
     return get_pharmacy().ImportPickle()

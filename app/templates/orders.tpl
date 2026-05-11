@@ -5,7 +5,7 @@
     <h1>Мои заказы</h1>
     <p style="color:#546E7A;margin-top:4px;">{{ user.full_name() }}</p>
   </div>
-  <a class="btn btn-primary" href="{{ url_for('pharmacy.order_form', order_id=0) }}">+ Новый заказ</a>
+  <a class="btn btn-primary" href="{{ module_url('order_form', order_id=0) }}">+ Новый заказ</a>
 </div>
 
 {% if orders %}
@@ -28,9 +28,9 @@
       {{ o.created.strftime('%d.%m.%Y') if o.created else '—' }}
     </td>
     <td style="display:flex;gap:8px;">
-      <a class="btn btn-gray btn-sm" href="{{ url_for('pharmacy.order_form', order_id=o.id) }}">Изменить</a>
+      <a class="btn btn-gray btn-sm" href="{{ module_url('order_form', order_id=o.id) }}">Изменить</a>
       <a class="btn btn-danger btn-sm"
-         href="{{ url_for('pharmacy.order_delete', order_id=o.id) }}"
+         href="{{ module_url('order_delete', order_id=o.id) }}"
          onclick="return confirm('Удалить заказ?')">Удалить</a>
     </td>
   </tr>

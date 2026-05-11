@@ -52,15 +52,28 @@ class ProductForm(FlaskForm):
     )
 
 
+class AdminUserForm(FlaskForm):
+    id = HiddenField()
+    surname = StringField('Фамилия', validators=[Optional()])
+    name = StringField('Имя', validators=[Optional()])
+    patronymic = StringField('Отчество', validators=[Optional()])
+    login = StringField('Логин', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[Optional()])
+    confirm = PasswordField('Подтвердите пароль', validators=[Optional()])
+    address = StringField('Адрес доставки', validators=[Optional()])
+    is_admin = SelectField(
+        'Роль',
+        choices=[(0, 'Пользователь'), (1, 'Администратор')],
+        coerce=int,
+    )
+
+
 class OrderForm(FlaskForm):
     id = HiddenField()
     user_id = HiddenField()
     product_ids = SelectMultipleField('Товары', coerce=int, validators=[Optional()])
     payment = SelectField(
         'Способ оплаты',
-        choices=[
-            ('наличные', 'Наличные'),
-            ('карта', 'Карта'),
-            ('онлайн', 'Онлайн'),
-        ],
+        choices=[('\u043d\u0430\u043b\u0438\u0447\u043d\u044b\u0435',
+                  '\u041d\u0430\u043b\u0438\u0447\u043d\u044b\u0435')],
     )

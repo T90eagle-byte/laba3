@@ -2,7 +2,7 @@
 {% block content %}
 <h1>Настройки профиля</h1>
 <div class="form-card" style="max-width:540px;">
-  <form action="{{ url_for('pharmacy.profile_save') }}" method="post">
+  <form action="{{ module_url('profile_save') }}" method="post">
     {{ form.hidden_tag() }}
     {{ form.id(value=it.id) }}
 
@@ -45,7 +45,7 @@
 
     <div class="form-actions">
       <button class="btn btn-primary" type="submit">СОХРАНИТЬ</button>
-      <a class="btn btn-danger" href="{{ url_for('pharmacy.logout') }}">ВЫЙТИ</a>
+      <a class="btn btn-danger" href="{{ module_url('logout') }}">ВЫЙТИ</a>
     </div>
   </form>
 </div>

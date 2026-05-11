@@ -31,7 +31,7 @@ input:focus { border-color:#7B1FA2; }
   {% if error %}
     <div class="error">{{ error }}</div>
   {% endif %}
-  <form method="post" action="{{ url_for('pharmacy.login_post') }}">
+  <form method="post" action="{{ module_url('login_post') }}">
     {{ form.hidden_tag() }}
     <div class="form-group">
       {{ form.login(placeholder="Логин...", required=True, autofocus=True) }}
@@ -44,8 +44,8 @@ input:focus { border-color:#7B1FA2; }
   <span style="color:#90A4AE;font-size:.88rem;margin-top:14px;display:block;">
     Нет личного кабинета?
   </span>
-  <a class="link" href="{{ url_for('pharmacy.register') }}">Регистрация</a>
-  <a class="btn btn-gray" href="{{ url_for('pharmacy.products') }}">Назад</a>
+  <a class="link" href="{{ module_url('register') }}">Регистрация</a>
+  <a class="btn btn-gray" href="{{ module_url('products') }}">Назад</a>
 </div>
 </body>
 </html>

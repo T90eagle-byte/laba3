@@ -31,7 +31,7 @@ input:focus { border-color:#7B1FA2; }
   {% if error %}
     <div class="error">{{ error }}</div>
   {% endif %}
-  <form method="post" action="{{ url_for('pharmacy.register_post') }}">
+  <form method="post" action="{{ module_url('register_post') }}">
     {{ form.hidden_tag() }}
     <div class="form-group">
       {{ form.surname(placeholder="Фамилия...") }}
@@ -56,7 +56,7 @@ input:focus { border-color:#7B1FA2; }
     </div>
     <button class="btn btn-primary" type="submit">Зарегистрироваться</button>
   </form>
-  <a class="btn btn-gray" href="{{ url_for('pharmacy.login') }}" style="margin-top:10px;">Назад</a>
+  <a class="btn btn-gray" href="{{ module_url('login') }}" style="margin-top:10px;">Назад</a>
 </div>
 </body>
 </html>

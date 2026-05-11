@@ -2,7 +2,7 @@
 {% block content %}
 <h1>{{ "Редактирование товара" if it.id else "Новый товар" }}</h1>
 <div class="form-card">
-  <form action="{{ url_for('pharmacy.product_add') }}" method="post">
+  <form action="{{ module_url('product_add') }}" method="post">
     {{ form.hidden_tag() }}
     {{ form.id(value=it.id) }}
     <div class="form-group">
@@ -11,7 +11,7 @@
     </div>
     <div class="form-group">
       <label>Дозировка</label>
-      {{ form.dosage(value=it.dosage) }}
+      {{ form.dosage(value=it.dosage, placeholder="например: 500") }}
     </div>
     <div class="form-group">
       <label>Цена (руб.)</label>
@@ -23,7 +23,7 @@
     </div>
     <div class="form-actions">
       <button class="btn btn-primary" type="submit">Сохранить</button>
-      <a class="btn btn-gray" href="{{ url_for('pharmacy.products') }}">Назад</a>
+      <a class="btn btn-gray" href="{{ module_url('admin') }}">Назад</a>
     </div>
   </form>
 </div>
