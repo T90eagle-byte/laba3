@@ -2,7 +2,7 @@
 import os, sqlite3, pickle, datetime, hashlib
 from dataclasses import dataclass, field
 from functools import wraps
-from flask import (Blueprint, render_template, request, redirect,
+from flask import (Blueprint, render_template, request, redirect, session, flash,
                    url_for, g, abort)
 from flask_login import (
     UserMixin,
@@ -35,6 +35,7 @@ ADMIN_PASSWORD = 'admin'
 MG_UNIT = '\u043c\u0433'
 LEGACY_MG_UNITS = ('\u00d0\u00bc\u00d0\u00b3', '\u0420\u0458\u0420\u0456', '\u00ec\u00e3')
 PAYMENT_CASH = '\u043d\u0430\u043b\u0438\u0447\u043d\u044b\u0435'
+CART_MAX_QUANTITY = 99
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -74,7 +75,42 @@ def module_url(endpoint: str, **values):
 
 @bp.app_context_processor
 def inject_module_url():
-    return {'module_url': module_url}
+    return {
+        'module_url': module_url,
+        'cart_count': get_cart_count,
+    }
+
+
+def get_cart() -> dict:
+    cart = session.get('cart')
+    return cart if isinstance(cart, dict) else {}
+
+
+def save_cart(cart: dict):
+    clean_cart = {}
+    for product_id, quantity in cart.items():
+        clean_quantity = normalize_cart_quantity(quantity)
+        if clean_quantity > 0:
+            clean_cart[str(product_id)] = clean_quantity
+    session['cart'] = clean_cart
+    session.modified = True
+
+
+def get_cart_count() -> int:
+    total = 0
+    for quantity in get_cart().values():
+        total += normalize_cart_quantity(quantity)
+    return total
+
+
+def normalize_cart_quantity(quantity) -> int:
+    try:
+        value = int(quantity)
+    except (TypeError, ValueError):
+        return 0
+    if value <= 0:
+        return 0
+    return min(value, CART_MAX_QUANTITY)
 
 
 def admin_required(view):
@@ -656,6 +692,100 @@ class Pharmacy:
         self.storage.DeleteProduct(id)
         return redirect(module_url('admin'))
 
+    # --- Корзина в session ---
+    def GetCartItems(self):
+        cart = get_cart()
+        clean_cart = {}
+        items = []
+        removed_count = 0
+        for raw_product_id, raw_quantity in cart.items():
+            try:
+                product_id = int(raw_product_id)
+                quantity = normalize_cart_quantity(raw_quantity)
+            except (TypeError, ValueError):
+                removed_count += 1
+                continue
+
+            if quantity <= 0:
+                removed_count += 1
+                continue
+
+            product = self.storage.GetProduct(product_id)
+            if not product.id or not product.in_stock:
+                removed_count += 1
+                continue
+
+            clean_cart[str(product.id)] = quantity
+            items.append({
+                'product': product,
+                'quantity': quantity,
+                'line_total': product.price * quantity,
+            })
+
+        if clean_cart != cart:
+            save_cart(clean_cart)
+            if removed_count:
+                flash('Некоторые товары больше недоступны и были удалены из корзины.', 'warning')
+        return items
+
+    def ShowCart(self):
+        items = self.GetCartItems()
+        total = sum(item['line_total'] for item in items)
+        return render_template('cart.tpl', items=items, total=total)
+
+    def AddToCart(self, product_id):
+        product = self.storage.GetProduct(product_id)
+        if product.id and product.in_stock:
+            cart = get_cart()
+            key = str(product.id)
+            current_quantity = normalize_cart_quantity(cart.get(key, 0))
+            if current_quantity >= CART_MAX_QUANTITY:
+                cart[key] = CART_MAX_QUANTITY
+                save_cart(cart)
+                flash('Достигнуто максимальное количество этого товара в корзине.', 'warning')
+                return redirect(module_url('cart'))
+            cart[key] = current_quantity + 1
+            save_cart(cart)
+            flash('Товар добавлен в корзину.', 'success')
+            return redirect(module_url('cart'))
+        flash('Товар не найден или недоступен для заказа.', 'error')
+        return redirect(module_url('products'))
+
+    def RemoveFromCart(self, product_id):
+        cart = get_cart()
+        if str(product_id) in cart:
+            cart.pop(str(product_id), None)
+            flash('Товар удалён из корзины.', 'success')
+        else:
+            flash('Этого товара уже нет в корзине.', 'warning')
+        save_cart(cart)
+        return redirect(module_url('cart'))
+
+    def CheckoutCart(self):
+        items = self.GetCartItems()
+        if not items:
+            flash('Корзина пуста. Добавьте товары перед оформлением заказа.', 'warning')
+            return redirect(module_url('cart'))
+
+        order = OrderItem(
+            user_id=int(current_user.get_id()),
+            payment=PAYMENT_CASH,
+        )
+        for item in items:
+            product = item['product']
+            for _ in range(item['quantity']):
+                order.items.append({
+                    'name': product.name,
+                    'dosage': normalize_dosage(product.dosage),
+                    'price': product.price,
+                })
+
+        self.storage.AddOrder(order)
+        session.pop('cart', None)
+        session.modified = True
+        flash('Заказ создан.', 'success')
+        return redirect(module_url('my_orders'))
+
     # --- Заказы (только своего пользователя) ---
     def ShowMyOrders(self):
         user = self.storage.GetUser(int(current_user.get_id()))
@@ -811,6 +941,27 @@ def product_add():
 @admin_required
 def product_delete(id):
     return get_pharmacy().DeleteProduct(id)
+
+# Корзина
+@bp.route("/cart")
+@login_required
+def cart():
+    return get_pharmacy().ShowCart()
+
+@bp.route("/cart/add/<int:product_id>", methods=['POST'])
+@login_required
+def cart_add(product_id):
+    return get_pharmacy().AddToCart(product_id)
+
+@bp.route("/cart/remove/<int:product_id>", methods=['POST'])
+@login_required
+def cart_remove(product_id):
+    return get_pharmacy().RemoveFromCart(product_id)
+
+@bp.route("/cart/checkout", methods=['POST'])
+@login_required
+def cart_checkout():
+    return get_pharmacy().CheckoutCart()
 
 # Мои заказы
 @bp.route("/orders")

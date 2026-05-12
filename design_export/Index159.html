@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixso HTML</title>
+  <link rel="stylesheet" href="css/font.css">
+  <script src="js/animation.js"></script>
+  <style>
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ol,ul,menu {
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+ol li::marker, ul li::before {
+  letter-spacing: 0;
+}
+
+.scroll-container > div {
+  width: 100%;
+}
+
+.container > div {
+  width: 100%;
+}
+
+.Pixso-canvas-0_1 > div {
+  width: 100%;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body { 
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-color: white;
+}
+    
+span {
+  word-break: break-word;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.Pixso-frame-15_9 {
+  width: 100%;
+  height: 1080px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 30px 30px 30px 30px;
+  background-color: rgba(114, 246, 230, 0.15000000596046448);
+}
+
+.Pixso-paragraph-15_10 {
+  font-size: 24px;
+  font-family: "Inter-Medium";
+  font-weight: 500;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+  width: 12.71%;
+  height: 6.33%;
+  position: absolute;
+  left: 70.68%;
+  right: 16.61%;
+  top: 6.21%;
+  bottom: 87.46%;
+}
+
+.Pixso-vector-15_11 {
+  width: 3.65%;
+  height: 6.81%;
+  background-image: url(./image/add_shopping_cart3.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 85.31%;
+  right: 11.04%;
+  top: 5.46%;
+  bottom: 87.73%;
+}
+
+.Pixso-paragraph-15_13 {
+  font-size: 20px;
+  font-family: "Inter-Regular";
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+  width: 4.69%;
+  height: 3.89%;
+  position: absolute;
+  left: 84.79%;
+  right: 10.52%;
+  top: 12.27%;
+  bottom: 83.84%;
+}
+
+.Pixso-rectangle-15_14 {
+  width: 15.93%;
+  height: 8.76%;
+  position: absolute;
+  left: 1.41%;
+  right: 82.66%;
+  top: 5.46%;
+  bottom: 85.78%;
+  border-radius: 40px 40px 40px 40px;
+  background-color: rgba(31, 232, 201, 0.699999988079071);
+}
+
+.Pixso-paragraph-15_15 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(255, 255, 255, 1);
+  width: 13.39%;
+  height: 6.81%;
+  position: absolute;
+  left: 2.55%;
+  right: 84.06%;
+  top: 6.05%;
+  bottom: 87.14%;
+}
+
+.Pixso-group-15_16 {
+  width: 257px;
+  height: 94.54545593261719px;
+  position: absolute;
+  left: 391px;
+  top: 59px;
+}
+
+.Pixso-rectangle-15_17 {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+  border-radius: 40px 40px 40px 40px;
+  background-color: rgba(155, 75, 221, 0.8500000238418579);
+}
+
+.Pixso-vector-15_18 {
+  width: 25.29%;
+  height: 72.23%;
+  background-image: url(./image/list1.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 5.06%;
+  right: 69.65%;
+  top: 13.33%;
+  bottom: 14.44%;
+}
+
+.Pixso-paragraph-15_20 {
+  font-size: 38px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(255, 255, 255, 1);
+  width: 68.09%;
+  height: 72.23%;
+  position: absolute;
+  left: 30.35%;
+  right: 1.56%;
+  top: 13.33%;
+  bottom: 14.44%;
+}
+
+.Pixso-vector-15_21 {
+  width: 3.65%;
+  height: 6.48%;
+  background-image: url(./image/call2.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 67.03%;
+  right: 29.32%;
+  top: 6.02%;
+  bottom: 87.5%;
+}
+
+.Pixso-paragraph-15_23 {
+  font-size: 20px;
+  font-family: "Inter-Regular";
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+  width: 16.35%;
+  height: 3.34%;
+  position: absolute;
+  left: 68.44%;
+  right: 15.21%;
+  top: 12.31%;
+  bottom: 84.35%;
+}
+
+.Pixso-group-15_24 {
+  width: 90px;
+  height: 118.02021026611328px;
+  position: absolute;
+  left: 1789px;
+  top: 64px;
+}
+
+.Pixso-paragraph-15_25 {
+  font-size: 16px;
+  font-family: "Inter-Regular";
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+  width: 100%;
+  height: 35.6%;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 64.4%;
+  bottom: 0%;
+}
+
+.Pixso-vector-15_26 {
+  width: 100%;
+  height: 64.4%;
+  background-image: url(./image/Ellipse_15_26.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 35.6%;
+}
+
+.Pixso-paragraph-15_27 {
+  font-size: 20px;
+  font-family: "Inter-Regular";
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(248, 236, 236, 1);
+  width: 100%;
+  height: 35.6%;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 13.56%;
+  bottom: 50.84%;
+}
+
+.Pixso-group-15_28 {
+  width: 515px;
+  height: 100px;
+  position: absolute;
+  left: 709.9998779296875px;
+  top: 57px;
+}
+
+.Pixso-rectangle-15_29 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 40px 40px 40px 40px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) ;
+  background-color: rgba(255, 255, 255, 0.8500000238418579);
+}
+
+.stroke-wrapper-15_29 {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 5%;
+  width: 100%;
+  height: 95%;
+}
+
+.stroke-15_29 {
+  position: absolute;
+  inset: 0px;
+  border-radius: 40px 40px 40px 40px;
+  pointer-events: none;
+  border-width: 3px 3px 3px 3px;
+  border-style: solid;
+  box-sizing: border-box;
+  border-color: rgba(155, 75, 189, 1);
+}
+
+.Pixso-paragraph-15_30 {
+  font-size: 38px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 33.98%;
+  height: 68.28%;
+  position: absolute;
+  left: 8.35%;
+  right: 57.67%;
+  top: 13%;
+  bottom: 18.72%;
+}
+
+.Pixso-vector-15_31 {
+  width: 19.42%;
+  height: 100%;
+  background-image: url(./image/search3.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 80.39%;
+  right: 0.19%;
+  top: 0%;
+  bottom: 0%;
+}
+
+.Pixso-paragraph-15_33 {
+  font-size: 54px;
+  font-family: "Inter-Extra Bold";
+  font-weight: 800;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 364px;
+  height: 95px;
+  position: absolute;
+  left: 27px;
+  top: 217px;
+}
+
+.Pixso-rectangle-15_34 {
+  width: 1852px;
+  height: 722px;
+  position: absolute;
+  left: 27px;
+  top: 312px;
+  border-radius: 45px 45px 45px 45px;
+  background-color: rgba(228, 225, 225, 0.5);
+}
+
+.Pixso-paragraph-28_25 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  white-space: pre-line;
+  width: 466px;
+  height: 101px;
+  position: absolute;
+  left: 305px;
+  top: 346px;
+}
+
+.Pixso-paragraph-28_26 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  white-space: pre-line;
+  width: 191px;
+  height: 114px;
+  position: absolute;
+  left: 1680px;
+  top: 426px;
+}
+
+.Pixso-group-28_27 {
+  width: 200px;
+  height: 50px;
+  position: absolute;
+  left: 1645px;
+  top: 490px;
+}
+
+.Pixso-rectangle-28_28 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 60px 60px 60px 60px;
+  background-color: rgba(227, 221, 230, 0.7899999618530273);
+}
+
+.stroke-wrapper-28_28 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 200px;
+  height: 50px;
+}
+
+.stroke-28_28 {
+  position: absolute;
+  inset: 0px;
+  border-radius: 60px 60px 60px 60px;
+  pointer-events: none;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  box-sizing: border-box;
+  border-color: rgba(182, 163, 190, 0.8500000238418579);
+}
+
+.Pixso-paragraph-28_29 {
+  font-size: 26px;
+  font-family: "Inter-Extra Bold";
+  font-weight: 800;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 138.8235321044922px;
+  height: 32.5px;
+  position: absolute;
+  left: 32.94117736816406px;
+  top: 8.5px;
+  -webkit-text-stroke: 1px transparent;
+  -webkit-background-clip: text;
+  background-color: rgba(182, 163, 190, 0.8500000238418579);
+}
+
+.Pixso-group-28_30 {
+  width: 289px;
+  height: 75px;
+  position: absolute;
+  left: 297px;
+  top: 406px;
+}
+
+.Pixso-vector-28_31 {
+  width: 25.95%;
+  height: 100%;
+  background-image: url(./image/add_task2.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0%;
+  right: 74.05%;
+  top: 0%;
+  bottom: 0%;
+}
+
+.Pixso-paragraph-28_33 {
+  font-size: 27px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 209px;
+  height: 65px;
+  position: absolute;
+  left: 80px;
+  top: 5px;
+}
+
+.Pixso-rectangle-28_34 {
+  width: 200px;
+  height: 160px;
+  position: absolute;
+  left: 49px;
+  top: 346px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(./image/8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png);
+}
+
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div id="15_9" class="Pixso-frame-15_9">
+    <p id="15_10" class="Pixso-paragraph-15_10">+7 (800) 500 69 69</p>
+    <div id="15_11" class="Pixso-vector-15_11"></div>
+    <p id="15_13" class="Pixso-paragraph-15_13">Корзина</p>
+    <div id="15_14" class="Pixso-rectangle-15_14"></div>
+    <p id="15_15" class="Pixso-paragraph-15_15">Invalidhelp</p>
+    <div id="15_16" class="Pixso-group-15_16" style="cursor: pointer;">
+      <div id="15_17" class="Pixso-rectangle-15_17"></div>
+      <div id="15_18" class="Pixso-vector-15_18"></div>
+      <p id="15_20" class="Pixso-paragraph-15_20">Каталог</p>
+    </div>
+    <div id="15_21" class="Pixso-vector-15_21"></div>
+    <p id="15_23" class="Pixso-paragraph-15_23">Служба поддержки</p>
+    <div id="15_24" class="Pixso-group-15_24" style="cursor: pointer;">
+      <p id="15_25" class="Pixso-paragraph-15_25">Настройки профиля</p>
+      <div id="15_26" class="Pixso-vector-15_26"></div>
+      <p id="15_27" class="Pixso-paragraph-15_27">Ф.И.</p>
+    </div>
+    <div id="15_28" class="Pixso-group-15_28">
+      <div id="15_29" class="stroke-wrapper-15_29">
+        <div class="Pixso-rectangle-15_29"></div>
+        <div class="stroke-15_29"></div>
+      </div>
+      <p id="15_30" class="Pixso-paragraph-15_30">Искать...</p>
+      <div id="15_31" class="Pixso-vector-15_31"></div>
+    </div>
+    <p id="15_33" class="Pixso-paragraph-15_33">Корзина</p>
+    <div id="15_34" class="Pixso-rectangle-15_34"></div>
+    <p id="28_25" class="Pixso-paragraph-28_25">Рисостанон 250 мг, 1 шт<br><br></p>
+    <p id="28_26" class="Pixso-paragraph-28_26">1250 Р<br><br></p>
+    <div id="28_27" class="Pixso-group-28_27" style="cursor: pointer;">
+      <div id="28_28" class="stroke-wrapper-28_28">
+        <div class="Pixso-rectangle-28_28"></div>
+        <div class="stroke-28_28"></div>
+      </div>
+      <p id="28_29" class="Pixso-paragraph-28_29">Удалить</p>
+    </div>
+    <div id="28_30" class="Pixso-group-28_30">
+      <div id="28_31" class="Pixso-vector-28_31"></div>
+      <p id="28_33" class="Pixso-paragraph-28_33">Есть в наличии</p>
+    </div>
+    <div id="28_34" class="Pixso-rectangle-28_34"></div>
+  </div>
+</div>
+
+<script>
+const EventManager = {
+  handlers: new Map(),
+  addHandler(element, eventType, handler) {
+    if (!this.handlers.has(element)) {
+      this.handlers.set(element, {
+        boundEvents: new Set(),
+        blockingHandler: (e) => {
+          if (e.target === element || !element.contains(e.target)) {
+            if (!this.handlers.get(element).boundEvents.has(e.type)) {
+              e.stopPropagation();
+            }
+          }
+        }
+      });
+      const allEvents = ['mousedown', 'mouseup', 'click', 'dblclick', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave'];
+      allEvents.forEach(type => {
+        element.addEventListener(type, this.handlers.get(element).blockingHandler, true);
+      });
+    }
+    this.handlers.get(element).boundEvents.add(eventType);
+    element.addEventListener(eventType, handler);
+  }
+};
+
+function handle_3_5_3_77(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index349.html', '_self');
+  }, 300);
+}
+
+function handle_3_14_3_78(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index349.html', '_self');
+  }, 300);
+}
+
+function handle_9_153_9_188(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_15_218_15_222(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_10_11_10_51(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index865.html', '_self');
+  }, 300);
+}
+
+function handle_10_22_10_52(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_10_22_10_53(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_11_17_15_1(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1131.html', '_self');
+  }, 300);
+}
+
+function handle_11_25_11_28(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index988.html', '_self');
+  }, 300);
+}
+
+function handle_11_27_11_29(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index988.html', '_self');
+  }, 300);
+}
+
+function handle_11_24_11_30(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_15_170_15_171(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_8_84_8_86(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_8_82_8_85(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_9_74_9_75(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_15_52_15_58(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index21.html', '_self');
+  }, 300);
+}
+
+function handle_15_50_15_54(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index21.html', '_self');
+  }, 300);
+}
+
+function handle_15_56_15_57(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index21.html', '_self');
+  }, 300);
+}
+
+function handle_27_2_27_5(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_27_4_27_6(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_28_142_28_156(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28112.html', '_self');
+  }, 300);
+}
+
+function handle_28_144_28_157(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28112.html', '_self');
+  }, 300);
+}
+
+function handle_28_155_28_160(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28137.html', '_self');
+  }, 300);
+}
+
+function handle_28_153_28_159(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_152_28_158(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_167_28_170(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index15190.html', '_self');
+  }, 300);
+}
+
+function handle_28_165_28_169(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_164_28_168(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_175_28_178(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28137.html', '_self');
+  }, 300);
+}
+
+function handle_28_173_28_177(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_172_28_176(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_237_28_250(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1593.html', '_self');
+  }, 300);
+}
+
+function handle_28_239_28_251(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1593.html', '_self');
+  }, 300);
+}
+
+function handle_28_257_28_260(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28261.html', '_self');
+  }, 300);
+}
+
+function handle_28_255_28_259(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_254_28_258(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_200_28_219(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1593.html', '_self');
+  }, 300);
+}
+
+function handle_28_202_28_220(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1593.html', '_self');
+  }, 300);
+}
+
+function handle_28_227_28_231(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28232.html', '_self');
+  }, 300);
+}
+
+function handle_28_266_28_285(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1593.html', '_self');
+  }, 300);
+}
+
+function handle_28_268_28_286(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1593.html', '_self');
+  }, 300);
+}
+
+function handle_28_279_28_289(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28137.html', '_self');
+  }, 300);
+}
+
+function handle_28_277_28_288(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_276_28_287(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_284_28_292(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28195.html', '_self');
+  }, 300);
+}
+
+function handle_28_282_28_291(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_281_28_290(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_116_28_120(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1593.html', '_self');
+  }, 300);
+}
+
+function handle_28_118_28_121(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1593.html', '_self');
+  }, 300);
+}
+
+function handle_28_133_28_136(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28137.html', '_self');
+  }, 300);
+}
+
+function handle_28_131_28_135(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_130_28_134(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_191_28_194(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28195.html', '_self');
+  }, 300);
+}
+
+function handle_28_189_28_193(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_188_28_192(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_15_194_15_206(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_15_196_15_207(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_15_127_15_132(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1131.html', '_self');
+  }, 300);
+}
+
+function handle_15_129_15_133(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1131.html', '_self');
+  }, 300);
+}
+
+function handle_28_108_28_111(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28112.html', '_self');
+  }, 300);
+}
+
+function handle_28_106_28_110(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_105_28_109(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_8_16_8_47(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_8_17_8_45(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index349.html', '_self');
+  }, 300);
+}
+
+function handle_15_85_15_88(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index349.html', '_self');
+  }, 300);
+}
+
+function handle_15_87_15_89(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index349.html', '_self');
+  }, 300);
+}
+
+function handle_3_74_8_46(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index389.html', '_self');
+  }, 300);
+}
+
+function handle_3_75_8_50(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_3_76_8_49(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_3_84_3_87(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index21.html', '_self');
+  }, 300);
+}
+
+function handle_3_86_3_88(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index21.html', '_self');
+  }, 300);
+}
+
+function handle_9_102_9_111(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index865.html', '_self');
+  }, 300);
+}
+
+function handle_9_155_9_156(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_9_155_9_157(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_10_54_10_55(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index101.html', '_self');
+  }, 300);
+}
+
+function handle_28_43_28_72(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index988.html', '_self');
+  }, 300);
+}
+
+function handle_28_51_28_73(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index865.html', '_self');
+  }, 300);
+}
+
+function handle_28_78_28_85(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index159.html', '_self');
+  }, 300);
+}
+
+function handle_15_16_15_42(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index988.html', '_self');
+  }, 300);
+}
+
+function handle_15_24_15_43(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index865.html', '_self');
+  }, 300);
+}
+
+function handle_28_27_28_35(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index159.html', '_self');
+  }, 300);
+}
+
+function initializeEvents() {
+  const element_3_5 = document.getElementById('3_5');
+  if (element_3_5) {
+    EventManager.addHandler(element_3_5, 'click', handle_3_5_3_77);
+  }
+
+  const element_3_14 = document.getElementById('3_14');
+  if (element_3_14) {
+    EventManager.addHandler(element_3_14, 'click', handle_3_14_3_78);
+  }
+
+  const element_9_153 = document.getElementById('9_153');
+  if (element_9_153) {
+    EventManager.addHandler(element_9_153, 'click', handle_9_153_9_188);
+  }
+
+  const element_15_218 = document.getElementById('15_218');
+  if (element_15_218) {
+    EventManager.addHandler(element_15_218, 'click', handle_15_218_15_222);
+  }
+
+  const element_10_11 = document.getElementById('10_11');
+  if (element_10_11) {
+    EventManager.addHandler(element_10_11, 'click', handle_10_11_10_51);
+  }
+
+  const element_10_22 = document.getElementById('10_22');
+  if (element_10_22) {
+    EventManager.addHandler(element_10_22, 'click', handle_10_22_10_52);
+    EventManager.addHandler(element_10_22, 'dblclick', handle_10_22_10_53);
+  }
+
+  const element_11_17 = document.getElementById('11_17');
+  if (element_11_17) {
+    EventManager.addHandler(element_11_17, 'click', handle_11_17_15_1);
+  }
+
+  const element_11_25 = document.getElementById('11_25');
+  if (element_11_25) {
+    EventManager.addHandler(element_11_25, 'click', handle_11_25_11_28);
+  }
+
+  const element_11_27 = document.getElementById('11_27');
+  if (element_11_27) {
+    EventManager.addHandler(element_11_27, 'click', handle_11_27_11_29);
+  }
+
+  const element_11_24 = document.getElementById('11_24');
+  if (element_11_24) {
+    EventManager.addHandler(element_11_24, 'click', handle_11_24_11_30);
+  }
+
+  const element_15_170 = document.getElementById('15_170');
+  if (element_15_170) {
+    EventManager.addHandler(element_15_170, 'click', handle_15_170_15_171);
+  }
+
+  const element_8_84 = document.getElementById('8_84');
+  if (element_8_84) {
+    EventManager.addHandler(element_8_84, 'click', handle_8_84_8_86);
+  }
+
+  const element_8_82 = document.getElementById('8_82');
+  if (element_8_82) {
+    EventManager.addHandler(element_8_82, 'click', handle_8_82_8_85);
+  }
+
+  const element_9_74 = document.getElementById('9_74');
+  if (element_9_74) {
+    EventManager.addHandler(element_9_74, 'click', handle_9_74_9_75);
+  }
+
+  const element_15_52 = document.getElementById('15_52');
+  if (element_15_52) {
+    EventManager.addHandler(element_15_52, 'click', handle_15_52_15_58);
+  }
+
+  const element_15_50 = document.getElementById('15_50');
+  if (element_15_50) {
+    EventManager.addHandler(element_15_50, 'click', handle_15_50_15_54);
+  }
+
+  const element_15_56 = document.getElementById('15_56');
+  if (element_15_56) {
+    EventManager.addHandler(element_15_56, 'click', handle_15_56_15_57);
+  }
+
+  const element_27_2 = document.getElementById('27_2');
+  if (element_27_2) {
+    EventManager.addHandler(element_27_2, 'click', handle_27_2_27_5);
+  }
+
+  const element_27_4 = document.getElementById('27_4');
+  if (element_27_4) {
+    EventManager.addHandler(element_27_4, 'click', handle_27_4_27_6);
+  }
+
+  const element_28_142 = document.getElementById('28_142');
+  if (element_28_142) {
+    EventManager.addHandler(element_28_142, 'click', handle_28_142_28_156);
+  }
+
+  const element_28_144 = document.getElementById('28_144');
+  if (element_28_144) {
+    EventManager.addHandler(element_28_144, 'click', handle_28_144_28_157);
+  }
+
+  const element_28_155 = document.getElementById('28_155');
+  if (element_28_155) {
+    EventManager.addHandler(element_28_155, 'click', handle_28_155_28_160);
+  }
+
+  const element_28_153 = document.getElementById('28_153');
+  if (element_28_153) {
+    EventManager.addHandler(element_28_153, 'click', handle_28_153_28_159);
+  }
+
+  const element_28_152 = document.getElementById('28_152');
+  if (element_28_152) {
+    EventManager.addHandler(element_28_152, 'click', handle_28_152_28_158);
+  }
+
+  const element_28_167 = document.getElementById('28_167');
+  if (element_28_167) {
+    EventManager.addHandler(element_28_167, 'click', handle_28_167_28_170);
+  }
+
+  const element_28_165 = document.getElementById('28_165');
+  if (element_28_165) {
+    EventManager.addHandler(element_28_165, 'click', handle_28_165_28_169);
+  }
+
+  const element_28_164 = document.getElementById('28_164');
+  if (element_28_164) {
+    EventManager.addHandler(element_28_164, 'click', handle_28_164_28_168);
+  }
+
+  const element_28_175 = document.getElementById('28_175');
+  if (element_28_175) {
+    EventManager.addHandler(element_28_175, 'click', handle_28_175_28_178);
+  }
+
+  const element_28_173 = document.getElementById('28_173');
+  if (element_28_173) {
+    EventManager.addHandler(element_28_173, 'click', handle_28_173_28_177);
+  }
+
+  const element_28_172 = document.getElementById('28_172');
+  if (element_28_172) {
+    EventManager.addHandler(element_28_172, 'click', handle_28_172_28_176);
+  }
+
+  const element_28_237 = document.getElementById('28_237');
+  if (element_28_237) {
+    EventManager.addHandler(element_28_237, 'click', handle_28_237_28_250);
+  }
+
+  const element_28_239 = document.getElementById('28_239');
+  if (element_28_239) {
+    EventManager.addHandler(element_28_239, 'click', handle_28_239_28_251);
+  }
+
+  const element_28_257 = document.getElementById('28_257');
+  if (element_28_257) {
+    EventManager.addHandler(element_28_257, 'click', handle_28_257_28_260);
+  }
+
+  const element_28_255 = document.getElementById('28_255');
+  if (element_28_255) {
+    EventManager.addHandler(element_28_255, 'click', handle_28_255_28_259);
+  }
+
+  const element_28_254 = document.getElementById('28_254');
+  if (element_28_254) {
+    EventManager.addHandler(element_28_254, 'click', handle_28_254_28_258);
+  }
+
+  const element_28_200 = document.getElementById('28_200');
+  if (element_28_200) {
+    EventManager.addHandler(element_28_200, 'click', handle_28_200_28_219);
+  }
+
+  const element_28_202 = document.getElementById('28_202');
+  if (element_28_202) {
+    EventManager.addHandler(element_28_202, 'click', handle_28_202_28_220);
+  }
+
+  const element_28_227 = document.getElementById('28_227');
+  if (element_28_227) {
+    EventManager.addHandler(element_28_227, 'click', handle_28_227_28_231);
+  }
+
+  const element_28_266 = document.getElementById('28_266');
+  if (element_28_266) {
+    EventManager.addHandler(element_28_266, 'click', handle_28_266_28_285);
+  }
+
+  const element_28_268 = document.getElementById('28_268');
+  if (element_28_268) {
+    EventManager.addHandler(element_28_268, 'click', handle_28_268_28_286);
+  }
+
+  const element_28_279 = document.getElementById('28_279');
+  if (element_28_279) {
+    EventManager.addHandler(element_28_279, 'click', handle_28_279_28_289);
+  }
+
+  const element_28_277 = document.getElementById('28_277');
+  if (element_28_277) {
+    EventManager.addHandler(element_28_277, 'click', handle_28_277_28_288);
+  }
+
+  const element_28_276 = document.getElementById('28_276');
+  if (element_28_276) {
+    EventManager.addHandler(element_28_276, 'click', handle_28_276_28_287);
+  }
+
+  const element_28_284 = document.getElementById('28_284');
+  if (element_28_284) {
+    EventManager.addHandler(element_28_284, 'click', handle_28_284_28_292);
+  }
+
+  const element_28_282 = document.getElementById('28_282');
+  if (element_28_282) {
+    EventManager.addHandler(element_28_282, 'click', handle_28_282_28_291);
+  }
+
+  const element_28_281 = document.getElementById('28_281');
+  if (element_28_281) {
+    EventManager.addHandler(element_28_281, 'click', handle_28_281_28_290);
+  }
+
+  const element_28_116 = document.getElementById('28_116');
+  if (element_28_116) {
+    EventManager.addHandler(element_28_116, 'click', handle_28_116_28_120);
+  }
+
+  const element_28_118 = document.getElementById('28_118');
+  if (element_28_118) {
+    EventManager.addHandler(element_28_118, 'click', handle_28_118_28_121);
+  }
+
+  const element_28_133 = document.getElementById('28_133');
+  if (element_28_133) {
+    EventManager.addHandler(element_28_133, 'click', handle_28_133_28_136);
+  }
+
+  const element_28_131 = document.getElementById('28_131');
+  if (element_28_131) {
+    EventManager.addHandler(element_28_131, 'click', handle_28_131_28_135);
+  }
+
+  const element_28_130 = document.getElementById('28_130');
+  if (element_28_130) {
+    EventManager.addHandler(element_28_130, 'click', handle_28_130_28_134);
+  }
+
+  const element_28_191 = document.getElementById('28_191');
+  if (element_28_191) {
+    EventManager.addHandler(element_28_191, 'click', handle_28_191_28_194);
+  }
+
+  const element_28_189 = document.getElementById('28_189');
+  if (element_28_189) {
+    EventManager.addHandler(element_28_189, 'click', handle_28_189_28_193);
+  }
+
+  const element_28_188 = document.getElementById('28_188');
+  if (element_28_188) {
+    EventManager.addHandler(element_28_188, 'click', handle_28_188_28_192);
+  }
+
+  const element_15_194 = document.getElementById('15_194');
+  if (element_15_194) {
+    EventManager.addHandler(element_15_194, 'click', handle_15_194_15_206);
+  }
+
+  const element_15_196 = document.getElementById('15_196');
+  if (element_15_196) {
+    EventManager.addHandler(element_15_196, 'click', handle_15_196_15_207);
+  }
+
+  const element_15_127 = document.getElementById('15_127');
+  if (element_15_127) {
+    EventManager.addHandler(element_15_127, 'click', handle_15_127_15_132);
+  }
+
+  const element_15_129 = document.getElementById('15_129');
+  if (element_15_129) {
+    EventManager.addHandler(element_15_129, 'click', handle_15_129_15_133);
+  }
+
+  const element_28_108 = document.getElementById('28_108');
+  if (element_28_108) {
+    EventManager.addHandler(element_28_108, 'click', handle_28_108_28_111);
+  }
+
+  const element_28_106 = document.getElementById('28_106');
+  if (element_28_106) {
+    EventManager.addHandler(element_28_106, 'click', handle_28_106_28_110);
+  }
+
+  const element_28_105 = document.getElementById('28_105');
+  if (element_28_105) {
+    EventManager.addHandler(element_28_105, 'click', handle_28_105_28_109);
+  }
+
+  const element_8_16 = document.getElementById('8_16');
+  if (element_8_16) {
+    EventManager.addHandler(element_8_16, 'click', handle_8_16_8_47);
+  }
+
+  const element_8_17 = document.getElementById('8_17');
+  if (element_8_17) {
+    EventManager.addHandler(element_8_17, 'click', handle_8_17_8_45);
+  }
+
+  const element_15_85 = document.getElementById('15_85');
+  if (element_15_85) {
+    EventManager.addHandler(element_15_85, 'click', handle_15_85_15_88);
+  }
+
+  const element_15_87 = document.getElementById('15_87');
+  if (element_15_87) {
+    EventManager.addHandler(element_15_87, 'click', handle_15_87_15_89);
+  }
+
+  const element_3_74 = document.getElementById('3_74');
+  if (element_3_74) {
+    EventManager.addHandler(element_3_74, 'click', handle_3_74_8_46);
+  }
+
+  const element_3_75 = document.getElementById('3_75');
+  if (element_3_75) {
+    EventManager.addHandler(element_3_75, 'click', handle_3_75_8_50);
+  }
+
+  const element_3_76 = document.getElementById('3_76');
+  if (element_3_76) {
+    EventManager.addHandler(element_3_76, 'click', handle_3_76_8_49);
+  }
+
+  const element_3_84 = document.getElementById('3_84');
+  if (element_3_84) {
+    EventManager.addHandler(element_3_84, 'click', handle_3_84_3_87);
+  }
+
+  const element_3_86 = document.getElementById('3_86');
+  if (element_3_86) {
+    EventManager.addHandler(element_3_86, 'click', handle_3_86_3_88);
+  }
+
+  const element_9_102 = document.getElementById('9_102');
+  if (element_9_102) {
+    EventManager.addHandler(element_9_102, 'click', handle_9_102_9_111);
+  }
+
+  const element_9_155 = document.getElementById('9_155');
+  if (element_9_155) {
+    EventManager.addHandler(element_9_155, 'click', handle_9_155_9_156);
+    EventManager.addHandler(element_9_155, 'dblclick', handle_9_155_9_157);
+  }
+
+  const element_10_54 = document.getElementById('10_54');
+  if (element_10_54) {
+    EventManager.addHandler(element_10_54, 'click', handle_10_54_10_55);
+  }
+
+  const element_28_43 = document.getElementById('28_43');
+  if (element_28_43) {
+    EventManager.addHandler(element_28_43, 'click', handle_28_43_28_72);
+  }
+
+  const element_28_51 = document.getElementById('28_51');
+  if (element_28_51) {
+    EventManager.addHandler(element_28_51, 'click', handle_28_51_28_73);
+  }
+
+  const element_28_78 = document.getElementById('28_78');
+  if (element_28_78) {
+    EventManager.addHandler(element_28_78, 'click', handle_28_78_28_85);
+  }
+
+  const element_15_16 = document.getElementById('15_16');
+  if (element_15_16) {
+    EventManager.addHandler(element_15_16, 'click', handle_15_16_15_42);
+  }
+
+  const element_15_24 = document.getElementById('15_24');
+  if (element_15_24) {
+    EventManager.addHandler(element_15_24, 'click', handle_15_24_15_43);
+  }
+
+  const element_28_27 = document.getElementById('28_27');
+  if (element_28_27) {
+    EventManager.addHandler(element_28_27, 'click', handle_28_27_28_35);
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeEvents);
+} else {
+  initializeEvents();
+}
+</script>
+
+</body>
+</html>

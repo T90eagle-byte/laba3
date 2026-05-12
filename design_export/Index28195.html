@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixso HTML</title>
+  <link rel="stylesheet" href="css/font.css">
+  <script src="js/animation.js"></script>
+  <style>
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ol,ul,menu {
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+ol li::marker, ul li::before {
+  letter-spacing: 0;
+}
+
+.scroll-container > div {
+  width: 100%;
+}
+
+.container > div {
+  width: 100%;
+}
+
+.Pixso-canvas-0_1 > div {
+  width: 100%;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body { 
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-color: white;
+}
+    
+span {
+  word-break: break-word;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.Pixso-frame-28_195 {
+  width: 100%;
+  height: 1080px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 30px 30px 30px 30px;
+  background-color: rgba(114, 246, 230, 0.15000000596046448);
+}
+
+.Pixso-paragraph-28_196 {
+  font-size: 48px;
+  font-family: "Inter-Medium";
+  font-weight: 500;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+  width: 408px;
+  height: 74px;
+  position: absolute;
+  left: 174px;
+  top: 43px;
+}
+
+.Pixso-paragraph-28_197 {
+  font-size: 48px;
+  font-family: "Inter-Medium";
+  font-weight: 500;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+  width: 408px;
+  height: 74px;
+  position: absolute;
+  left: 0px;
+  top: 142px;
+}
+
+.Pixso-group-28_198 {
+  width: 174px;
+  height: 108px;
+  position: absolute;
+  left: 0px;
+  top: 34px;
+}
+
+.Pixso-group-28_199 {
+  width: 174px;
+  height: 108px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+
+.Pixso-vector-28_200 {
+  width: 38.5%;
+  height: 64.81%;
+  background-image: url(./image/undo3.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 28.74%;
+  right: 32.76%;
+  top: 0%;
+  bottom: 35.19%;
+}
+
+.Pixso-paragraph-28_202 {
+  font-size: 24px;
+  font-family: "Inter-Regular";
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 1);
+  width: 174px;
+  height: 70px;
+  position: absolute;
+  left: 0px;
+  top: 38px;
+}
+
+.Pixso-rectangle-28_203 {
+  width: 318px;
+  height: 228px;
+  position: absolute;
+  left: 83px;
+  top: 255px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(./image/8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png);
+}
+
+.Pixso-paragraph-28_204 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 301px;
+  height: 94px;
+  position: absolute;
+  left: 113px;
+  top: 449px;
+}
+
+.Pixso-paragraph-28_205 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  white-space: pre-line;
+  width: 301px;
+  height: 94px;
+  position: absolute;
+  left: 113px;
+  top: 557px;
+}
+
+.Pixso-paragraph-28_206 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  white-space: pre-line;
+  width: 301px;
+  height: 94px;
+  position: absolute;
+  left: 477px;
+  top: 557px;
+}
+
+.Pixso-rectangle-28_207 {
+  width: 318px;
+  height: 228px;
+  position: absolute;
+  left: 460px;
+  top: 241px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(./image/70b63ef52bb9c8e4a75f3a6c46afb62e8b21d8c3.png);
+}
+
+.Pixso-paragraph-28_208 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 300px;
+  height: 94px;
+  position: absolute;
+  left: 474px;
+  top: 463px;
+}
+
+.Pixso-group-28_227 {
+  width: 324px;
+  height: 75px;
+  position: absolute;
+  left: 474px;
+  top: 166px;
+}
+
+.Pixso-paragraph-28_228 {
+  font-size: 27px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 244px;
+  height: 65px;
+  position: absolute;
+  left: 80px;
+  top: 5px;
+}
+
+.Pixso-vector-28_229 {
+  width: 23.15%;
+  height: 100%;
+  background-image: url(./image/dangerous0.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0%;
+  right: 76.85%;
+  top: 0%;
+  bottom: 0%;
+}
+
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div id="28_195" class="Pixso-frame-28_195">
+    <p id="28_196" class="Pixso-paragraph-28_196">Мои заказы</p>
+    <p id="28_197" class="Pixso-paragraph-28_197">Заказ 1</p>
+    <div id="28_198" class="Pixso-group-28_198">
+      <div id="28_199" class="Pixso-group-28_199">
+        <div id="28_200" class="Pixso-vector-28_200" style="cursor: pointer;"></div>
+        <p id="28_202" class="Pixso-paragraph-28_202" style="cursor: pointer;">Назад</p>
+      </div>
+    </div>
+    <div id="28_203" class="Pixso-rectangle-28_203"></div>
+    <p id="28_204" class="Pixso-paragraph-28_204">Рисостанон 250 мг</p>
+    <p id="28_205" class="Pixso-paragraph-28_205">1250 Р<br><br></p>
+    <p id="28_206" class="Pixso-paragraph-28_206">2000 Р<br><br></p>
+    <div id="28_207" class="Pixso-rectangle-28_207"></div>
+    <p id="28_208" class="Pixso-paragraph-28_208">Куринобол 500 мг</p>
+    <div id="28_227" class="Pixso-group-28_227" style="cursor: pointer;">
+      <p id="28_228" class="Pixso-paragraph-28_228">УБрать из заказа</p>
+      <div id="28_229" class="Pixso-vector-28_229"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const EventManager = {
+  handlers: new Map(),
+  addHandler(element, eventType, handler) {
+    if (!this.handlers.has(element)) {
+      this.handlers.set(element, {
+        boundEvents: new Set(),
+        blockingHandler: (e) => {
+          if (e.target === element || !element.contains(e.target)) {
+            if (!this.handlers.get(element).boundEvents.has(e.type)) {
+              e.stopPropagation();
+            }
+          }
+        }
+      });
+      const allEvents = ['mousedown', 'mouseup', 'click', 'dblclick', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave'];
+      allEvents.forEach(type => {
+        element.addEventListener(type, this.handlers.get(element).blockingHandler, true);
+      });
+    }
+    this.handlers.get(element).boundEvents.add(eventType);
+    element.addEventListener(eventType, handler);
+  }
+};
+
+function handle_3_5_3_77(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index349.html', '_self');
+  }, 300);
+}
+
+function handle_3_14_3_78(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index349.html', '_self');
+  }, 300);
+}
+
+function handle_9_153_9_188(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_15_218_15_222(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_10_11_10_51(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index865.html', '_self');
+  }, 300);
+}
+
+function handle_10_22_10_52(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_10_22_10_53(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_11_17_15_1(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1131.html', '_self');
+  }, 300);
+}
+
+function handle_11_25_11_28(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index988.html', '_self');
+  }, 300);
+}
+
+function handle_11_27_11_29(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index988.html', '_self');
+  }, 300);
+}
+
+function handle_11_24_11_30(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_15_170_15_171(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_8_84_8_86(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_8_82_8_85(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_9_74_9_75(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_15_52_15_58(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index21.html', '_self');
+  }, 300);
+}
+
+function handle_15_50_15_54(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index21.html', '_self');
+  }, 300);
+}
+
+function handle_15_56_15_57(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index21.html', '_self');
+  }, 300);
+}
+
+function handle_27_2_27_5(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_27_4_27_6(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_28_142_28_156(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28112.html', '_self');
+  }, 300);
+}
+
+function handle_28_144_28_157(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28112.html', '_self');
+  }, 300);
+}
+
+function handle_28_155_28_160(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28137.html', '_self');
+  }, 300);
+}
+
+function handle_28_153_28_159(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_152_28_158(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_167_28_170(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index15190.html', '_self');
+  }, 300);
+}
+
+function handle_28_165_28_169(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_164_28_168(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_175_28_178(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28137.html', '_self');
+  }, 300);
+}
+
+function handle_28_173_28_177(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_172_28_176(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_237_28_250(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1593.html', '_self');
+  }, 300);
+}
+
+function handle_28_239_28_251(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1593.html', '_self');
+  }, 300);
+}
+
+function handle_28_257_28_260(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28261.html', '_self');
+  }, 300);
+}
+
+function handle_28_255_28_259(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_254_28_258(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_28_200_28_219(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1593.html', '_self');
+  }, 300);
+}
+
+function handle_28_202_28_220(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1593.html', '_self');
+  }, 300);
+}
+
+function handle_28_227_28_231(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index28232.html', '_self');
+  }, 300);
+}
+
+function initializeEvents() {
+  const element_3_5 = document.getElementById('3_5');
+  if (element_3_5) {
+    EventManager.addHandler(element_3_5, 'click', handle_3_5_3_77);
+  }
+
+  const element_3_14 = document.getElementById('3_14');
+  if (element_3_14) {
+    EventManager.addHandler(element_3_14, 'click', handle_3_14_3_78);
+  }
+
+  const element_9_153 = document.getElementById('9_153');
+  if (element_9_153) {
+    EventManager.addHandler(element_9_153, 'click', handle_9_153_9_188);
+  }
+
+  const element_15_218 = document.getElementById('15_218');
+  if (element_15_218) {
+    EventManager.addHandler(element_15_218, 'click', handle_15_218_15_222);
+  }
+
+  const element_10_11 = document.getElementById('10_11');
+  if (element_10_11) {
+    EventManager.addHandler(element_10_11, 'click', handle_10_11_10_51);
+  }
+
+  const element_10_22 = document.getElementById('10_22');
+  if (element_10_22) {
+    EventManager.addHandler(element_10_22, 'click', handle_10_22_10_52);
+    EventManager.addHandler(element_10_22, 'dblclick', handle_10_22_10_53);
+  }
+
+  const element_11_17 = document.getElementById('11_17');
+  if (element_11_17) {
+    EventManager.addHandler(element_11_17, 'click', handle_11_17_15_1);
+  }
+
+  const element_11_25 = document.getElementById('11_25');
+  if (element_11_25) {
+    EventManager.addHandler(element_11_25, 'click', handle_11_25_11_28);
+  }
+
+  const element_11_27 = document.getElementById('11_27');
+  if (element_11_27) {
+    EventManager.addHandler(element_11_27, 'click', handle_11_27_11_29);
+  }
+
+  const element_11_24 = document.getElementById('11_24');
+  if (element_11_24) {
+    EventManager.addHandler(element_11_24, 'click', handle_11_24_11_30);
+  }
+
+  const element_15_170 = document.getElementById('15_170');
+  if (element_15_170) {
+    EventManager.addHandler(element_15_170, 'click', handle_15_170_15_171);
+  }
+
+  const element_8_84 = document.getElementById('8_84');
+  if (element_8_84) {
+    EventManager.addHandler(element_8_84, 'click', handle_8_84_8_86);
+  }
+
+  const element_8_82 = document.getElementById('8_82');
+  if (element_8_82) {
+    EventManager.addHandler(element_8_82, 'click', handle_8_82_8_85);
+  }
+
+  const element_9_74 = document.getElementById('9_74');
+  if (element_9_74) {
+    EventManager.addHandler(element_9_74, 'click', handle_9_74_9_75);
+  }
+
+  const element_15_52 = document.getElementById('15_52');
+  if (element_15_52) {
+    EventManager.addHandler(element_15_52, 'click', handle_15_52_15_58);
+  }
+
+  const element_15_50 = document.getElementById('15_50');
+  if (element_15_50) {
+    EventManager.addHandler(element_15_50, 'click', handle_15_50_15_54);
+  }
+
+  const element_15_56 = document.getElementById('15_56');
+  if (element_15_56) {
+    EventManager.addHandler(element_15_56, 'click', handle_15_56_15_57);
+  }
+
+  const element_27_2 = document.getElementById('27_2');
+  if (element_27_2) {
+    EventManager.addHandler(element_27_2, 'click', handle_27_2_27_5);
+  }
+
+  const element_27_4 = document.getElementById('27_4');
+  if (element_27_4) {
+    EventManager.addHandler(element_27_4, 'click', handle_27_4_27_6);
+  }
+
+  const element_28_142 = document.getElementById('28_142');
+  if (element_28_142) {
+    EventManager.addHandler(element_28_142, 'click', handle_28_142_28_156);
+  }
+
+  const element_28_144 = document.getElementById('28_144');
+  if (element_28_144) {
+    EventManager.addHandler(element_28_144, 'click', handle_28_144_28_157);
+  }
+
+  const element_28_155 = document.getElementById('28_155');
+  if (element_28_155) {
+    EventManager.addHandler(element_28_155, 'click', handle_28_155_28_160);
+  }
+
+  const element_28_153 = document.getElementById('28_153');
+  if (element_28_153) {
+    EventManager.addHandler(element_28_153, 'click', handle_28_153_28_159);
+  }
+
+  const element_28_152 = document.getElementById('28_152');
+  if (element_28_152) {
+    EventManager.addHandler(element_28_152, 'click', handle_28_152_28_158);
+  }
+
+  const element_28_167 = document.getElementById('28_167');
+  if (element_28_167) {
+    EventManager.addHandler(element_28_167, 'click', handle_28_167_28_170);
+  }
+
+  const element_28_165 = document.getElementById('28_165');
+  if (element_28_165) {
+    EventManager.addHandler(element_28_165, 'click', handle_28_165_28_169);
+  }
+
+  const element_28_164 = document.getElementById('28_164');
+  if (element_28_164) {
+    EventManager.addHandler(element_28_164, 'click', handle_28_164_28_168);
+  }
+
+  const element_28_175 = document.getElementById('28_175');
+  if (element_28_175) {
+    EventManager.addHandler(element_28_175, 'click', handle_28_175_28_178);
+  }
+
+  const element_28_173 = document.getElementById('28_173');
+  if (element_28_173) {
+    EventManager.addHandler(element_28_173, 'click', handle_28_173_28_177);
+  }
+
+  const element_28_172 = document.getElementById('28_172');
+  if (element_28_172) {
+    EventManager.addHandler(element_28_172, 'click', handle_28_172_28_176);
+  }
+
+  const element_28_237 = document.getElementById('28_237');
+  if (element_28_237) {
+    EventManager.addHandler(element_28_237, 'click', handle_28_237_28_250);
+  }
+
+  const element_28_239 = document.getElementById('28_239');
+  if (element_28_239) {
+    EventManager.addHandler(element_28_239, 'click', handle_28_239_28_251);
+  }
+
+  const element_28_257 = document.getElementById('28_257');
+  if (element_28_257) {
+    EventManager.addHandler(element_28_257, 'click', handle_28_257_28_260);
+  }
+
+  const element_28_255 = document.getElementById('28_255');
+  if (element_28_255) {
+    EventManager.addHandler(element_28_255, 'click', handle_28_255_28_259);
+  }
+
+  const element_28_254 = document.getElementById('28_254');
+  if (element_28_254) {
+    EventManager.addHandler(element_28_254, 'click', handle_28_254_28_258);
+  }
+
+  const element_28_200 = document.getElementById('28_200');
+  if (element_28_200) {
+    EventManager.addHandler(element_28_200, 'click', handle_28_200_28_219);
+  }
+
+  const element_28_202 = document.getElementById('28_202');
+  if (element_28_202) {
+    EventManager.addHandler(element_28_202, 'click', handle_28_202_28_220);
+  }
+
+  const element_28_227 = document.getElementById('28_227');
+  if (element_28_227) {
+    EventManager.addHandler(element_28_227, 'click', handle_28_227_28_231);
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeEvents);
+} else {
+  initializeEvents();
+}
+</script>
+
+</body>
+</html>

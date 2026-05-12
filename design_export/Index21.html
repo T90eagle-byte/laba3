@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixso HTML</title>
+  <link rel="stylesheet" href="css/font.css">
+  <script src="js/animation.js"></script>
+  <style>
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ol,ul,menu {
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+ol li::marker, ul li::before {
+  letter-spacing: 0;
+}
+
+.scroll-container > div {
+  width: 100%;
+}
+
+.container > div {
+  width: 100%;
+}
+
+.Pixso-canvas-0_1 > div {
+  width: 100%;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body { 
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-color: white;
+}
+    
+span {
+  word-break: break-word;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.Pixso-frame-2_1 {
+  width: 100%;
+  height: 1080px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 30px 30px 30px 30px;
+  background-color: rgba(114, 246, 230, 0.15000000596046448);
+}
+
+.Pixso-vector-3_5 {
+  width: 3.65%;
+  height: 6.81%;
+  background-image: url(./image/account_box.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 94.27%;
+  right: 2.08%;
+  top: 5.46%;
+  bottom: 87.73%;
+}
+
+.Pixso-vector-3_11 {
+  width: 3.65%;
+  height: 6.81%;
+  background-image: url(./image/add_shopping_cart.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 86.56%;
+  right: 9.79%;
+  top: 5.46%;
+  bottom: 87.73%;
+}
+
+.Pixso-paragraph-3_13 {
+  font-size: 20px;
+  font-family: "Inter-Regular";
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+  width: 4.69%;
+  height: 3.89%;
+  position: absolute;
+  left: 86.04%;
+  right: 9.27%;
+  top: 12.27%;
+  bottom: 83.84%;
+}
+
+.Pixso-paragraph-3_14 {
+  font-size: 20px;
+  font-family: "Inter-Regular";
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+  width: 4.69%;
+  height: 3.89%;
+  position: absolute;
+  left: 93.75%;
+  right: 1.56%;
+  top: 12.27%;
+  bottom: 83.84%;
+}
+
+.Pixso-rectangle-3_15 {
+  width: 15.94%;
+  height: 8.76%;
+  position: absolute;
+  left: 1.72%;
+  right: 82.34%;
+  top: 5.46%;
+  bottom: 85.78%;
+  border-radius: 40px 40px 40px 40px;
+  background-color: rgba(31, 232, 201, 0.699999988079071);
+}
+
+.Pixso-paragraph-3_16 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(255, 255, 255, 1);
+  width: 13.39%;
+  height: 6.81%;
+  position: absolute;
+  left: 2.86%;
+  right: 83.75%;
+  top: 6.05%;
+  bottom: 87.14%;
+}
+
+.Pixso-group-9_153 {
+  width: 257px;
+  height: 94.54545593261719px;
+  position: absolute;
+  left: 397px;
+  top: 59px;
+}
+
+.Pixso-rectangle-3_18 {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+  border-radius: 40px 40px 40px 40px;
+  background-color: rgba(155, 75, 221, 0.8500000238418579);
+}
+
+.Pixso-vector-3_23 {
+  width: 25.29%;
+  height: 72.23%;
+  background-image: url(./image/list.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 5.06%;
+  right: 69.65%;
+  top: 13.33%;
+  bottom: 14.44%;
+}
+
+.Pixso-paragraph-3_25 {
+  font-size: 38px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(255, 255, 255, 1);
+  width: 68.09%;
+  height: 72.23%;
+  position: absolute;
+  left: 30.35%;
+  right: 1.56%;
+  top: 13.33%;
+  bottom: 14.44%;
+}
+
+.Pixso-group-8_59 {
+  width: 515px;
+  height: 100px;
+  position: absolute;
+  left: 739px;
+  top: 59px;
+}
+
+.Pixso-rectangle-8_51 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 40px 40px 40px 40px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) ;
+  background-color: rgba(255, 255, 255, 0.8500000238418579);
+}
+
+.stroke-wrapper-8_51 {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 5%;
+  width: 100%;
+  height: 95%;
+}
+
+.stroke-8_51 {
+  position: absolute;
+  inset: 0px;
+  border-radius: 40px 40px 40px 40px;
+  pointer-events: none;
+  border-width: 3px 3px 3px 3px;
+  border-style: solid;
+  box-sizing: border-box;
+  border-color: rgba(155, 75, 189, 1);
+}
+
+.Pixso-paragraph-8_58 {
+  font-size: 38px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 33.98%;
+  height: 68.28%;
+  position: absolute;
+  left: 8.35%;
+  right: 57.67%;
+  top: 13%;
+  bottom: 18.72%;
+}
+
+.Pixso-vector-8_56 {
+  width: 19.42%;
+  height: 100%;
+  background-image: url(./image/search.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 80.39%;
+  right: 0.19%;
+  top: 0%;
+  bottom: 0%;
+}
+
+.Pixso-rectangle-15_46 {
+  width: 804px;
+  height: 801px;
+  position: absolute;
+  left: 649px;
+  top: 191px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(./image/02ff7106307a0ebe4e335e44540dd57b2a1f8753.png);
+}
+
+.Pixso-group-15_218 {
+  width: 314px;
+  height: 76px;
+  position: absolute;
+  left: 1296px;
+  top: 65px;
+}
+
+.Pixso-paragraph-15_219 {
+  font-size: 28px;
+  font-family: "Inter-Medium";
+  font-weight: 500;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+  width: 77.71%;
+  height: 89.85%;
+  position: absolute;
+  left: 22.29%;
+  right: 0%;
+  top: 0%;
+  bottom: 10.15%;
+}
+
+.Pixso-vector-15_220 {
+  width: 22.29%;
+  height: 92.11%;
+  background-image: url(./image/content_paste.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0%;
+  right: 77.71%;
+  top: 7.89%;
+  bottom: 0%;
+}
+
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div id="2_1" class="Pixso-frame-2_1">
+    <div id="3_5" class="Pixso-vector-3_5" style="cursor: pointer;"></div>
+    <div id="3_11" class="Pixso-vector-3_11"></div>
+    <p id="3_13" class="Pixso-paragraph-3_13">Корзина</p>
+    <p id="3_14" class="Pixso-paragraph-3_14" style="cursor: pointer;">Войти</p>
+    <div id="3_15" class="Pixso-rectangle-3_15"></div>
+    <p id="3_16" class="Pixso-paragraph-3_16">Invalidhelp</p>
+    <div id="9_153" class="Pixso-group-9_153" style="cursor: pointer;">
+      <div id="3_18" class="Pixso-rectangle-3_18"></div>
+      <div id="3_23" class="Pixso-vector-3_23"></div>
+      <p id="3_25" class="Pixso-paragraph-3_25">Каталог</p>
+    </div>
+    <div id="8_59" class="Pixso-group-8_59">
+      <div id="8_51" class="stroke-wrapper-8_51">
+        <div class="Pixso-rectangle-8_51"></div>
+        <div class="stroke-8_51"></div>
+      </div>
+      <p id="8_58" class="Pixso-paragraph-8_58">Искать...</p>
+      <div id="8_56" class="Pixso-vector-8_56"></div>
+    </div>
+    <div id="15_46" class="Pixso-rectangle-15_46"></div>
+    <div id="15_218" class="Pixso-group-15_218" style="cursor: pointer;">
+      <p id="15_219" class="Pixso-paragraph-15_219">Мои заказы</p>
+      <div id="15_220" class="Pixso-vector-15_220"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const EventManager = {
+  handlers: new Map(),
+  addHandler(element, eventType, handler) {
+    if (!this.handlers.has(element)) {
+      this.handlers.set(element, {
+        boundEvents: new Set(),
+        blockingHandler: (e) => {
+          if (e.target === element || !element.contains(e.target)) {
+            if (!this.handlers.get(element).boundEvents.has(e.type)) {
+              e.stopPropagation();
+            }
+          }
+        }
+      });
+      const allEvents = ['mousedown', 'mouseup', 'click', 'dblclick', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave'];
+      allEvents.forEach(type => {
+        element.addEventListener(type, this.handlers.get(element).blockingHandler, true);
+      });
+    }
+    this.handlers.get(element).boundEvents.add(eventType);
+    element.addEventListener(eventType, handler);
+  }
+};
+
+function handle_3_5_3_77(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index349.html', '_self');
+  }, 300);
+}
+
+function handle_3_14_3_78(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index349.html', '_self');
+  }, 300);
+}
+
+function handle_9_153_9_188(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_15_218_15_222(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function initializeEvents() {
+  const element_3_5 = document.getElementById('3_5');
+  if (element_3_5) {
+    EventManager.addHandler(element_3_5, 'click', handle_3_5_3_77);
+  }
+
+  const element_3_14 = document.getElementById('3_14');
+  if (element_3_14) {
+    EventManager.addHandler(element_3_14, 'click', handle_3_14_3_78);
+  }
+
+  const element_9_153 = document.getElementById('9_153');
+  if (element_9_153) {
+    EventManager.addHandler(element_9_153, 'click', handle_9_153_9_188);
+  }
+
+  const element_15_218 = document.getElementById('15_218');
+  if (element_15_218) {
+    EventManager.addHandler(element_15_218, 'click', handle_15_218_15_222);
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeEvents);
+} else {
+  initializeEvents();
+}
+</script>
+
+</body>
+</html>

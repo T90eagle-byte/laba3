@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixso HTML</title>
+  <link rel="stylesheet" href="css/font.css">
+  <script src="js/animation.js"></script>
+  <style>
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ol,ul,menu {
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+ol li::marker, ul li::before {
+  letter-spacing: 0;
+}
+
+.scroll-container > div {
+  width: 100%;
+}
+
+.container > div {
+  width: 100%;
+}
+
+.Pixso-canvas-0_1 > div {
+  width: 100%;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body { 
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-color: white;
+}
+    
+span {
+  word-break: break-word;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.Pixso-frame-10_1 {
+  width: 100%;
+  height: 1080px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 30px 30px 30px 30px;
+  background-color: rgba(114, 246, 230, 0.15000000596046448);
+}
+
+.Pixso-paragraph-10_2 {
+  font-size: 24px;
+  font-family: "Inter-Medium";
+  font-weight: 500;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+  width: 12.71%;
+  height: 6.33%;
+  position: absolute;
+  left: 70.68%;
+  right: 16.61%;
+  top: 6.21%;
+  bottom: 87.46%;
+}
+
+.Pixso-vector-10_3 {
+  width: 3.65%;
+  height: 6.81%;
+  background-image: url(./image/add_shopping_cart0.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 85.31%;
+  right: 11.04%;
+  top: 5.46%;
+  bottom: 87.73%;
+}
+
+.Pixso-paragraph-10_5 {
+  font-size: 20px;
+  font-family: "Inter-Regular";
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+  width: 4.69%;
+  height: 3.89%;
+  position: absolute;
+  left: 84.79%;
+  right: 10.52%;
+  top: 12.27%;
+  bottom: 83.84%;
+}
+
+.Pixso-rectangle-10_6 {
+  width: 15.93%;
+  height: 8.76%;
+  position: absolute;
+  left: 1.41%;
+  right: 82.66%;
+  top: 5.46%;
+  bottom: 85.78%;
+  border-radius: 40px 40px 40px 40px;
+  background-color: rgba(31, 232, 201, 0.699999988079071);
+}
+
+.Pixso-paragraph-10_7 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(255, 255, 255, 1);
+  width: 13.39%;
+  height: 6.81%;
+  position: absolute;
+  left: 2.55%;
+  right: 84.06%;
+  top: 6.05%;
+  bottom: 87.14%;
+}
+
+.Pixso-vector-10_8 {
+  width: 3.65%;
+  height: 6.48%;
+  background-image: url(./image/call.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 67.03%;
+  right: 29.32%;
+  top: 6.02%;
+  bottom: 87.5%;
+}
+
+.Pixso-paragraph-10_10 {
+  font-size: 20px;
+  font-family: "Inter-Regular";
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+  width: 16.35%;
+  height: 3.34%;
+  position: absolute;
+  left: 68.44%;
+  right: 15.21%;
+  top: 12.31%;
+  bottom: 84.35%;
+}
+
+.Pixso-group-10_11 {
+  width: 90px;
+  height: 118.02021026611328px;
+  position: absolute;
+  left: 1789px;
+  top: 64px;
+}
+
+.Pixso-paragraph-10_12 {
+  font-size: 16px;
+  font-family: "Inter-Regular";
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+  width: 100%;
+  height: 35.6%;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 64.4%;
+  bottom: 0%;
+}
+
+.Pixso-vector-10_13 {
+  width: 100%;
+  height: 64.4%;
+  background-image: url(./image/Ellipse_10_13.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 35.6%;
+}
+
+.Pixso-paragraph-10_14 {
+  font-size: 20px;
+  font-family: "Inter-Regular";
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(248, 236, 236, 1);
+  width: 100%;
+  height: 35.6%;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 13.56%;
+  bottom: 50.84%;
+}
+
+.Pixso-paragraph-10_16 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 20.05%;
+  height: auto;
+  position: absolute;
+  left: 9.38%;
+  right: 70.57%;
+  top: 41.2%;
+  bottom: 47.96%;
+}
+
+.Pixso-group-10_17 {
+  width: 504.3814392089844px;
+  height: 96.2686538696289px;
+  position: absolute;
+  left: 720.61865234375px;
+  top: 57px;
+}
+
+.Pixso-rectangle-10_18 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 40px 40px 40px 40px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) ;
+  background-color: rgba(255, 255, 255, 0.8500000238418579);
+}
+
+.stroke-wrapper-10_18 {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 5%;
+  width: 100%;
+  height: 95%;
+}
+
+.stroke-10_18 {
+  position: absolute;
+  inset: 0px;
+  border-radius: 40px 40px 40px 40px;
+  pointer-events: none;
+  border-width: 3px 3px 3px 3px;
+  border-style: solid;
+  box-sizing: border-box;
+  border-color: rgba(155, 75, 189, 1);
+}
+
+.Pixso-paragraph-10_19 {
+  font-size: 38px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 33.98%;
+  height: 68.28%;
+  position: absolute;
+  left: 8.35%;
+  right: 57.67%;
+  top: 13%;
+  bottom: 18.72%;
+}
+
+.Pixso-vector-10_20 {
+  width: 19.42%;
+  height: 100%;
+  background-image: url(./image/search0.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 80.39%;
+  right: 0.19%;
+  top: 0%;
+  bottom: 0%;
+}
+
+.Pixso-group-10_22 {
+  width: 257px;
+  height: 94.54545593261719px;
+  position: absolute;
+  left: 391px;
+  top: 59px;
+}
+
+.Pixso-rectangle-10_23 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 40px 40px 40px 40px;
+  background-color: rgba(255, 255, 255, 0.8500000238418579);
+}
+
+.stroke-wrapper-10_23 {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  width: 100%;
+  height: 100%;
+}
+
+.stroke-10_23 {
+  position: absolute;
+  inset: 0px;
+  border-radius: 40px 40px 40px 40px;
+  pointer-events: none;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  box-sizing: border-box;
+  border-color: rgba(155, 75, 221, 1);
+}
+
+.Pixso-paragraph-10_24 {
+  font-size: 40px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(155, 75, 189, 1);
+  width: 68.1%;
+  height: 96.25%;
+  position: absolute;
+  left: 24.9%;
+  right: 7%;
+  top: 2.12%;
+  bottom: 1.63%;
+}
+
+.Pixso-vector-10_25 {
+  width: 25.29%;
+  height: 72.22%;
+  background-image: url(./image/clear.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 5.06%;
+  right: 69.65%;
+  top: 14.81%;
+  bottom: 12.97%;
+}
+
+.Pixso-vector-10_29 {
+  width: 5.2%;
+  height: 9.26%;
+  background-image: url(./image/medicinebottleline2.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 1.41%;
+  right: 93.39%;
+  top: 42.04%;
+  bottom: 48.7%;
+}
+
+.Pixso-group-11_22 {
+  width: 631px;
+  height: 117px;
+  position: absolute;
+  left: 17px;
+  top: 284px;
+}
+
+.Pixso-rectangle-11_21 {
+  width: 627px;
+  height: 117px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  border-radius: 30px 30px 30px 30px;
+  background-color: rgba(155, 75, 221, 0.2600000202655792);
+}
+
+.Pixso-group-11_20 {
+  width: 621px;
+  height: 105px;
+  position: absolute;
+  left: 10px;
+  top: 4px;
+}
+
+.Pixso-paragraph-10_15 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 48.26%;
+  height: 86.67%;
+  position: absolute;
+  left: 24.64%;
+  right: 27.1%;
+  top: 8.57%;
+  bottom: 4.76%;
+}
+
+.Pixso-vector-10_27 {
+  width: 16.1%;
+  height: 95.24%;
+  background-image: url(./image/medicinebottleline1.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0%;
+  right: 83.9%;
+  top: 0%;
+  bottom: 4.76%;
+}
+
+.Pixso-vector-10_31 {
+  width: 16.1%;
+  height: 95.24%;
+  background-image: url(./image/arrow_right_alt2.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 83.9%;
+  right: 0%;
+  top: 4.76%;
+  bottom: 0%;
+}
+
+.Pixso-vector-10_33 {
+  width: 5.21%;
+  height: 9.26%;
+  background-image: url(./image/arrow_right_alt1.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 28.54%;
+  right: 66.25%;
+  top: 42.04%;
+  bottom: 48.7%;
+}
+
+.Pixso-paragraph-10_35 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 20.05%;
+  height: auto;
+  position: absolute;
+  left: 9.38%;
+  right: 70.57%;
+  top: 64.81%;
+  bottom: 29.72%;
+}
+
+.Pixso-vector-10_36 {
+  width: 5.2%;
+  height: 9.25%;
+  background-image: url(./image/medicinebottleline0.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 1.41%;
+  right: 93.39%;
+  top: 57.69%;
+  bottom: 33.06%;
+}
+
+.Pixso-vector-10_38 {
+  width: 5.21%;
+  height: 9.25%;
+  background-image: url(./image/arrow_right_alt0.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 28.54%;
+  right: 66.25%;
+  top: 57.69%;
+  bottom: 33.06%;
+}
+
+.Pixso-paragraph-10_40 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 20.05%;
+  height: auto;
+  position: absolute;
+  left: 9.38%;
+  right: 70.57%;
+  top: 73.61%;
+  bottom: 20.93%;
+}
+
+.Pixso-vector-10_41 {
+  width: 5.2%;
+  height: 9.26%;
+  background-image: url(./image/medicinebottleline.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 1.41%;
+  right: 93.39%;
+  top: 71.76%;
+  bottom: 18.98%;
+}
+
+.Pixso-vector-10_43 {
+  width: 5.21%;
+  height: 9.26%;
+  background-image: url(./image/arrow_right_alt.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 28.54%;
+  right: 66.25%;
+  top: 71.76%;
+  bottom: 18.98%;
+}
+
+.Pixso-rectangle-10_56 {
+  width: 360px;
+  height: 360px;
+  position: absolute;
+  left: 721px;
+  top: 211px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(./image/70b63ef52bb9c8e4a75f3a6c46afb62e8b21d8c3.png);
+}
+
+.Pixso-rectangle-11_4 {
+  width: 360px;
+  height: 360px;
+  position: absolute;
+  left: 1493px;
+  top: 220px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(./image/8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png);
+}
+
+.Pixso-paragraph-11_5 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 340px;
+  height: 148px;
+  position: absolute;
+  left: 737px;
+  top: 561px;
+}
+
+.Pixso-paragraph-11_6 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  white-space: pre-line;
+  width: 340px;
+  height: 46px;
+  position: absolute;
+  left: 741px;
+  top: 786px;
+}
+
+.Pixso-group-11_17 {
+  width: 340px;
+  height: 100px;
+  position: absolute;
+  left: 721px;
+  top: 832px;
+}
+
+.Pixso-rectangle-11_7 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 60px 60px 60px 60px;
+  background-color: rgba(155, 75, 189, 0.8500000238418579);
+}
+
+.stroke-wrapper-11_7 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 340px;
+  height: 100px;
+}
+
+.stroke-11_7 {
+  position: absolute;
+  inset: 0px;
+  border-radius: 60px 60px 60px 60px;
+  pointer-events: none;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  box-sizing: border-box;
+  border-color: rgba(155, 75, 189, 0.8500000238418579);
+}
+
+.Pixso-paragraph-11_8 {
+  font-size: 44px;
+  font-family: "Inter-Extra Bold";
+  font-weight: 800;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(255, 255, 255, 1);
+  width: 236px;
+  height: 65px;
+  position: absolute;
+  left: 53px;
+  top: 17px;
+}
+
+.Pixso-paragraph-11_13 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 340px;
+  height: 148px;
+  position: absolute;
+  left: 1529px;
+  top: 561px;
+}
+
+.Pixso-paragraph-11_14 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  white-space: pre-line;
+  width: 340px;
+  height: 148px;
+  position: absolute;
+  left: 1529px;
+  top: 734px;
+}
+
+.Pixso-group-11_19 {
+  width: 340px;
+  height: 100px;
+  position: absolute;
+  left: 1513px;
+  top: 832px;
+}
+
+.Pixso-rectangle-11_15 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 60px 60px 60px 60px;
+  background-color: rgba(155, 75, 189, 0.8500000238418579);
+}
+
+.stroke-wrapper-11_15 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 340px;
+  height: 100px;
+}
+
+.stroke-11_15 {
+  position: absolute;
+  inset: 0px;
+  border-radius: 60px 60px 60px 60px;
+  pointer-events: none;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  box-sizing: border-box;
+  border-color: rgba(155, 75, 189, 0.8500000238418579);
+}
+
+.Pixso-paragraph-11_16 {
+  font-size: 44px;
+  font-family: "Inter-Extra Bold";
+  font-weight: 800;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(255, 255, 255, 1);
+  width: 236px;
+  height: 65px;
+  position: absolute;
+  left: 53px;
+  top: 17px;
+}
+
+.Pixso-paragraph-11_9 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 340px;
+  height: 148px;
+  position: absolute;
+  left: 1133px;
+  top: 561px;
+}
+
+.Pixso-paragraph-11_10 {
+  font-size: 48px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  white-space: pre-line;
+  width: 340px;
+  height: 148px;
+  position: absolute;
+  left: 1127px;
+  top: 734px;
+}
+
+.Pixso-group-11_18 {
+  width: 340px;
+  height: 100px;
+  position: absolute;
+  left: 1114px;
+  top: 832px;
+}
+
+.Pixso-rectangle-11_11 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 60px 60px 60px 60px;
+  background-color: rgba(155, 75, 189, 0.8500000238418579);
+}
+
+.stroke-wrapper-11_11 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 340px;
+  height: 100px;
+}
+
+.stroke-11_11 {
+  position: absolute;
+  inset: 0px;
+  border-radius: 60px 60px 60px 60px;
+  pointer-events: none;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  box-sizing: border-box;
+  border-color: rgba(155, 75, 189, 0.8500000238418579);
+}
+
+.Pixso-paragraph-11_12 {
+  font-size: 44px;
+  font-family: "Inter-Extra Bold";
+  font-weight: 800;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(255, 255, 255, 1);
+  width: 236px;
+  height: 65px;
+  position: absolute;
+  left: 56px;
+  top: 17px;
+}
+
+.Pixso-group-11_24 {
+  width: 174px;
+  height: 108px;
+  position: absolute;
+  left: 620px;
+  top: 157px;
+}
+
+.Pixso-vector-11_25 {
+  width: 38.5%;
+  height: 64.81%;
+  background-image: url(./image/undo.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 28.74%;
+  right: 32.76%;
+  top: 0%;
+  bottom: 35.19%;
+}
+
+.Pixso-paragraph-11_27 {
+  font-size: 24px;
+  font-family: "Inter-Regular";
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-transform: uppercase;
+  color: rgba(155, 75, 189, 1);
+  width: 174px;
+  height: 70px;
+  position: absolute;
+  left: 0px;
+  top: 38px;
+}
+
+.Pixso-vector-15_71 {
+  width: 3.91%;
+  height: 6.95%;
+  background-image: url(./image/add_task0.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 37.55%;
+  right: 58.54%;
+  top: 63.33%;
+  bottom: 29.72%;
+}
+
+.Pixso-paragraph-15_73 {
+  font-size: 27px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 209px;
+  height: 65px;
+  position: absolute;
+  left: 801px;
+  top: 689px;
+}
+
+.Pixso-group-15_170 {
+  width: 324px;
+  height: 75px;
+  position: absolute;
+  left: 1513px;
+  top: 684px;
+}
+
+.Pixso-paragraph-15_81 {
+  font-size: 27px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 244px;
+  height: 65px;
+  position: absolute;
+  left: 80px;
+  top: 5px;
+}
+
+.Pixso-vector-15_82 {
+  width: 23.15%;
+  height: 100%;
+  background-image: url(./image/dangerous.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0%;
+  right: 76.85%;
+  top: 0%;
+  bottom: 0%;
+}
+
+.Pixso-rectangle-28_86 {
+  width: 360px;
+  height: 360px;
+  position: absolute;
+  left: 1094px;
+  top: 226.99993896484375px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(./image/8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png);
+}
+
+.Pixso-group-28_87 {
+  width: 289px;
+  height: 75px;
+  position: absolute;
+  left: 1117px;
+  top: 684px;
+}
+
+.Pixso-vector-28_88 {
+  width: 25.95%;
+  height: 100%;
+  background-image: url(./image/add_task.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0%;
+  right: 74.05%;
+  top: 0%;
+  bottom: 0%;
+}
+
+.Pixso-paragraph-28_90 {
+  font-size: 27px;
+  font-family: "Inter-Semi Bold";
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 209px;
+  height: 65px;
+  position: absolute;
+  left: 80px;
+  top: 5px;
+}
+
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div id="10_1" class="Pixso-frame-10_1">
+    <p id="10_2" class="Pixso-paragraph-10_2">+7 (800) 500 69 69</p>
+    <div id="10_3" class="Pixso-vector-10_3"></div>
+    <p id="10_5" class="Pixso-paragraph-10_5">Корзина</p>
+    <div id="10_6" class="Pixso-rectangle-10_6"></div>
+    <p id="10_7" class="Pixso-paragraph-10_7">Invalidhelp</p>
+    <div id="10_8" class="Pixso-vector-10_8"></div>
+    <p id="10_10" class="Pixso-paragraph-10_10">Служба поддержки</p>
+    <div id="10_11" class="Pixso-group-10_11" style="cursor: pointer;">
+      <p id="10_12" class="Pixso-paragraph-10_12">Настройки профиля</p>
+      <div id="10_13" class="Pixso-vector-10_13"></div>
+      <p id="10_14" class="Pixso-paragraph-10_14">Ф.И.</p>
+    </div>
+    <p id="10_16" class="Pixso-paragraph-10_16">Витамины и БАД</p>
+    <div id="10_17" class="Pixso-group-10_17">
+      <div id="10_18" class="stroke-wrapper-10_18">
+        <div class="Pixso-rectangle-10_18"></div>
+        <div class="stroke-10_18"></div>
+      </div>
+      <p id="10_19" class="Pixso-paragraph-10_19">Искать...</p>
+      <div id="10_20" class="Pixso-vector-10_20"></div>
+    </div>
+    <div id="10_22" class="Pixso-group-10_22" style="cursor: pointer;">
+      <div id="10_23" class="stroke-wrapper-10_23">
+        <div class="Pixso-rectangle-10_23"></div>
+        <div class="stroke-10_23"></div>
+      </div>
+      <p id="10_24" class="Pixso-paragraph-10_24">Каталог</p>
+      <div id="10_25" class="Pixso-vector-10_25"></div>
+    </div>
+    <div id="10_29" class="Pixso-vector-10_29"></div>
+    <div id="11_22" class="Pixso-group-11_22">
+      <div id="11_21" class="Pixso-rectangle-11_21"></div>
+      <div id="11_20" class="Pixso-group-11_20">
+        <p id="10_15" class="Pixso-paragraph-10_15">Лекарства</p>
+        <div id="10_27" class="Pixso-vector-10_27"></div>
+        <div id="10_31" class="Pixso-vector-10_31"></div>
+      </div>
+    </div>
+    <div id="10_33" class="Pixso-vector-10_33"></div>
+    <p id="10_35" class="Pixso-paragraph-10_35">Красота</p>
+    <div id="10_36" class="Pixso-vector-10_36"></div>
+    <div id="10_38" class="Pixso-vector-10_38"></div>
+    <p id="10_40" class="Pixso-paragraph-10_40">Гигиена</p>
+    <div id="10_41" class="Pixso-vector-10_41"></div>
+    <div id="10_43" class="Pixso-vector-10_43"></div>
+    <div id="10_56" class="Pixso-rectangle-10_56"></div>
+    <div id="11_4" class="Pixso-rectangle-11_4"></div>
+    <p id="11_5" class="Pixso-paragraph-11_5">Куринобол 500 мг</p>
+    <p id="11_6" class="Pixso-paragraph-11_6">2000 Р<br><br></p>
+    <div id="11_17" class="Pixso-group-11_17" style="cursor: pointer;">
+      <div id="11_7" class="stroke-wrapper-11_7">
+        <div class="Pixso-rectangle-11_7"></div>
+        <div class="stroke-11_7"></div>
+      </div>
+      <p id="11_8" class="Pixso-paragraph-11_8">В корзину</p>
+    </div>
+    <p id="11_13" class="Pixso-paragraph-11_13">Гречестерон 300 мг</p>
+    <p id="11_14" class="Pixso-paragraph-11_14">987 Р<br><br></p>
+    <div id="11_19" class="Pixso-group-11_19">
+      <div id="11_15" class="stroke-wrapper-11_15">
+        <div class="Pixso-rectangle-11_15"></div>
+        <div class="stroke-11_15"></div>
+      </div>
+      <p id="11_16" class="Pixso-paragraph-11_16">В корзину</p>
+    </div>
+    <p id="11_9" class="Pixso-paragraph-11_9">Рисостанон 250 мг</p>
+    <p id="11_10" class="Pixso-paragraph-11_10">1250 Р<br><br></p>
+    <div id="11_18" class="Pixso-group-11_18">
+      <div id="11_11" class="stroke-wrapper-11_11">
+        <div class="Pixso-rectangle-11_11"></div>
+        <div class="stroke-11_11"></div>
+      </div>
+      <p id="11_12" class="Pixso-paragraph-11_12">В корзину</p>
+    </div>
+    <div id="11_24" class="Pixso-group-11_24" style="cursor: pointer;">
+      <div id="11_25" class="Pixso-vector-11_25" style="cursor: pointer;"></div>
+      <p id="11_27" class="Pixso-paragraph-11_27" style="cursor: pointer;">Назад</p>
+    </div>
+    <div id="15_71" class="Pixso-vector-15_71"></div>
+    <p id="15_73" class="Pixso-paragraph-15_73">Есть в наличии</p>
+    <div id="15_170" class="Pixso-group-15_170" style="cursor: pointer;">
+      <p id="15_81" class="Pixso-paragraph-15_81">Уведомить о поступлении</p>
+      <div id="15_82" class="Pixso-vector-15_82"></div>
+    </div>
+    <div id="28_86" class="Pixso-rectangle-28_86"></div>
+    <div id="28_87" class="Pixso-group-28_87">
+      <div id="28_88" class="Pixso-vector-28_88"></div>
+      <p id="28_90" class="Pixso-paragraph-28_90">Есть в наличии</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const EventManager = {
+  handlers: new Map(),
+  addHandler(element, eventType, handler) {
+    if (!this.handlers.has(element)) {
+      this.handlers.set(element, {
+        boundEvents: new Set(),
+        blockingHandler: (e) => {
+          if (e.target === element || !element.contains(e.target)) {
+            if (!this.handlers.get(element).boundEvents.has(e.type)) {
+              e.stopPropagation();
+            }
+          }
+        }
+      });
+      const allEvents = ['mousedown', 'mouseup', 'click', 'dblclick', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave'];
+      allEvents.forEach(type => {
+        element.addEventListener(type, this.handlers.get(element).blockingHandler, true);
+      });
+    }
+    this.handlers.get(element).boundEvents.add(eventType);
+    element.addEventListener(eventType, handler);
+  }
+};
+
+function handle_3_5_3_77(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index349.html', '_self');
+  }, 300);
+}
+
+function handle_3_14_3_78(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index349.html', '_self');
+  }, 300);
+}
+
+function handle_9_153_9_188(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_15_218_15_222(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_10_11_10_51(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index865.html', '_self');
+  }, 300);
+}
+
+function handle_10_22_10_52(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index824.html', '_self');
+  }, 300);
+}
+
+function handle_10_22_10_53(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_11_17_15_1(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index1131.html', '_self');
+  }, 300);
+}
+
+function handle_11_25_11_28(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index988.html', '_self');
+  }, 300);
+}
+
+function handle_11_27_11_29(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+    window.open('./Index988.html', '_self');
+  }, 300);
+}
+
+function handle_11_24_11_30(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function handle_15_170_15_171(event) {
+  event.stopPropagation();
+  setTimeout(() => {
+  }, 300);
+}
+
+function initializeEvents() {
+  const element_3_5 = document.getElementById('3_5');
+  if (element_3_5) {
+    EventManager.addHandler(element_3_5, 'click', handle_3_5_3_77);
+  }
+
+  const element_3_14 = document.getElementById('3_14');
+  if (element_3_14) {
+    EventManager.addHandler(element_3_14, 'click', handle_3_14_3_78);
+  }
+
+  const element_9_153 = document.getElementById('9_153');
+  if (element_9_153) {
+    EventManager.addHandler(element_9_153, 'click', handle_9_153_9_188);
+  }
+
+  const element_15_218 = document.getElementById('15_218');
+  if (element_15_218) {
+    EventManager.addHandler(element_15_218, 'click', handle_15_218_15_222);
+  }
+
+  const element_10_11 = document.getElementById('10_11');
+  if (element_10_11) {
+    EventManager.addHandler(element_10_11, 'click', handle_10_11_10_51);
+  }
+
+  const element_10_22 = document.getElementById('10_22');
+  if (element_10_22) {
+    EventManager.addHandler(element_10_22, 'click', handle_10_22_10_52);
+    EventManager.addHandler(element_10_22, 'dblclick', handle_10_22_10_53);
+  }
+
+  const element_11_17 = document.getElementById('11_17');
+  if (element_11_17) {
+    EventManager.addHandler(element_11_17, 'click', handle_11_17_15_1);
+  }
+
+  const element_11_25 = document.getElementById('11_25');
+  if (element_11_25) {
+    EventManager.addHandler(element_11_25, 'click', handle_11_25_11_28);
+  }
+
+  const element_11_27 = document.getElementById('11_27');
+  if (element_11_27) {
+    EventManager.addHandler(element_11_27, 'click', handle_11_27_11_29);
+  }
+
+  const element_11_24 = document.getElementById('11_24');
+  if (element_11_24) {
+    EventManager.addHandler(element_11_24, 'click', handle_11_24_11_30);
+  }
+
+  const element_15_170 = document.getElementById('15_170');
+  if (element_15_170) {
+    EventManager.addHandler(element_15_170, 'click', handle_15_170_15_171);
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeEvents);
+} else {
+  initializeEvents();
+}
+</script>
+
+</body>
+</html>
