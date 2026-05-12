@@ -45,6 +45,7 @@
     <div class="product-card-actions">
       {% if current_user.is_authenticated %}
         <form action="{{ module_url('cart_add', product_id=p.id) }}" method="post">
+          {{ action_form.hidden_tag() }}
           <button class="btn btn-primary btn-sm" type="submit" {% if not p.in_stock %}disabled{% endif %}>
             В корзину
           </button>
@@ -55,9 +56,11 @@
       {% if current_user.is_authenticated and current_user.is_admin %}
         <div class="product-admin-actions">
           <a class="btn btn-gray btn-sm" href="{{ module_url('product_form', id=p.id) }}">Изменить</a>
-          <a class="btn btn-danger btn-sm"
-             href="{{ module_url('product_delete', id=p.id) }}"
-             onclick="return confirm('Удалить товар?')">Удалить</a>
+          <form action="{{ module_url('product_delete', id=p.id) }}" method="post"
+                onsubmit="return confirm('Удалить товар?')">
+            {{ action_form.hidden_tag() }}
+            <button class="btn btn-danger btn-sm" type="submit">Удалить</button>
+          </form>
         </div>
       {% endif %}
     </div>

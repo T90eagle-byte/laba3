@@ -27,11 +27,13 @@
     <td style="font-size:.82rem;color:#90A4AE;">
       {{ o.created.strftime('%d.%m.%Y') if o.created else '—' }}
     </td>
-    <td style="display:flex;gap:8px;">
+    <td style="display:flex;gap:8px;align-items:center;">
       <a class="btn btn-gray btn-sm" href="{{ module_url('order_form', order_id=o.id) }}">Изменить</a>
-      <a class="btn btn-danger btn-sm"
-         href="{{ module_url('order_delete', order_id=o.id) }}"
-         onclick="return confirm('Удалить заказ?')">Удалить</a>
+      <form action="{{ module_url('order_delete', order_id=o.id) }}" method="post"
+            onsubmit="return confirm('Удалить заказ?')" style="display:inline;">
+        {{ action_form.hidden_tag() }}
+        <button class="btn btn-danger btn-sm" type="submit">Удалить</button>
+      </form>
     </td>
   </tr>
   {% endfor %}

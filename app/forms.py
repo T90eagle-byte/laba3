@@ -28,6 +28,10 @@ class RegisterForm(FlaskForm):
     address = StringField('Адрес доставки', validators=[Optional()])
 
 
+class ActionForm(FlaskForm):
+    pass
+
+
 class ProfileForm(FlaskForm):
     id = HiddenField()
     name = StringField('Имя', validators=[Optional()])
@@ -74,6 +78,5 @@ class OrderForm(FlaskForm):
     product_ids = SelectMultipleField('Товары', coerce=int, validators=[Optional()])
     payment = SelectField(
         'Способ оплаты',
-        choices=[('\u043d\u0430\u043b\u0438\u0447\u043d\u044b\u0435',
-                  '\u041d\u0430\u043b\u0438\u0447\u043d\u044b\u0435')],
+        choices=[('наличные', 'Наличные')],
     )

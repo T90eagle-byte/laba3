@@ -26,6 +26,7 @@
         </div>
       </div>
       <form action="{{ module_url('cart_remove', product_id=item.product.id) }}" method="post">
+        {{ action_form.hidden_tag() }}
         <button class="btn btn-danger btn-sm" type="submit">Удалить</button>
       </form>
     </article>
@@ -43,6 +44,7 @@
       <strong>наличные</strong>
     </div>
     <form action="{{ module_url('cart_checkout') }}" method="post">
+      {{ action_form.hidden_tag() }}
       <button class="btn btn-primary" type="submit">Оформить заказ</button>
     </form>
   </aside>

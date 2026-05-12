@@ -2,10 +2,13 @@
 {% block content %}
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
   <h1>Админка</h1>
-  <div style="display:flex;gap:10px;">
+  <div style="display:flex;gap:10px;align-items:center;">
     <a class="btn btn-primary" href="{{ module_url('admin_user_form', user_id=0) }}">+ Пользователь</a>
     <a class="btn btn-purple" href="{{ module_url('product_form', id=0) }}">+ Товар</a>
-    <a class="btn btn-gray" href="{{ module_url('import_pickle') }}">Импорт</a>
+    <form action="{{ module_url('import_pickle') }}" method="post" style="display:inline;">
+      {{ action_form.hidden_tag() }}
+      <button class="btn btn-gray" type="submit">Импорт</button>
+    </form>
   </div>
 </div>
 
@@ -22,12 +25,15 @@
       {% else %}<span class="badge-red">Пользователь</span>{% endif %}
     </td>
     <td>{{ u.address }}</td>
-    <td style="display:flex;gap:8px;">
+    <td style="display:flex;gap:8px;align-items:center;">
       <a class="btn btn-gray btn-sm" href="{{ module_url('admin_user_form', user_id=u.id) }}">Изменить</a>
       {% if u.id != current_user.id %}
-      <a class="btn btn-danger btn-sm"
-         href="{{ module_url('admin_user_delete', user_id=u.id) }}"
-         onclick="return confirm('Удалить пользователя? Его заказы тоже будут удалены.')">Удалить</a>
+      <form action="{{ module_url('admin_user_delete', user_id=u.id) }}" method="post"
+            onsubmit="return confirm('Удалить пользователя? Его заказы тоже будут удалены.')"
+            style="display:inline;">
+        {{ action_form.hidden_tag() }}
+        <button class="btn btn-danger btn-sm" type="submit">Удалить</button>
+      </form>
       {% endif %}
     </td>
   </tr>
@@ -50,11 +56,13 @@
       {% if p.in_stock %}<span class="badge-green">Есть</span>
       {% else %}<span class="badge-red">Нет</span>{% endif %}
     </td>
-    <td style="display:flex;gap:8px;">
+    <td style="display:flex;gap:8px;align-items:center;">
       <a class="btn btn-gray btn-sm" href="{{ module_url('product_form', id=p.id) }}">Изменить</a>
-      <a class="btn btn-danger btn-sm"
-         href="{{ module_url('product_delete', id=p.id) }}"
-         onclick="return confirm('Удалить товар?')">Удалить</a>
+      <form action="{{ module_url('product_delete', id=p.id) }}" method="post"
+            onsubmit="return confirm('Удалить товар?')" style="display:inline;">
+        {{ action_form.hidden_tag() }}
+        <button class="btn btn-danger btn-sm" type="submit">Удалить</button>
+      </form>
     </td>
   </tr>
   {% endfor %}

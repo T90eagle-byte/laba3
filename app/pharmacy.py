@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os, sqlite3, pickle, datetime, hashlib
+import os, sqlite3, pickle, datetime, hashlib, hmac
 from dataclasses import dataclass, field
 from functools import wraps
 from flask import (Blueprint, render_template, request, redirect, session, flash,
@@ -11,8 +11,10 @@ from flask_login import (
     login_user,
     logout_user,
 )
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.forms import (
+    ActionForm,
     AdminUserForm,
     LoginForm,
     OrderForm,
@@ -43,7 +45,35 @@ CART_MAX_QUANTITY = 99
 # ─────────────────────────────────────────────────────────────────
 
 def hash_password(password: str) -> str:
+    return generate_password_hash(password)
+
+
+def hash_password_legacy(password: str) -> str:
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
+
+
+def _is_legacy_sha256_hash(value: str) -> bool:
+    if not isinstance(value, str) or len(value) != 64:
+        return False
+    return all(ch in '0123456789abcdef' for ch in value.lower())
+
+
+def verify_password(stored_hash: str, password: str):
+    if not stored_hash:
+        return False, False
+
+    try:
+        if check_password_hash(stored_hash, password):
+            return True, False
+    except (ValueError, TypeError):
+        pass
+
+    if _is_legacy_sha256_hash(stored_hash):
+        legacy_hash = hash_password_legacy(password)
+        if hmac.compare_digest(stored_hash, legacy_hash):
+            return True, True
+
+    return False, False
 
 
 def normalize_dosage(dosage: str) -> str:
@@ -532,6 +562,28 @@ class Pharmacy:
         self.storage = DBStorage()
         self.io = FlaskInputOutput(request)
 
+    def _is_current_user_admin(self) -> bool:
+        return bool(getattr(current_user, 'is_admin', 0))
+
+    def _validate_action_form(self, fallback_endpoint: str):
+        form = ActionForm()
+        if form.validate_on_submit():
+            return True
+        flash('Недействительный запрос. Повторите действие.', 'error')
+        return redirect(module_url(fallback_endpoint))
+
+    def _get_accessible_order(self, order_id: int):
+        order = self.storage.GetOrder(order_id)
+        if not order.id:
+            flash('Заказ не найден.', 'error')
+            return None
+        if self._is_current_user_admin():
+            return order
+        if order.user_id != int(current_user.get_id()):
+            flash('У вас нет доступа к этому заказу.', 'error')
+            return None
+        return order
+
     # --- Auth ---
     def ShowLogin(self, error=''):
         return render_template('login.tpl', error=error, form=LoginForm())
@@ -540,10 +592,17 @@ class Pharmacy:
         form = LoginForm()
         if form.validate_on_submit():
             user = self.storage.GetUserByLogin(form.login.data)
-            if user and user.password_hash == hash_password(form.password.data):
-                login_user(user)
-                next_url = request.args.get('next')
-                return redirect(next_url or module_url('my_orders'))
+            if user:
+                is_valid, needs_rehash = verify_password(
+                    user.password_hash, form.password.data)
+                if is_valid:
+                    if needs_rehash:
+                        new_hash = hash_password(form.password.data)
+                        self.storage.UpdatePassword(user.id, new_hash)
+                        user.password_hash = new_hash
+                    login_user(user)
+                    next_url = request.args.get('next')
+                    return redirect(next_url or module_url('my_orders'))
         return self.ShowLogin(error='Неверный логин или пароль')
 
     def ShowRegister(self, error=''):
@@ -583,6 +642,7 @@ class Pharmacy:
             'admin.tpl',
             users=list(self.storage.GetUsers()),
             products=list(self.storage.GetProducts()),
+            action_form=ActionForm(),
         )
 
     def ShowAdminUserForm(self, user_id):
@@ -634,11 +694,18 @@ class Pharmacy:
         return redirect(module_url('admin'))
 
     def DeleteAdminUser(self, user_id):
+        action_result = self._validate_action_form('admin')
+        if action_result is not True:
+            return action_result
         if user_id == int(current_user.get_id()):
+            flash('Нельзя удалить текущего администратора.', 'warning')
             return redirect(module_url('admin'))
         user = self.storage.GetUser(user_id)
         if user.id:
             self.storage.DeleteUser(user.id)
+            flash('Пользователь удалён.', 'success')
+        else:
+            flash('Пользователь не найден.', 'error')
         return redirect(module_url('admin'))
 
     # --- Профиль ---
@@ -661,15 +728,17 @@ class Pharmacy:
         self.storage.UpdateUser(user)
 
         if form.new_password.data:
-            if (user.password_hash == hash_password(form.current_password.data or '')
-                    and form.new_password.data == form.confirm_password.data):
+            is_valid, _ = verify_password(
+                user.password_hash, form.current_password.data or '')
+            if is_valid and form.new_password.data == form.confirm_password.data:
                 self.storage.UpdatePassword(user.id, hash_password(form.new_password.data))
         return redirect(module_url('profile'))
 
     # --- Каталог (публичный) ---
     def ShowProducts(self):
         return render_template('products.tpl',
-                               products=list(self.storage.GetProducts()))
+                               products=list(self.storage.GetProducts()),
+                               action_form=ActionForm())
 
     def ShowProductForm(self, id):
         item = self.storage.GetProduct(id)
@@ -689,7 +758,11 @@ class Pharmacy:
         return render_template('product_form.tpl', it=item, form=form)
 
     def DeleteProduct(self, id):
+        action_result = self._validate_action_form('admin')
+        if action_result is not True:
+            return action_result
         self.storage.DeleteProduct(id)
+        flash('Товар удалён.', 'success')
         return redirect(module_url('admin'))
 
     # --- Корзина в session ---
@@ -731,9 +804,17 @@ class Pharmacy:
     def ShowCart(self):
         items = self.GetCartItems()
         total = sum(item['line_total'] for item in items)
-        return render_template('cart.tpl', items=items, total=total)
+        return render_template(
+            'cart.tpl',
+            items=items,
+            total=total,
+            action_form=ActionForm(),
+        )
 
     def AddToCart(self, product_id):
+        action_result = self._validate_action_form('products')
+        if action_result is not True:
+            return action_result
         product = self.storage.GetProduct(product_id)
         if product.id and product.in_stock:
             cart = get_cart()
@@ -752,6 +833,9 @@ class Pharmacy:
         return redirect(module_url('products'))
 
     def RemoveFromCart(self, product_id):
+        action_result = self._validate_action_form('cart')
+        if action_result is not True:
+            return action_result
         cart = get_cart()
         if str(product_id) in cart:
             cart.pop(str(product_id), None)
@@ -762,6 +846,9 @@ class Pharmacy:
         return redirect(module_url('cart'))
 
     def CheckoutCart(self):
+        action_result = self._validate_action_form('cart')
+        if action_result is not True:
+            return action_result
         items = self.GetCartItems()
         if not items:
             flash('Корзина пуста. Добавьте товары перед оформлением заказа.', 'warning')
@@ -790,12 +877,23 @@ class Pharmacy:
     def ShowMyOrders(self):
         user = self.storage.GetUser(int(current_user.get_id()))
         orders = list(self.storage.GetUserOrders(user.id))
-        return render_template('orders.tpl', user=user, orders=orders)
+        return render_template(
+            'orders.tpl',
+            user=user,
+            orders=orders,
+            action_form=ActionForm(),
+        )
 
     def ShowOrderForm(self, order_id):
         user_id = int(current_user.get_id())
-        order   = self.storage.GetOrder(order_id)
-        order.user_id = user_id
+        if order_id > 0:
+            order = self._get_accessible_order(order_id)
+            if order is None:
+                return redirect(module_url('my_orders'))
+        else:
+            order = OrderItem(user_id=user_id, payment=PAYMENT_CASH)
+        if not self._is_current_user_admin():
+            order.user_id = user_id
         products = list(self.storage.GetProducts())
         form = OrderForm(obj=order)
         form.product_ids.choices = [(p.id, f'{p.name} {p.dosage}') for p in products]
@@ -810,8 +908,18 @@ class Pharmacy:
 
     def AddOrder(self):
         user_id = int(current_user.get_id())
-        item    = self.storage.GetOrder(int(request.form.get('id') or 0))
-        item.user_id = user_id
+        order_id = int(request.form.get('id') or 0)
+        if order_id > 0:
+            item = self._get_accessible_order(order_id)
+            if item is None:
+                return redirect(module_url('my_orders'))
+        else:
+            item = OrderItem()
+        if self._is_current_user_admin():
+            if not item.id:
+                item.user_id = user_id
+        else:
+            item.user_id = user_id
         products = list(self.storage.GetProducts())
         form = OrderForm()
         form.product_ids.choices = [(p.id, f'{p.name} {p.dosage}') for p in products]
@@ -832,11 +940,21 @@ class Pharmacy:
         return render_template('order_form.tpl', it=item, products=products, form=form)
 
     def DeleteOrder(self, order_id):
-        self.storage.DeleteOrder(order_id)
+        action_result = self._validate_action_form('my_orders')
+        if action_result is not True:
+            return action_result
+        order = self._get_accessible_order(order_id)
+        if order is None:
+            return redirect(module_url('my_orders'))
+        self.storage.DeleteOrder(order.id)
+        flash('Заказ удалён.', 'success')
         return redirect(module_url('my_orders'))
 
     # --- Импорт ---
     def ImportPickle(self):
+        action_result = self._validate_action_form('admin')
+        if action_result is not True:
+            return action_result
         path = get_import_path()
         msg = self.storage.ImportFromPickle(path)
         return render_template('import.tpl', msg=msg, path=path)
@@ -905,7 +1023,7 @@ def admin_user_form(user_id):
 def admin_user_save():
     return get_pharmacy().SaveAdminUser()
 
-@bp.route("/admin/users/delete/<int:user_id>")
+@bp.route("/admin/users/delete/<int:user_id>", methods=['POST'])
 @admin_required
 def admin_user_delete(user_id):
     return get_pharmacy().DeleteAdminUser(user_id)
@@ -937,7 +1055,7 @@ def product_form(id):
 def product_add():
     return get_pharmacy().AddProduct()
 
-@bp.route("/products/delete/<int:id>")
+@bp.route("/products/delete/<int:id>", methods=['POST'])
 @admin_required
 def product_delete(id):
     return get_pharmacy().DeleteProduct(id)
@@ -979,13 +1097,13 @@ def order_form(order_id):
 def order_add():
     return get_pharmacy().AddOrder()
 
-@bp.route("/orders/delete/<int:order_id>")
+@bp.route("/orders/delete/<int:order_id>", methods=['POST'])
 @login_required
 def order_delete(order_id):
     return get_pharmacy().DeleteOrder(order_id)
 
 # Импорт
-@bp.route("/import")
+@bp.route("/import", methods=['POST'])
 @admin_required
 def import_pickle():
     return get_pharmacy().ImportPickle()
