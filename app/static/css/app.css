@@ -719,6 +719,327 @@ tr:last-child td {
   max-width: 620px;
 }
 
+.catalog-d2c-page {
+  display: grid;
+  gap: 24px;
+  padding-bottom: 24px;
+}
+
+.catalog-d2c-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.catalog-d2c-heading {
+  display: grid;
+  gap: 8px;
+}
+
+.catalog-d2c-title {
+  margin: 0;
+  color: rgba(155, 75, 189, 1);
+  font-family: "Inter-Semi Bold", var(--font-sans);
+  font-size: clamp(38px, 5.2vw, 56px);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.catalog-d2c-subtitle {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: "Inter-Semi Bold", var(--font-sans);
+  font-size: clamp(28px, 4.4vw, 48px);
+  font-weight: 600;
+  line-height: 1.08;
+}
+
+.catalog-d2c-admin-add {
+  min-height: 64px;
+  border-radius: 30px;
+  background: rgba(18, 241, 131, 0.82);
+  color: #000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter-Regular", var(--font-sans);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
+  padding: 14px 28px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.catalog-d2c-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.catalog-d2c-active-category {
+  min-height: 117px;
+  min-width: min(631px, 100%);
+  border-radius: 30px;
+  background: rgba(155, 75, 221, 0.26);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 12px 28px;
+}
+
+.catalog-d2c-active-icon {
+  width: 56px;
+  height: 56px;
+  background-image: url("../images/clear.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  flex: 0 0 56px;
+}
+
+.catalog-d2c-active-text {
+  color: rgba(0, 0, 0, 0.5);
+  font-family: "Inter-Semi Bold", var(--font-sans);
+  font-size: clamp(28px, 4.2vw, 48px);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.catalog-d2c-search {
+  min-height: 96px;
+  width: min(100%, 504px);
+  border-radius: 40px;
+  border: 3px solid rgba(155, 75, 189, 1);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 20px 0 42px;
+}
+
+.catalog-d2c-search-text {
+  color: rgba(0, 0, 0, 0.5);
+  font-family: "Inter-Semi Bold", var(--font-sans);
+  font-size: clamp(24px, 3.8vw, 38px);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.catalog-d2c-search-icon {
+  width: 98px;
+  height: 96px;
+  background-image: url("../images/search0.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  flex: 0 0 98px;
+}
+
+.catalog-d2c-categories {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.catalog-d2c-category {
+  min-height: 92px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.85);
+  color: rgba(0, 0, 0, 0.5);
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: "Inter-Semi Bold", var(--font-sans);
+  font-size: clamp(24px, 3.6vw, 46px);
+  font-weight: 600;
+  line-height: 1;
+  padding: 12px 22px;
+}
+
+.catalog-d2c-category-active {
+  min-width: 631px;
+  justify-content: center;
+  background: rgba(155, 75, 221, 0.26);
+}
+
+.catalog-d2c-category-arrow {
+  width: 42px;
+  height: 42px;
+  background-image: url("../images/arrow_right_alt.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.catalog-d2c-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 26px;
+}
+
+.catalog-d2c-card {
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow-card);
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+.catalog-d2c-media {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 24px;
+  background-color: rgba(255, 255, 255, 0.95);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.catalog-d2c-body {
+  display: grid;
+  gap: 8px;
+}
+
+.catalog-d2c-name {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.55);
+  font-family: "Inter-Semi Bold", var(--font-sans);
+  font-size: clamp(27px, 3.2vw, 40px);
+  font-weight: 600;
+  line-height: 1.06;
+}
+
+.catalog-d2c-dosage,
+.catalog-d2c-price {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.55);
+  font-family: "Inter-Semi Bold", var(--font-sans);
+  font-weight: 600;
+  line-height: 1.06;
+}
+
+.catalog-d2c-dosage {
+  font-size: clamp(21px, 2.8vw, 30px);
+}
+
+.catalog-d2c-price {
+  font-size: clamp(30px, 3.4vw, 42px);
+}
+
+.catalog-d2c-stock {
+  min-height: 54px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: "Inter-Semi Bold", var(--font-sans);
+  font-size: clamp(18px, 2.2vw, 27px);
+  font-weight: 600;
+}
+
+.catalog-d2c-stock-icon {
+  width: 44px;
+  height: 44px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  flex: 0 0 44px;
+}
+
+.catalog-d2c-stock.is-in-stock .catalog-d2c-stock-icon {
+  background-image: url("../images/add_task.png");
+}
+
+.catalog-d2c-stock.is-out-stock .catalog-d2c-stock-icon {
+  background-image: url("../images/dangerous.png");
+}
+
+.catalog-d2c-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.catalog-d2c-actions form {
+  margin: 0;
+}
+
+.catalog-d2c-cart-btn,
+.catalog-d2c-edit-btn,
+.catalog-d2c-delete-btn {
+  min-height: 78px;
+  width: 100%;
+  border: 0;
+  border-radius: 60px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter-Extra Bold", var(--font-sans);
+  font-size: clamp(24px, 3vw, 38px);
+  font-weight: 800;
+  line-height: 1;
+  padding: 12px 18px;
+  text-decoration: none;
+}
+
+.catalog-d2c-cart-btn {
+  background: rgba(155, 75, 189, 0.85);
+  color: #fff;
+}
+
+.catalog-d2c-cart-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.catalog-d2c-admin-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.catalog-d2c-edit-btn {
+  background: rgba(227, 221, 230, 0.79);
+  color: #000;
+}
+
+.catalog-d2c-delete-btn {
+  background: rgba(241, 18, 73, 0.82);
+  color: #fff;
+}
+
+.catalog-d2c-empty {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: "Inter-Medium", var(--font-sans);
+  font-size: 28px;
+}
+
+@media (max-width: 1200px) {
+  .catalog-d2c-active-category,
+  .catalog-d2c-category-active {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .catalog-d2c-search {
+    width: 100%;
+  }
+
+  .catalog-d2c-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+}
+
 .app-icon {
   display: inline-block;
   width: 28px;
@@ -1131,6 +1452,99 @@ body.auth-page .auth-input:focus {
 
   .auth-register-actions {
     margin-top: 16px;
+  }
+
+  .catalog-d2c-page {
+    gap: 16px;
+    padding-bottom: 10px;
+  }
+
+  .catalog-d2c-top {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .catalog-d2c-subtitle {
+    font-size: 22px;
+  }
+
+  .catalog-d2c-admin-add {
+    width: 100%;
+    min-height: 56px;
+    font-size: 24px;
+  }
+
+  .catalog-d2c-controls {
+    gap: 12px;
+  }
+
+  .catalog-d2c-active-category {
+    min-height: 68px;
+    padding: 10px 14px;
+    gap: 8px;
+  }
+
+  .catalog-d2c-active-icon {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+  }
+
+  .catalog-d2c-active-text {
+    font-size: 24px;
+  }
+
+  .catalog-d2c-search {
+    min-height: 64px;
+    padding: 0 12px 0 16px;
+    border-width: 2px;
+  }
+
+  .catalog-d2c-search-text {
+    font-size: 24px;
+  }
+
+  .catalog-d2c-search-icon {
+    width: 50px;
+    height: 50px;
+    flex-basis: 50px;
+  }
+
+  .catalog-d2c-categories {
+    gap: 8px;
+  }
+
+  .catalog-d2c-category {
+    min-height: 58px;
+    width: 100%;
+    justify-content: center;
+    font-size: 22px;
+    padding: 10px 12px;
+  }
+
+  .catalog-d2c-category-arrow {
+    width: 24px;
+    height: 24px;
+  }
+
+  .catalog-d2c-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .catalog-d2c-card {
+    padding: 14px;
+  }
+
+  .catalog-d2c-cart-btn,
+  .catalog-d2c-edit-btn,
+  .catalog-d2c-delete-btn {
+    min-height: 56px;
+    font-size: 22px;
+  }
+
+  .catalog-d2c-admin-actions {
+    grid-template-columns: 1fr;
   }
 
   .app-header {

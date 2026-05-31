@@ -1,5 +1,6 @@
 {% extends "base.tpl" %}
 {% block content %}
+{% if false %}
 <div class="page-heading">
   <div>
     <h1>Каталог товаров</h1>
@@ -70,4 +71,99 @@
 {% else %}
 <p class="empty">Каталог пуст.</p>
 {% endif %}
+{% endif %}
+
+{% set catalog_images = [
+  '70b63ef52bb9c8e4a75f3a6c46afb62e8b21d8c3.png',
+  '8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png',
+  '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png'
+] %}
+
+<section class="catalog-d2c-page" aria-label="Каталог товаров">
+  <header class="catalog-d2c-top">
+    <div class="catalog-d2c-heading">
+      <h1 class="catalog-d2c-title">Каталог</h1>
+      <p class="catalog-d2c-subtitle">Витамины и БАД</p>
+    </div>
+    {% if current_user.is_authenticated and current_user.is_admin %}
+      <a class="catalog-d2c-admin-add" href="{{ module_url('product_form', id=0) }}">+ Добавить</a>
+    {% endif %}
+  </header>
+
+  <section class="catalog-d2c-controls" aria-label="Фильтры каталога">
+    <div class="catalog-d2c-active-category">
+      <span class="catalog-d2c-active-icon" aria-hidden="true"></span>
+      <span class="catalog-d2c-active-text">Каталог</span>
+    </div>
+    <div class="catalog-d2c-search" aria-label="Поиск пока недоступен">
+      <span class="catalog-d2c-search-text">Искать...</span>
+      <span class="catalog-d2c-search-icon" aria-hidden="true"></span>
+    </div>
+  </section>
+
+  <div class="catalog-d2c-categories" aria-label="Категории">
+    <span class="catalog-d2c-category catalog-d2c-category-active">
+      <span class="catalog-d2c-category-arrow" aria-hidden="true"></span>
+      <span>Лекарства</span>
+      <span class="catalog-d2c-category-arrow" aria-hidden="true"></span>
+    </span>
+    <span class="catalog-d2c-category">Красота</span>
+    <span class="catalog-d2c-category">Гигиена</span>
+  </div>
+
+  {% if products %}
+    <section class="catalog-d2c-grid" aria-label="Список товаров">
+      {% for p in products %}
+        {% set image_file = catalog_images[loop.index0 % (catalog_images|length)] %}
+        <article class="catalog-d2c-card">
+          <div class="catalog-d2c-media" style="background-image: url('{{ url_for('static', filename='images/' ~ image_file) }}');"></div>
+
+          <div class="catalog-d2c-body">
+            <h2 class="catalog-d2c-name">{{ p.name }}</h2>
+            <p class="catalog-d2c-dosage">{{ p.dosage or 'Без дозировки' }}</p>
+            <p class="catalog-d2c-price">{{ p.price|int }} Р</p>
+
+            {% if p.in_stock %}
+              <div class="catalog-d2c-stock is-in-stock">
+                <span class="catalog-d2c-stock-icon" aria-hidden="true"></span>
+                <span>Есть в наличии</span>
+              </div>
+            {% else %}
+              <div class="catalog-d2c-stock is-out-stock">
+                <span class="catalog-d2c-stock-icon" aria-hidden="true"></span>
+                <span>Нет в наличии</span>
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="catalog-d2c-actions">
+            {% if current_user.is_authenticated %}
+              <form action="{{ module_url('cart_add', product_id=p.id) }}" method="post">
+                {{ action_form.hidden_tag() }}
+                <button class="catalog-d2c-cart-btn" type="submit" {% if not p.in_stock %}disabled{% endif %}>
+                  В корзину
+                </button>
+              </form>
+            {% else %}
+              <a class="catalog-d2c-cart-btn catalog-d2c-cart-link" href="{{ module_url('login') }}">В корзину</a>
+            {% endif %}
+
+            {% if current_user.is_authenticated and current_user.is_admin %}
+              <div class="catalog-d2c-admin-actions">
+                <a class="catalog-d2c-edit-btn" href="{{ module_url('product_form', id=p.id) }}">Изменить</a>
+                <form action="{{ module_url('product_delete', id=p.id) }}" method="post"
+                      onsubmit="return confirm('Удалить товар?')">
+                  {{ action_form.hidden_tag() }}
+                  <button class="catalog-d2c-delete-btn" type="submit">Удалить</button>
+                </form>
+              </div>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </section>
+  {% else %}
+    <p class="catalog-d2c-empty">Каталог пуст.</p>
+  {% endif %}
+</section>
 {% endblock %}
