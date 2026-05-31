@@ -4,3 +4,13 @@ __pycache__/
 data/*.sqlite
 data/*.sqlite-*
 data/design_preview/
+
+# LR1 legacy files in repository root only
+/catalog.pkl
+/catalog.py
+/console_io.py
+/cosmetic.py
+/medicine.py
+/pickle_io.py
+/product.py
+/vitamin.py
