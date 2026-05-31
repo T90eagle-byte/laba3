@@ -108,6 +108,7 @@ def inject_module_url():
     return {
         'module_url': module_url,
         'cart_count': get_cart_count,
+        'action_form': ActionForm(),
     }
 
 
@@ -633,6 +634,9 @@ class Pharmacy:
         return redirect(module_url('my_orders'))
 
     def DoLogout(self):
+        action_result = self._validate_action_form('products')
+        if action_result is not True:
+            return action_result
         logout_user()
         return redirect(module_url('login'))
 
@@ -1003,7 +1007,7 @@ def register():
 def register_post():
     return get_pharmacy().DoRegister()
 
-@bp.route("/logout")
+@bp.route("/logout", methods=['POST'])
 def logout():
     return get_pharmacy().DoLogout()
 

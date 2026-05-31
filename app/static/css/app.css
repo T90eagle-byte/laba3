@@ -204,6 +204,16 @@ h2 {
   gap: 12px;
 }
 
+.nav-logout-form {
+  margin: 0;
+}
+
+.nav-logout-button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
 .nav-support {
   color: var(--color-text);
   font-family: "Inter-Medium", var(--font-sans);

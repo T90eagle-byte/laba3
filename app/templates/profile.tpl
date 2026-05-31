@@ -45,7 +45,16 @@
 
     <div class="form-actions">
       <button class="btn btn-primary" type="submit">СОХРАНИТЬ</button>
-      <a class="btn btn-danger" href="{{ module_url('logout') }}">ВЫЙТИ</a>
+      {{ action_form.hidden_tag() }}
+      <button
+        class="btn btn-danger"
+        type="submit"
+        formaction="{{ module_url('logout') }}"
+        formmethod="post"
+        formnovalidate
+      >
+        ВЫЙТИ
+      </button>
     </div>
   </form>
 </div>

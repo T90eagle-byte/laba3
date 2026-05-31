@@ -45,7 +45,10 @@
           <span class="nav-avatar">{{ current_user.initials() }}</span>
           <span class="nav-profile-name">{{ current_user.full_name() or current_user.login }}</span>
         </a>
-        <a class="nav-link nav-link-logout" href="{{ module_url('logout') }}">Выйти</a>
+        <form class="nav-logout-form" action="{{ module_url('logout') }}" method="post">
+          {{ action_form.hidden_tag() }}
+          <button class="nav-link nav-link-logout nav-logout-button" type="submit">Выйти</button>
+        </form>
       {% else %}
         <a class="nav-cart nav-cart-muted" href="{{ module_url('login') }}" title="Войдите, чтобы создать заказ">
           <span class="nav-icon nav-icon-cart" aria-hidden="true"></span>
