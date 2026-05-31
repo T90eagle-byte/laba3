@@ -1,5 +1,36 @@
 # NEXT_PROMPT
 
+## Final Continuation Prompt (2026-05-31)
+
+Ты работаешь с существующим Flask-проектом по пути:
+`C:\Users\User\DATA\Моя учеба\Web-razrab\pharmacy`
+
+Перед началом:
+1. Прочитай `WORK_CONTEXT.md` и `CHANGELOG.md`.
+2. Выполни `git status --short`.
+3. Убедись, что backend не меняется без отдельной необходимости.
+
+Текущее состояние:
+- Backend стабилизирован.
+- Используются Flask / Flask-Login / Flask-WTF / SQLite.
+- Пароли: Werkzeug hash + legacy sha256 auto-upgrade.
+- Корзина: session-based (`/cart`, `/cart/add`, `/cart/remove`, `/cart/checkout`).
+- Owner-check заказов и POST+CSRF для destructive actions уже закрыты.
+- Logout работает через POST + CSRF.
+- Дизайн уже перенесён на `login/register/products/cart/orders/profile`.
+- Для админки выполнен light styling.
+- Для демонстрационного импорта ЛР1 доступен `data/catalog.pkl`.
+
+Ограничения:
+- Не ломать Flask/Jinja/WTForms/module_url/url_for.
+- Не ломать routes, CSRF, session-cart, owner-check, admin CRUD, import.
+- Не менять SQLite-схему и не делать миграции без отдельного запроса.
+
+Следующий этап (если продолжаем):
+1. Финальная ручная визуальная сверка pixel-perfect против D2C/PDF.
+2. Точечная доводка spacing/typography/mobile без изменения backend.
+3. Финальный checkpoint и подготовка к сдаче (документация + чистый git status tracked-файлов).
+
 Ты работаешь с существующим Flask-проектом аптеки.
 
 Перед началом:
