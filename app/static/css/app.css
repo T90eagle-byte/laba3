@@ -1053,6 +1053,481 @@ tr:last-child td {
   text-decoration: none;
 }
 
+.orders-d2c-page {
+  display: grid;
+  gap: 20px;
+  padding-bottom: 22px;
+}
+
+.orders-d2c-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.orders-d2c-heading {
+  display: grid;
+  gap: 8px;
+}
+
+.orders-d2c-title {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: "Inter-Extra Bold", var(--font-sans);
+  font-size: clamp(36px, 4.6vw, 54px);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.orders-d2c-user {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: "Inter-Medium", var(--font-sans);
+  font-size: clamp(18px, 2.2vw, 28px);
+  font-weight: 500;
+}
+
+.orders-d2c-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.orders-d2c-back-link,
+.orders-d2c-create-link,
+.orders-d2c-edit-btn,
+.orders-d2c-cancel-btn {
+  text-decoration: none;
+}
+
+.orders-d2c-back-link {
+  min-height: 70px;
+  border-radius: 30px;
+  background: rgba(227, 221, 230, 0.79);
+  color: rgba(0, 0, 0, 0.7);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Inter-Regular", var(--font-sans);
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 400;
+  line-height: 1;
+  padding: 12px 20px;
+}
+
+.orders-d2c-back-icon {
+  width: 34px;
+  height: 34px;
+  background-image: url("../images/undo8.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  flex: 0 0 34px;
+}
+
+.orders-d2c-create-link {
+  min-height: 88px;
+  border-radius: 30px;
+  background: rgba(18, 241, 131, 0.82);
+  color: #000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter-Regular", var(--font-sans);
+  font-size: clamp(24px, 2.9vw, 32px);
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 14px 22px;
+  white-space: nowrap;
+}
+
+.orders-d2c-list {
+  display: grid;
+  gap: 18px;
+}
+
+.orders-d2c-card {
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow-card);
+  display: grid;
+  gap: 14px;
+  padding: 18px 20px;
+}
+
+.orders-d2c-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.orders-d2c-order-number {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: "Inter-Semi Bold", var(--font-sans);
+  font-size: clamp(30px, 3.5vw, 48px);
+  font-weight: 600;
+  line-height: 1.06;
+}
+
+.orders-d2c-order-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.orders-d2c-payment,
+.orders-d2c-date {
+  min-height: 44px;
+  border-radius: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter-Semi Bold", var(--font-sans);
+  font-size: clamp(16px, 2vw, 24px);
+  font-weight: 600;
+  line-height: 1;
+  padding: 8px 14px;
+}
+
+.orders-d2c-payment {
+  background: rgba(155, 75, 221, 0.2);
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.orders-d2c-date {
+  background: rgba(227, 221, 230, 0.7);
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.orders-d2c-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.orders-d2c-item {
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(155, 75, 221, 0.12);
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px;
+}
+
+.orders-d2c-item-image {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  border-radius: 14px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.orders-d2c-item-main {
+  display: grid;
+  gap: 4px;
+}
+
+.orders-d2c-item-name {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.55);
+  font-family: "Inter-Semi Bold", var(--font-sans);
+  font-size: clamp(20px, 2.5vw, 34px);
+  font-weight: 600;
+  line-height: 1.08;
+}
+
+.orders-d2c-item-dosage {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.52);
+  font-family: "Inter-Semi Bold", var(--font-sans);
+  font-size: clamp(16px, 2vw, 24px);
+  font-weight: 600;
+}
+
+.orders-d2c-item-price {
+  color: rgba(0, 0, 0, 0.55);
+  font-family: "Inter-Semi Bold", var(--font-sans);
+  font-size: clamp(20px, 2.6vw, 34px);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.orders-d2c-empty-items {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.55);
+  font-family: "Inter-Medium", var(--font-sans);
+  font-size: 22px;
+}
+
+.orders-d2c-card-foot {
+  border-top: 2px solid rgba(155, 75, 221, 0.18);
+  padding-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.orders-d2c-total {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.55);
+  font-family: "Inter-Semi Bold", var(--font-sans);
+  font-size: clamp(22px, 2.8vw, 36px);
+  font-weight: 600;
+}
+
+.orders-d2c-total strong {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.orders-d2c-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.orders-d2c-edit-btn,
+.orders-d2c-cancel-btn {
+  min-height: 60px;
+  border-radius: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter-Regular", var(--font-sans);
+  font-size: clamp(20px, 2.4vw, 30px);
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 10px 18px;
+}
+
+.orders-d2c-edit-btn {
+  min-width: 250px;
+  background: rgba(18, 241, 131, 0.82);
+  color: #000;
+}
+
+.orders-d2c-actions form {
+  margin: 0;
+}
+
+.orders-d2c-cancel-btn {
+  min-width: 250px;
+  border: 0;
+  background: rgba(155, 75, 221, 0.85);
+  color: #fff;
+  cursor: pointer;
+}
+
+.orders-d2c-empty {
+  max-width: 1100px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow-card);
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+}
+
+.orders-d2c-empty-title {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: "Inter-Extra Bold", var(--font-sans);
+  font-size: clamp(32px, 3.8vw, 48px);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.orders-d2c-empty-text {
+  margin: 0;
+  color: rgba(0, 0, 0, 1);
+  font-family: "Inter-Regular", var(--font-sans);
+  font-size: clamp(24px, 3vw, 48px);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.orders-d2c-empty-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.profile-d2c-page {
+  display: grid;
+  gap: 20px;
+  padding-bottom: 24px;
+}
+
+.profile-d2c-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.profile-d2c-title {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.52);
+  font-family: "Inter-Medium", var(--font-sans);
+  font-size: clamp(36px, 4.6vw, 48px);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.profile-d2c-back-link {
+  min-height: 70px;
+  border-radius: 30px;
+  background: rgba(227, 221, 230, 0.79);
+  color: rgba(0, 0, 0, 0.7);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-family: "Inter-Regular", var(--font-sans);
+  font-size: clamp(24px, 2.8vw, 30px);
+  font-weight: 400;
+  line-height: 1;
+  padding: 12px 20px;
+}
+
+.profile-d2c-back-icon {
+  width: 34px;
+  height: 34px;
+  background-image: url("../images/undo0.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  flex: 0 0 34px;
+}
+
+.profile-d2c-surface {
+  border-radius: 30px;
+  background: rgba(114, 246, 230, 0.15);
+  display: grid;
+  gap: 20px;
+  padding: 24px;
+}
+
+.profile-d2c-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 34px;
+}
+
+.profile-d2c-column {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.profile-d2c-field {
+  display: grid;
+  gap: 8px;
+}
+
+.profile-d2c-label {
+  margin: 0;
+  color: rgba(0, 0, 0, 1);
+  font-family: "Inter-Medium", var(--font-sans);
+  font-size: clamp(26px, 3vw, 48px);
+  font-weight: 500;
+  line-height: 1.06;
+}
+
+.profile-d2c-input {
+  min-height: 88px;
+  border: 0;
+  border-radius: 30px;
+  background: #fff;
+  color: rgba(0, 0, 0, 1);
+  box-shadow: inset 0 0 0 3px #000;
+  font-family: "Inter-Extra Light", var(--font-sans);
+  font-size: clamp(22px, 2.6vw, 38px);
+  font-weight: 200;
+  line-height: 1;
+  padding: 14px 24px;
+}
+
+.profile-d2c-input:focus {
+  box-shadow: inset 0 0 0 3px rgba(155, 75, 221, 0.9);
+}
+
+.profile-d2c-errors {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.profile-d2c-errors li {
+  color: #b80f37;
+  font-family: "Inter-Medium", var(--font-sans);
+  font-size: 16px;
+}
+
+.profile-d2c-logout-form {
+  display: none;
+}
+
+.profile-d2c-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.profile-d2c-save-btn,
+.profile-d2c-logout-btn {
+  min-height: 88px;
+  border: 0;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: "Inter-Regular", var(--font-sans);
+  font-size: clamp(24px, 2.5vw, 32px);
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 16px 26px;
+}
+
+.profile-d2c-save-btn {
+  min-width: min(432px, 100%);
+  background: rgba(18, 241, 131, 0.82);
+  color: #000;
+}
+
+.profile-d2c-logout-btn {
+  min-width: min(326px, 100%);
+  background: rgba(241, 18, 32, 0.82);
+  color: #000;
+}
+
+.profile-d2c-save-btn:hover,
+.profile-d2c-logout-btn:hover {
+  opacity: 0.92;
+}
+
 .catalog-d2c-page {
   display: grid;
   gap: 24px;
@@ -1984,6 +2459,180 @@ body.auth-page .auth-input:focus {
   .cart-d2c-empty-btn {
     min-height: 56px;
     font-size: 22px;
+  }
+
+  .orders-d2c-page {
+    gap: 14px;
+    padding-bottom: 10px;
+  }
+
+  .orders-d2c-title {
+    font-size: 34px;
+  }
+
+  .orders-d2c-user {
+    font-size: 18px;
+  }
+
+  .orders-d2c-top-actions {
+    width: 100%;
+  }
+
+  .orders-d2c-back-link,
+  .orders-d2c-create-link {
+    width: 100%;
+    justify-content: center;
+    min-height: 56px;
+    font-size: 22px;
+    padding: 10px 14px;
+  }
+
+  .orders-d2c-back-icon {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+  }
+
+  .orders-d2c-card {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .orders-d2c-order-number {
+    font-size: 30px;
+  }
+
+  .orders-d2c-order-meta {
+    gap: 8px;
+  }
+
+  .orders-d2c-payment,
+  .orders-d2c-date {
+    min-height: 36px;
+    font-size: 16px;
+    padding: 8px 10px;
+  }
+
+  .orders-d2c-item {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .orders-d2c-item-image {
+    max-width: 220px;
+  }
+
+  .orders-d2c-item-price {
+    font-size: 28px;
+  }
+
+  .orders-d2c-card-foot {
+    gap: 10px;
+  }
+
+  .orders-d2c-total {
+    font-size: 26px;
+  }
+
+  .orders-d2c-actions {
+    width: 100%;
+    gap: 8px;
+  }
+
+  .orders-d2c-edit-btn,
+  .orders-d2c-cancel-btn {
+    min-height: 54px;
+    width: 100%;
+    min-width: 0;
+    font-size: 22px;
+  }
+
+  .orders-d2c-empty {
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .orders-d2c-empty-title {
+    font-size: 30px;
+  }
+
+  .orders-d2c-empty-text {
+    font-size: 22px;
+    line-height: 1.2;
+  }
+
+  .orders-d2c-empty-actions {
+    width: 100%;
+    gap: 8px;
+  }
+
+  .profile-d2c-page {
+    gap: 14px;
+    padding-bottom: 10px;
+  }
+
+  .profile-d2c-top {
+    align-items: flex-start;
+  }
+
+  .profile-d2c-back-link {
+    min-height: 56px;
+    font-size: 22px;
+    padding: 10px 14px;
+  }
+
+  .profile-d2c-back-icon {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+  }
+
+  .profile-d2c-title {
+    font-size: 32px;
+  }
+
+  .profile-d2c-surface {
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .profile-d2c-form {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .profile-d2c-column {
+    gap: 12px;
+  }
+
+  .profile-d2c-label {
+    font-size: 24px;
+  }
+
+  .profile-d2c-input {
+    min-height: 64px;
+    border-radius: 20px;
+    box-shadow: inset 0 0 0 2px #000;
+    font-size: 24px;
+    padding: 10px 14px;
+  }
+
+  .profile-d2c-input:focus {
+    box-shadow: inset 0 0 0 2px rgba(155, 75, 221, 0.9);
+  }
+
+  .profile-d2c-actions {
+    justify-content: stretch;
+    gap: 10px;
+  }
+
+  .profile-d2c-save-btn,
+  .profile-d2c-logout-btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 60px;
+    font-size: 22px;
+    padding: 12px 14px;
   }
 
   .app-header {
