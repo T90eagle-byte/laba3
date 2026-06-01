@@ -95,10 +95,18 @@
       <span class="catalog-d2c-active-icon" aria-hidden="true"></span>
       <span class="catalog-d2c-active-text">Каталог</span>
     </div>
-    <div class="catalog-d2c-search" aria-label="Поиск пока недоступен">
-      <span class="catalog-d2c-search-text">Искать...</span>
-      <span class="catalog-d2c-search-icon" aria-hidden="true"></span>
-    </div>
+    <form class="catalog-d2c-search-form" action="{{ module_url('products') }}" method="get" role="search">
+      <label class="catalog-d2c-search" aria-label="Поиск товаров">
+        <input
+          class="catalog-d2c-search-input"
+          type="search"
+          name="q"
+          value="{{ search_query or '' }}"
+          placeholder="Искать..."
+        >
+        <button class="catalog-d2c-search-submit" type="submit" aria-label="Найти"></button>
+      </label>
+    </form>
   </section>
 
   <div class="catalog-d2c-categories" aria-label="Категории">
@@ -114,7 +122,16 @@
   {% if products %}
     <section class="catalog-d2c-grid" aria-label="Список товаров">
       {% for p in products %}
-        {% set image_file = catalog_images[loop.index0 % (catalog_images|length)] %}
+        {% set product_name_key = (p.name or '')|lower %}
+        {% if 'кур' in product_name_key %}
+          {% set image_file = '70b63ef52bb9c8e4a75f3a6c46afb62e8b21d8c3.png' %}
+        {% elif 'греч' in product_name_key %}
+          {% set image_file = '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png' %}
+        {% elif 'рис' in product_name_key %}
+          {% set image_file = '8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png' %}
+        {% else %}
+          {% set image_file = catalog_images[loop.index0 % (catalog_images|length)] %}
+        {% endif %}
         <article class="catalog-d2c-card">
           <div class="catalog-d2c-media" style="background-image: url('{{ url_for('static', filename='images/' ~ image_file) }}');"></div>
 
@@ -163,7 +180,11 @@
       {% endfor %}
     </section>
   {% else %}
-    <p class="catalog-d2c-empty">Каталог пуст.</p>
+    {% if search_query %}
+      <p class="catalog-d2c-empty">По запросу "{{ search_query }}" товары не найдены.</p>
+    {% else %}
+      <p class="catalog-d2c-empty">Каталог пуст.</p>
+    {% endif %}
   {% endif %}
 </section>
 {% endblock %}

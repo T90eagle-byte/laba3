@@ -1,43 +1,81 @@
 {% extends "base.tpl" %}
 {% block content %}
-<h1>{{ "Изменить заказ" if it.id else "Новый заказ" }}</h1>
-<div class="form-card" style="max-width:600px;">
-  <form action="{{ module_url('order_add') }}" method="post">
+{% set order_form_images = [
+  '70b63ef52bb9c8e4a75f3a6c46afb62e8b21d8c3.png',
+  '8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png',
+  '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png'
+] %}
+
+<section class="order-form-d2c-page" aria-label="Форма заказа">
+  <header class="order-form-d2c-head">
+    <h1 class="order-form-d2c-title">{{ "Изменить заказ" if it.id else "Новый заказ" }}</h1>
+    <a class="order-form-d2c-back" href="{{ module_url('my_orders') }}">Назад</a>
+  </header>
+
+  <form class="order-form-d2c-card" action="{{ module_url('order_add') }}" method="post">
     {{ form.hidden_tag() }}
     {{ form.id(value=it.id) }}
     {{ form.user_id(value=it.user_id) }}
 
-    <div class="form-group">
-      <label>Выберите товары</label>
+    <section class="order-form-d2c-products" aria-label="Выбор товаров">
+      <h2 class="order-form-d2c-subtitle">Выберите товары</h2>
       {% if products %}
-        {% for p in products %}
-        <label style="display:flex;align-items:center;gap:10px;padding:9px 14px;
-               border-radius:12px;margin-top:6px;cursor:{{ 'pointer' if p.in_stock else 'not-allowed' }};
-               background:{{ '#fafafa' if p.in_stock else '#fce4e4' }};">
-          <input type="checkbox" name="product_ids" value="{{ p.id }}"
-            {{ "checked" if p.id in form.product_ids.data }}
-            {{ "disabled" if not p.in_stock }}>
-          <span>
-            <b>{{ p.name }}</b> {{ p.dosage }} — {{ p.price|int }} руб.
-            {% if not p.in_stock %}<span class="badge-red" style="margin-left:6px;">Нет</span>{% endif %}
-          </span>
-        </label>
-        {% endfor %}
+        <div class="order-form-d2c-grid">
+          {% for p in products %}
+            {% set product_name_key = (p.name or '')|lower %}
+            {% if 'кур' in product_name_key %}
+              {% set image_file = '70b63ef52bb9c8e4a75f3a6c46afb62e8b21d8c3.png' %}
+            {% elif 'греч' in product_name_key %}
+              {% set image_file = '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png' %}
+            {% elif 'рис' in product_name_key %}
+              {% set image_file = '8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png' %}
+            {% else %}
+              {% set image_file = order_form_images[loop.index0 % (order_form_images|length)] %}
+            {% endif %}
+            <label class="order-form-d2c-item{% if not p.in_stock %} is-disabled{% endif %}">
+              <span
+                class="order-form-d2c-item-media"
+                style="background-image: url('{{ url_for('static', filename='images/' ~ image_file) }}');"
+                aria-hidden="true"
+              ></span>
+              <span class="order-form-d2c-item-main">
+                <span class="order-form-d2c-item-name">{{ p.name }}</span>
+                <span class="order-form-d2c-item-dosage">{{ p.dosage or 'Без дозировки' }}</span>
+                <span class="order-form-d2c-item-price">{{ p.price|int }} Р</span>
+              </span>
+              <span class="order-form-d2c-item-side">
+                <input
+                  class="order-form-d2c-check"
+                  type="checkbox"
+                  name="product_ids"
+                  value="{{ p.id }}"
+                  {{ "checked" if p.id in form.product_ids.data }}
+                  {{ "disabled" if not p.in_stock }}
+                >
+                {% if p.in_stock %}
+                  <span class="badge-green">Есть</span>
+                {% else %}
+                  <span class="badge-red">Нет</span>
+                {% endif %}
+              </span>
+            </label>
+          {% endfor %}
+        </div>
       {% else %}
         <p class="empty">Каталог пуст.</p>
       {% endif %}
-    </div>
+    </section>
 
-    <div class="form-group" style="margin-top:16px;">
-      <label>Способ оплаты</label>
-      <input type="text" value="Наличные" disabled>
+    <section class="order-form-d2c-payment" aria-label="Оплата">
+      <h2 class="order-form-d2c-subtitle">Способ оплаты</h2>
+      <input class="order-form-d2c-payment-input" type="text" value="Наличные" disabled>
       {{ form.payment(style='display:none;') }}
-    </div>
+    </section>
 
-    <div class="form-actions">
+    <div class="order-form-d2c-actions">
       <button class="btn btn-primary" type="submit">Сохранить заказ</button>
       <a class="btn btn-gray" href="{{ module_url('my_orders') }}">Назад</a>
     </div>
   </form>
-</div>
+</section>
 {% endblock %}

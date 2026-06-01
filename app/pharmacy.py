@@ -475,8 +475,22 @@ class DBStorage:
                 item.DBLoad(r)
         return item
 
-    def GetProducts(self):
-        self.dbc.execute("SELECT * FROM products ORDER BY name")
+    def GetProducts(self, query: str = ''):
+        q = (query or '').strip()
+        if q:
+            # SQLite LIKE does not reliably fold Cyrillic case, so we check
+            # several safe variants while keeping parameterized placeholders.
+            q_title = f"{q[:1].upper()}{q[1:]}" if q else q
+            patterns = [f"%{q}%", f"%{q_title}%", f"%{q.upper()}%"]
+            self.dbc.execute(
+                "SELECT * FROM products "
+                "WHERE name LIKE ? OR name LIKE ? OR name LIKE ? "
+                "OR dosage LIKE ? OR dosage LIKE ? OR dosage LIKE ? "
+                "ORDER BY name",
+                (*patterns, *patterns),
+            )
+        else:
+            self.dbc.execute("SELECT * FROM products ORDER BY name")
         for r in self.dbc:
             p = ProductItem()
             p.DBLoad(r)
@@ -740,8 +754,10 @@ class Pharmacy:
 
     # --- Каталог (публичный) ---
     def ShowProducts(self):
+        search_query = (request.args.get('q') or '').strip()
         return render_template('products.tpl',
-                               products=list(self.storage.GetProducts()),
+                               products=list(self.storage.GetProducts(query=search_query)),
+                               search_query=search_query,
                                action_form=ActionForm())
 
     def ShowProductForm(self, id):
