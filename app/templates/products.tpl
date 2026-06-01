@@ -93,9 +93,12 @@
   <section class="catalog-d2c-controls" aria-label="Фильтры каталога">
     <div class="catalog-d2c-active-category">
       <span class="catalog-d2c-active-icon" aria-hidden="true"></span>
-      <span class="catalog-d2c-active-text">Каталог</span>
+      <span class="catalog-d2c-active-text">{{ selected_category or 'Все' }}</span>
     </div>
     <form class="catalog-d2c-search-form" action="{{ module_url('products') }}" method="get" role="search">
+      {% if selected_category and selected_category != 'Все' %}
+        <input type="hidden" name="category" value="{{ selected_category }}">
+      {% endif %}
       <label class="catalog-d2c-search" aria-label="Поиск товаров">
         <input
           class="catalog-d2c-search-input"
@@ -110,13 +113,14 @@
   </section>
 
   <div class="catalog-d2c-categories" aria-label="Категории">
-    <span class="catalog-d2c-category catalog-d2c-category-active">
-      <span class="catalog-d2c-category-arrow" aria-hidden="true"></span>
-      <span>Лекарства</span>
-      <span class="catalog-d2c-category-arrow" aria-hidden="true"></span>
-    </span>
-    <span class="catalog-d2c-category">Красота</span>
-    <span class="catalog-d2c-category">Гигиена</span>
+    {% for category_name in category_options %}
+      <a
+        class="catalog-d2c-category{% if selected_category == category_name %} catalog-d2c-category-active{% endif %}"
+        href="{{ module_url('products', category=category_name, q=search_query) if search_query else module_url('products', category=category_name) }}"
+      >
+        {{ category_name }}
+      </a>
+    {% endfor %}
   </div>
 
   {% if products %}
@@ -129,6 +133,14 @@
           {% set image_file = '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png' %}
         {% elif 'рис' in product_name_key %}
           {% set image_file = '8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png' %}
+        {% elif p.category == 'Красота' %}
+          {% set image_file = '02ff7106307a0ebe4e335e44540dd57b2a1f8753.png' %}
+        {% elif p.category == 'Витамины и БАД' %}
+          {% set image_file = '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png' %}
+        {% elif p.category == 'Гигиена' %}
+          {% set image_file = '02ff7106307a0ebe4e335e44540dd57b2a1f8753.png' %}
+        {% elif p.category == 'Лекарства' %}
+          {% set image_file = 'medicinebottleline.png' %}
         {% else %}
           {% set image_file = catalog_images[loop.index0 % (catalog_images|length)] %}
         {% endif %}
@@ -137,6 +149,7 @@
 
           <div class="catalog-d2c-body">
             <h2 class="catalog-d2c-name">{{ p.name }}</h2>
+            <p class="catalog-d2c-category-name">{{ p.category or 'Лекарства' }}</p>
             <p class="catalog-d2c-dosage">{{ p.dosage or 'Без дозировки' }}</p>
             <p class="catalog-d2c-price">{{ p.price|int }} Р</p>
 

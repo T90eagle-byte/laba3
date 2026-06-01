@@ -29,6 +29,14 @@
               {% set image_file = '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png' %}
             {% elif 'рис' in product_name_key %}
               {% set image_file = '8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png' %}
+            {% elif p.category == 'Красота' %}
+              {% set image_file = '02ff7106307a0ebe4e335e44540dd57b2a1f8753.png' %}
+            {% elif p.category == 'Витамины и БАД' %}
+              {% set image_file = '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png' %}
+            {% elif p.category == 'Гигиена' %}
+              {% set image_file = '02ff7106307a0ebe4e335e44540dd57b2a1f8753.png' %}
+            {% elif p.category == 'Лекарства' %}
+              {% set image_file = 'medicinebottleline.png' %}
             {% else %}
               {% set image_file = order_form_images[loop.index0 % (order_form_images|length)] %}
             {% endif %}

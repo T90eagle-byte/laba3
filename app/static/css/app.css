@@ -1823,12 +1823,13 @@ tr:last-child td {
   font-weight: 600;
   line-height: 1;
   padding: 12px 22px;
+  text-decoration: none;
 }
 
 .catalog-d2c-category-active {
-  min-width: 631px;
   justify-content: center;
   background: rgba(155, 75, 221, 0.26);
+  color: rgba(0, 0, 0, 0.72);
 }
 
 .catalog-d2c-category-arrow {
@@ -1877,6 +1878,15 @@ tr:last-child td {
   font-size: clamp(27px, 3.2vw, 40px);
   font-weight: 600;
   line-height: 1.06;
+}
+
+.catalog-d2c-category-name {
+  margin: 0;
+  color: rgba(155, 75, 189, 0.82);
+  font-family: "Inter-Medium", var(--font-sans);
+  font-size: clamp(14px, 1.7vw, 20px);
+  font-weight: 600;
+  line-height: 1.05;
 }
 
 .catalog-d2c-dosage,
@@ -1986,8 +1996,7 @@ tr:last-child td {
 }
 
 @media (max-width: 1200px) {
-  .catalog-d2c-active-category,
-  .catalog-d2c-category-active {
+  .catalog-d2c-active-category {
     min-width: 0;
     width: 100%;
   }
