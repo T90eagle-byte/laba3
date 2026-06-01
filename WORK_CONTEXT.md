@@ -1,5 +1,66 @@
 # WORK_CONTEXT
 
+## Final Checkpoint (2026-05-31)
+
+### Актуальный путь проекта
+- `C:\Users\User\DATA\Моя учеба\Web-razrab\pharmacy`
+
+### Архитектура и стек
+- Backend стабилизирован.
+- Используются: Flask, Flask-Login, Flask-WTF, SQLite.
+- База данных: `data/pharmacy.sqlite`.
+- Шаблоны: `app/templates`.
+- Static: `app/static`.
+
+### Безопасность и данные
+- Пароли хранятся через Werkzeug-хэши (`generate_password_hash` / `check_password_hash`).
+- Legacy `sha256` поддержан и автоапгрейдится при успешном входе.
+- SQL использует DB-API placeholders (`?`).
+- Реализован owner-check заказов (чужие заказы недоступны обычному пользователю).
+- Все destructive actions выполняются через POST + CSRF (`hidden_tag()`).
+- Logout работает только через POST + CSRF.
+
+### Корзина и заказы
+- Реализована session-корзина (без отдельной Cart-модели и без миграций).
+- Маршруты корзины:
+  - `GET /cart`
+  - `POST /cart/add/<int:product_id>`
+  - `POST /cart/remove/<int:product_id>`
+  - `POST /cart/checkout`
+- Старый flow заказа через `/orders/form/0` сохранён.
+
+### Дизайн
+- Дизайн перенесён на страницы:
+  - `login.tpl`
+  - `register.tpl`
+  - `products.tpl`
+  - `cart.tpl`
+  - `orders.tpl`
+  - `profile.tpl`
+- Для админки выполнен `admin light styling`:
+  - `admin.tpl`
+  - `admin_user_form.tpl`
+  - `product_form.tpl`
+  - `import.tpl`
+
+### Импорт ЛР1 и legacy-файлы
+- Для демонстрационного импорта добавлен файл `data/catalog.pkl`.
+- Корневые legacy-файлы ЛР1 (`catalog.py`, `medicine.py`, `product.py` и др., включая корневой `catalog.pkl`) добавлены в `.gitignore` и не входят в рабочий Flask-контур.
+
+### Финальный аудит
+- Финальный аудит пройден:
+  - `py_compile` ключевых Python-файлов;
+  - smoke/integration-проверки через Flask test client;
+  - проверки доступа (гость/пользователь/админ);
+  - проверки POST + CSRF для state-changing действий;
+  - проверки отсутствия Jinja errors на основных маршрутах.
+
+### Важные запреты (сохраняются)
+- Не ломать Flask / Flask-Login / Flask-WTF.
+- Не ломать `module_url` / `url_for`.
+- Не ломать WTForms, `hidden_tag()`, `action/method/name/value`.
+- Не менять SQLite-схему и backend-логику без отдельного согласования.
+
 ## Проект
 Flask-приложение аптеки/картотеки с поэтапным переносом дизайна из Pixso D2C в существующую Flask/Jinja архитектуру без переписывания backend с нуля.
 

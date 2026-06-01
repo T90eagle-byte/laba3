@@ -38,6 +38,33 @@ MG_UNIT = '\u043c\u0433'
 LEGACY_MG_UNITS = ('\u00d0\u00bc\u00d0\u00b3', '\u0420\u0458\u0420\u0456', '\u00ec\u00e3')
 PAYMENT_CASH = '\u043d\u0430\u043b\u0438\u0447\u043d\u044b\u0435'
 CART_MAX_QUANTITY = 99
+DEFAULT_PRODUCT_CATEGORY = '\u041b\u0435\u043a\u0430\u0440\u0441\u0442\u0432\u0430'
+PRODUCT_CATEGORIES = (
+    DEFAULT_PRODUCT_CATEGORY,
+    '\u0412\u0438\u0442\u0430\u043c\u0438\u043d\u044b \u0438 \u0411\u0410\u0414',
+    '\u041a\u0440\u0430\u0441\u043e\u0442\u0430',
+    '\u0413\u0438\u0433\u0438\u0435\u043d\u0430',
+)
+IMAGE_CHICKEN = '70b63ef52bb9c8e4a75f3a6c46afb62e8b21d8c3.png'
+IMAGE_RICE = '8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png'
+IMAGE_BUCKWHEAT = '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png'
+IMAGE_PLACEHOLDER = 'medicinebottleline.png'
+IMAGE_BEAUTY = '02ff7106307a0ebe4e335e44540dd57b2a1f8753.png'
+IMAGE_HYGIENE = 'medicinebottleline.png'
+DEMO_PRODUCTS = (
+    ('\u041a\u0443\u0440\u0438\u043d\u043e\u0431\u043e\u043b', '500 \u043c\u0433', 2000, 1, '\u041b\u0435\u043a\u0430\u0440\u0441\u0442\u0432\u0430'),
+    ('\u0420\u0438\u0441\u043e\u0441\u0442\u0430\u043d\u043e\u043d', '250 \u043c\u0433', 1250, 1, '\u041b\u0435\u043a\u0430\u0440\u0441\u0442\u0432\u0430'),
+    ('\u0422\u0430\u0431\u043b\u0435\u0442\u043e\u0437\u043e\u043b', '100 \u043c\u0433', 740, 1, '\u041b\u0435\u043a\u0430\u0440\u0441\u0442\u0432\u0430'),
+    ('\u0413\u0440\u0435\u0447\u0435\u0441\u0442\u0435\u0440\u043e\u043d', '890 \u043c\u0433', 2000, 1, '\u0412\u0438\u0442\u0430\u043c\u0438\u043d\u044b \u0438 \u0411\u0410\u0414'),
+    ('\u0412\u0438\u0442\u0430\u043c\u0438\u043d\u0443\u0441 C', '1000 \u043c\u0433', 560, 1, '\u0412\u0438\u0442\u0430\u043c\u0438\u043d\u044b \u0438 \u0411\u0410\u0414'),
+    ('\u041e\u043c\u0435\u0433\u0430\u043d\u043e\u043b', '120 \u043a\u0430\u043f\u0441\u0443\u043b', 980, 1, '\u0412\u0438\u0442\u0430\u043c\u0438\u043d\u044b \u0438 \u0411\u0410\u0414'),
+    ('\u041a\u0440\u0435\u043c\u043e\u043b\u0438\u043d', '50 \u043c\u043b', 430, 1, '\u041a\u0440\u0430\u0441\u043e\u0442\u0430'),
+    ('\u041c\u0430\u0441\u043a\u043e\u043b\u0430\u0433\u0435\u043d', '30 \u043c\u043b', 890, 1, '\u041a\u0440\u0430\u0441\u043e\u0442\u0430'),
+    ('\u0428\u0430\u043c\u043f\u0443\u043d\u043e\u043b', '250 \u043c\u043b', 360, 1, '\u041a\u0440\u0430\u0441\u043e\u0442\u0430'),
+    ('\u0417\u0443\u0431\u0430\u0441\u0442\u0438\u043d', '100 \u043c\u043b', 220, 1, '\u0413\u0438\u0433\u0438\u0435\u043d\u0430'),
+    ('\u041c\u044b\u043b\u043e\u0434\u0435\u0440\u043c', '90 \u0433', 150, 1, '\u0413\u0438\u0433\u0438\u0435\u043d\u0430'),
+    ('\u0421\u0430\u043d\u0438\u0442\u0430\u0439\u0437\u0435\u0440\u043e\u043b', '100 \u043c\u043b', 190, 1, '\u0413\u0438\u0433\u0438\u0435\u043d\u0430'),
+)
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -88,6 +115,45 @@ def normalize_dosage(dosage: str) -> str:
     return f"{value}, {MG_UNIT}" if value else MG_UNIT
 
 
+def normalize_category(category: str) -> str:
+    value = (category or '').strip()
+    return value if value in PRODUCT_CATEGORIES else DEFAULT_PRODUCT_CATEGORY
+
+
+def product_image_filename(product=None, *, name: str = '', category: str = '') -> str:
+    if product is not None:
+        if isinstance(product, dict):
+            name = product.get('name', name)
+            category = product.get('category', category)
+        else:
+            name = getattr(product, 'name', name)
+            category = getattr(product, 'category', category)
+
+    name_key = (name or '').strip().lower()
+    category_name = normalize_category(category)
+
+    if 'кур' in name_key:
+        return IMAGE_CHICKEN
+    if 'греч' in name_key:
+        return IMAGE_BUCKWHEAT
+    if 'рисост' in name_key or 'рисостан' in name_key:
+        return IMAGE_RICE
+    if 'витаминус c' in name_key:
+        return IMAGE_RICE
+    if 'омеганол' in name_key:
+        return IMAGE_BUCKWHEAT
+
+    if category_name == '\u041a\u0440\u0430\u0441\u043e\u0442\u0430':
+        return IMAGE_BEAUTY
+    if category_name == '\u0413\u0438\u0433\u0438\u0435\u043d\u0430':
+        return IMAGE_HYGIENE
+    if category_name == '\u0412\u0438\u0442\u0430\u043c\u0438\u043d\u044b \u0438 \u0411\u0410\u0414':
+        return IMAGE_BUCKWHEAT
+    if category_name == DEFAULT_PRODUCT_CATEGORY:
+        return IMAGE_PLACEHOLDER
+    return IMAGE_PLACEHOLDER
+
+
 def get_import_path() -> str:
     for path in (PKL_PATH, CATALOG_PKL_PATH, LEGACY_CATALOG_PKL_PATH):
         if os.path.exists(path):
@@ -108,6 +174,8 @@ def inject_module_url():
     return {
         'module_url': module_url,
         'cart_count': get_cart_count,
+        'product_image': product_image_filename,
+        'action_form': ActionForm(),
     }
 
 
@@ -223,6 +291,7 @@ class ProductItem:
     id: int = 0
     name: str = ''
     dosage: str = ''
+    category: str = DEFAULT_PRODUCT_CATEGORY
     price: float = 0.0
     in_stock: int = 1
 
@@ -233,25 +302,42 @@ class ProductItem:
         self.id       = r['id']
         self.name     = r['name']
         self.dosage   = normalize_dosage(r['dosage'])
+        self.category = normalize_category(
+            r['category'] if 'category' in r.keys() else DEFAULT_PRODUCT_CATEGORY
+        )
         self.price    = r['price']
         self.in_stock = r['in_stock']
 
     def DBStore(self, db):
         if not self.id:
             db.execute(
-                "INSERT INTO products VALUES(NULL,?,?,?,?)",
-                (self.name, normalize_dosage(self.dosage), self.price, self.in_stock)
+                "INSERT INTO products(name,dosage,price,in_stock,category) VALUES(?,?,?,?,?)",
+                (
+                    self.name,
+                    normalize_dosage(self.dosage),
+                    self.price,
+                    self.in_stock,
+                    normalize_category(self.category),
+                )
             )
         else:
             db.execute(
-                "UPDATE products SET name=?,dosage=?,price=?,in_stock=? WHERE id=?",
-                (self.name, normalize_dosage(self.dosage), self.price, self.in_stock, self.id)
+                "UPDATE products SET name=?,dosage=?,price=?,in_stock=?,category=? WHERE id=?",
+                (
+                    self.name,
+                    normalize_dosage(self.dosage),
+                    self.price,
+                    self.in_stock,
+                    normalize_category(self.category),
+                    self.id,
+                )
             )
 
     def Input(self, io):
         self.id       = int(io.Input('id') or 0)
         self.name     = io.Input('name') or ''
         self.dosage   = normalize_dosage(io.Input('dosage') or '')
+        self.category = normalize_category(io.Input('category') or DEFAULT_PRODUCT_CATEGORY)
         self.price    = float(io.Input('price') or 0)
         self.in_stock = int(io.Input('in_stock') or 1)
 
@@ -372,7 +458,8 @@ class DBStorage:
         self.db.execute("""
             CREATE TABLE IF NOT EXISTS products(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT, dosage TEXT, price REAL, in_stock INTEGER)""")
+                name TEXT, dosage TEXT, price REAL, in_stock INTEGER,
+                category TEXT NOT NULL DEFAULT 'Лекарства')""")
         self.db.execute("""
             CREATE TABLE IF NOT EXISTS orders(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -383,6 +470,8 @@ class DBStorage:
                 order_id INTEGER, product_name TEXT,
                 product_dosage TEXT, price REAL)""")
         self._migrate()
+        self._backfill_product_categories()
+        self._ensure_demo_products()
         self._ensure_default_admin()
         self.db.commit()
         self.db.row_factory = sqlite3.Row
@@ -392,6 +481,48 @@ class DBStorage:
         columns = [row[1] for row in self.db.execute("PRAGMA table_info(users)").fetchall()]
         if 'is_admin' not in columns:
             self.db.execute("ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0")
+        product_columns = [
+            row[1] for row in self.db.execute("PRAGMA table_info(products)").fetchall()
+        ]
+        if 'category' not in product_columns:
+            self.db.execute(
+                "ALTER TABLE products ADD COLUMN category TEXT NOT NULL DEFAULT 'Лекарства'"
+            )
+
+    def _backfill_product_categories(self):
+        rules = (
+            ('%куринобол%', 'Лекарства'),
+            ('%рисост%', 'Лекарства'),
+            ('%гречестерон%', 'Витамины и БАД'),
+        )
+        for pattern, category in rules:
+            self.db.execute(
+                "UPDATE products SET category=? WHERE lower(name) LIKE ?",
+                (category, pattern),
+            )
+        self.db.execute(
+            "UPDATE products SET category=? WHERE category IS NULL OR trim(category)=''",
+            (DEFAULT_PRODUCT_CATEGORY,),
+        )
+
+    def _ensure_demo_products(self):
+        for name, dosage, price, in_stock, category in DEMO_PRODUCTS:
+            normalized_dosage = normalize_dosage(dosage)
+            self.db.execute(
+                "UPDATE products SET category=? "
+                "WHERE lower(name)=lower(?) AND dosage=?",
+                (normalize_category(category), name, normalized_dosage),
+            )
+            exists = self.db.execute(
+                "SELECT id FROM products WHERE lower(name)=lower(?) AND dosage=?",
+                (name, normalized_dosage),
+            ).fetchone()
+            if exists:
+                continue
+            self.db.execute(
+                "INSERT INTO products(name,dosage,price,in_stock,category) VALUES(?,?,?,?,?)",
+                (name, normalized_dosage, float(price), int(in_stock), normalize_category(category)),
+            )
 
     def _ensure_default_admin(self):
         admin_count = self.db.execute(
@@ -474,8 +605,35 @@ class DBStorage:
                 item.DBLoad(r)
         return item
 
-    def GetProducts(self):
-        self.dbc.execute("SELECT * FROM products ORDER BY name")
+    def GetProducts(self, query: str = '', category: str = 'Все'):
+        q = (query or '').strip()
+        selected_category = (category or '').strip()
+        if selected_category == 'Все':
+            selected_category = ''
+        if selected_category and selected_category not in PRODUCT_CATEGORIES:
+            selected_category = ''
+
+        where_clauses = []
+        params = []
+        if q:
+            # SQLite LIKE does not reliably fold Cyrillic case, so we check
+            # several safe variants while keeping parameterized placeholders.
+            q_title = f"{q[:1].upper()}{q[1:]}" if q else q
+            patterns = [f"%{q}%", f"%{q_title}%", f"%{q.upper()}%"]
+            where_clauses.append(
+                "(name LIKE ? OR name LIKE ? OR name LIKE ? "
+                "OR dosage LIKE ? OR dosage LIKE ? OR dosage LIKE ?)"
+            )
+            params.extend((*patterns, *patterns))
+        if selected_category:
+            where_clauses.append("category=?")
+            params.append(selected_category)
+
+        sql = "SELECT * FROM products"
+        if where_clauses:
+            sql += " WHERE " + " AND ".join(where_clauses)
+        sql += " ORDER BY name"
+        self.dbc.execute(sql, tuple(params))
         for r in self.dbc:
             p = ProductItem()
             p.DBLoad(r)
@@ -543,10 +701,17 @@ class DBStorage:
                 "SELECT id FROM products WHERE name=? AND dosage=?",
                 (p.get('name',''), dosage))
             if not self.dbc.fetchone():
+                category = normalize_category(p.get('category', DEFAULT_PRODUCT_CATEGORY))
                 self.db.execute(
-                    "INSERT INTO products VALUES(NULL,?,?,?,?)",
-                    (p.get('name',''), dosage,
-                     p.get('price', 0), int(p.get('in_stock', True))))
+                    "INSERT INTO products(name,dosage,price,in_stock,category) VALUES(?,?,?,?,?)",
+                    (
+                        p.get('name', ''),
+                        dosage,
+                        p.get('price', 0),
+                        int(p.get('in_stock', True)),
+                        category,
+                    ),
+                )
                 count_p += 1
 
         self.db.commit()
@@ -633,6 +798,9 @@ class Pharmacy:
         return redirect(module_url('my_orders'))
 
     def DoLogout(self):
+        action_result = self._validate_action_form('products')
+        if action_result is not True:
+            return action_result
         logout_user()
         return redirect(module_url('login'))
 
@@ -736,8 +904,20 @@ class Pharmacy:
 
     # --- Каталог (публичный) ---
     def ShowProducts(self):
+        search_query = (request.args.get('q') or '').strip()
+        selected_category = (request.args.get('category') or 'Все').strip() or 'Все'
+        if selected_category != 'Все' and selected_category not in PRODUCT_CATEGORIES:
+            selected_category = 'Все'
         return render_template('products.tpl',
-                               products=list(self.storage.GetProducts()),
+                               products=list(
+                                   self.storage.GetProducts(
+                                       query=search_query,
+                                       category=selected_category,
+                                   )
+                               ),
+                               search_query=search_query,
+                               selected_category=selected_category,
+                               category_options=('Все', *PRODUCT_CATEGORIES),
                                action_form=ActionForm())
 
     def ShowProductForm(self, id):
@@ -751,6 +931,7 @@ class Pharmacy:
         if form.validate_on_submit():
             item.name = form.name.data
             item.dosage = normalize_dosage(form.dosage.data or '')
+            item.category = normalize_category(form.category.data or DEFAULT_PRODUCT_CATEGORY)
             item.price = form.price.data
             item.in_stock = form.in_stock.data
             self.storage.AddProduct(item)
@@ -1003,7 +1184,7 @@ def register():
 def register_post():
     return get_pharmacy().DoRegister()
 
-@bp.route("/logout")
+@bp.route("/logout", methods=['POST'])
 def logout():
     return get_pharmacy().DoLogout()
 
