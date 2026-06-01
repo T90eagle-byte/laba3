@@ -59,12 +59,6 @@
 {% endif %}
 {% endif %}
 
-{% set cart_images = [
-  '70b63ef52bb9c8e4a75f3a6c46afb62e8b21d8c3.png',
-  '8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png',
-  '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png'
-] %}
-
 <section class="cart-d2c-page" aria-label="Корзина">
   <header class="cart-d2c-top">
     <div class="cart-d2c-title-wrap">
@@ -89,7 +83,7 @@
     <div class="cart-d2c-layout">
       <section class="cart-d2c-list" aria-label="Товары в корзине">
         {% for item in items %}
-          {% set image_file = cart_images[loop.index0 % (cart_images|length)] %}
+          {% set image_file = product_image(item.product) %}
           <article class="cart-d2c-item">
             <div class="cart-d2c-item-media" style="background-image: url('{{ url_for('static', filename='images/' ~ image_file) }}');"></div>
 

@@ -1,11 +1,5 @@
 {% extends "base.tpl" %}
 {% block content %}
-{% set order_form_images = [
-  '70b63ef52bb9c8e4a75f3a6c46afb62e8b21d8c3.png',
-  '8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png',
-  '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png'
-] %}
-
 <section class="order-form-d2c-page" aria-label="Форма заказа">
   <header class="order-form-d2c-head">
     <h1 class="order-form-d2c-title">{{ "Изменить заказ" if it.id else "Новый заказ" }}</h1>
@@ -22,24 +16,7 @@
       {% if products %}
         <div class="order-form-d2c-grid">
           {% for p in products %}
-            {% set product_name_key = (p.name or '')|lower %}
-            {% if 'кур' in product_name_key %}
-              {% set image_file = '70b63ef52bb9c8e4a75f3a6c46afb62e8b21d8c3.png' %}
-            {% elif 'греч' in product_name_key %}
-              {% set image_file = '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png' %}
-            {% elif 'рис' in product_name_key %}
-              {% set image_file = '8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png' %}
-            {% elif p.category == 'Красота' %}
-              {% set image_file = '02ff7106307a0ebe4e335e44540dd57b2a1f8753.png' %}
-            {% elif p.category == 'Витамины и БАД' %}
-              {% set image_file = '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png' %}
-            {% elif p.category == 'Гигиена' %}
-              {% set image_file = '02ff7106307a0ebe4e335e44540dd57b2a1f8753.png' %}
-            {% elif p.category == 'Лекарства' %}
-              {% set image_file = 'medicinebottleline.png' %}
-            {% else %}
-              {% set image_file = order_form_images[loop.index0 % (order_form_images|length)] %}
-            {% endif %}
+            {% set image_file = product_image(p) %}
             <label class="order-form-d2c-item{% if not p.in_stock %} is-disabled{% endif %}">
               <span
                 class="order-form-d2c-item-media"

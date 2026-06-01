@@ -48,6 +48,16 @@ class ProductForm(FlaskForm):
     id = HiddenField()
     name = StringField('Название', validators=[DataRequired()])
     dosage = StringField('Дозировка', validators=[Optional()])
+    category = SelectField(
+        'Категория',
+        choices=[
+            ('Лекарства', 'Лекарства'),
+            ('Витамины и БАД', 'Витамины и БАД'),
+            ('Красота', 'Красота'),
+            ('Гигиена', 'Гигиена'),
+        ],
+        validators=[Optional()],
+    )
     price = FloatField('Цена', validators=[DataRequired(), NumberRange(min=0)])
     in_stock = SelectField(
         'Наличие',

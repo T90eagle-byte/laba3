@@ -45,6 +45,13 @@ PRODUCT_CATEGORIES = (
     '\u041a\u0440\u0430\u0441\u043e\u0442\u0430',
     '\u0413\u0438\u0433\u0438\u0435\u043d\u0430',
 )
+TEST_PRODUCT_NAME = '\u0422\u0435\u0441\u0442\u041a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0439\u041f\u043b\u044e\u0441'
+IMAGE_CHICKEN = '70b63ef52bb9c8e4a75f3a6c46afb62e8b21d8c3.png'
+IMAGE_RICE = '8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png'
+IMAGE_BUCKWHEAT = '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png'
+IMAGE_PLACEHOLDER = 'medicinebottleline.png'
+IMAGE_BEAUTY = '02ff7106307a0ebe4e335e44540dd57b2a1f8753.png'
+IMAGE_HYGIENE = 'medicinebottleline.png'
 DEMO_PRODUCTS = (
     ('\u041a\u0443\u0440\u0438\u043d\u043e\u0431\u043e\u043b', '500 \u043c\u0433', 2000, 1, '\u041b\u0435\u043a\u0430\u0440\u0441\u0442\u0432\u0430'),
     ('\u0420\u0438\u0441\u043e\u0441\u0442\u0430\u043d\u043e\u043d', '250 \u043c\u0433', 1250, 1, '\u041b\u0435\u043a\u0430\u0440\u0441\u0442\u0432\u0430'),
@@ -114,6 +121,40 @@ def normalize_category(category: str) -> str:
     return value if value in PRODUCT_CATEGORIES else DEFAULT_PRODUCT_CATEGORY
 
 
+def product_image_filename(product=None, *, name: str = '', category: str = '') -> str:
+    if product is not None:
+        if isinstance(product, dict):
+            name = product.get('name', name)
+            category = product.get('category', category)
+        else:
+            name = getattr(product, 'name', name)
+            category = getattr(product, 'category', category)
+
+    name_key = (name or '').strip().lower()
+    category_name = normalize_category(category)
+
+    if 'кур' in name_key:
+        return IMAGE_CHICKEN
+    if 'греч' in name_key:
+        return IMAGE_BUCKWHEAT
+    if 'рисост' in name_key or 'рисостан' in name_key:
+        return IMAGE_RICE
+    if 'витаминус c' in name_key:
+        return IMAGE_RICE
+    if 'омеганол' in name_key:
+        return IMAGE_BUCKWHEAT
+
+    if category_name == '\u041a\u0440\u0430\u0441\u043e\u0442\u0430':
+        return IMAGE_BEAUTY
+    if category_name == '\u0413\u0438\u0433\u0438\u0435\u043d\u0430':
+        return IMAGE_HYGIENE
+    if category_name == '\u0412\u0438\u0442\u0430\u043c\u0438\u043d\u044b \u0438 \u0411\u0410\u0414':
+        return IMAGE_BUCKWHEAT
+    if category_name == DEFAULT_PRODUCT_CATEGORY:
+        return IMAGE_PLACEHOLDER
+    return IMAGE_PLACEHOLDER
+
+
 def get_import_path() -> str:
     for path in (PKL_PATH, CATALOG_PKL_PATH, LEGACY_CATALOG_PKL_PATH):
         if os.path.exists(path):
@@ -134,6 +175,7 @@ def inject_module_url():
     return {
         'module_url': module_url,
         'cart_count': get_cart_count,
+        'product_image': product_image_filename,
         'action_form': ActionForm(),
     }
 
@@ -429,6 +471,7 @@ class DBStorage:
                 order_id INTEGER, product_name TEXT,
                 product_dosage TEXT, price REAL)""")
         self._migrate()
+        self._cleanup_test_products()
         self._backfill_product_categories()
         self._ensure_demo_products()
         self._ensure_default_admin()
@@ -462,6 +505,12 @@ class DBStorage:
         self.db.execute(
             "UPDATE products SET category=? WHERE category IS NULL OR trim(category)=''",
             (DEFAULT_PRODUCT_CATEGORY,),
+        )
+
+    def _cleanup_test_products(self):
+        self.db.execute(
+            "DELETE FROM products WHERE lower(name)=lower(?)",
+            (TEST_PRODUCT_NAME,),
         )
 
     def _ensure_demo_products(self):

@@ -50,6 +50,10 @@
         {{ form.dosage(value=it.dosage, placeholder="например: 500") }}
       </div>
       <div class="form-group admin-lite-form-group">
+        <label for="{{ form.category.id }}">Категория</label>
+        {{ form.category(value=it.category or 'Лекарства') }}
+      </div>
+      <div class="form-group admin-lite-form-group">
         <label for="{{ form.price.id }}">Цена (руб.)</label>
         {{ form.price(value=it.price, min="0", step="0.01", required=True) }}
       </div>
