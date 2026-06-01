@@ -45,7 +45,6 @@ PRODUCT_CATEGORIES = (
     '\u041a\u0440\u0430\u0441\u043e\u0442\u0430',
     '\u0413\u0438\u0433\u0438\u0435\u043d\u0430',
 )
-TEST_PRODUCT_NAME = '\u0422\u0435\u0441\u0442\u041a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0439\u041f\u043b\u044e\u0441'
 IMAGE_CHICKEN = '70b63ef52bb9c8e4a75f3a6c46afb62e8b21d8c3.png'
 IMAGE_RICE = '8af2af4ea1fe6457c7dfbeb1d53e527d1ce6b985.png'
 IMAGE_BUCKWHEAT = '8cf2c29fefeef2f884c05aa49a43170c2f0f9d92.png'
@@ -471,7 +470,6 @@ class DBStorage:
                 order_id INTEGER, product_name TEXT,
                 product_dosage TEXT, price REAL)""")
         self._migrate()
-        self._cleanup_test_products()
         self._backfill_product_categories()
         self._ensure_demo_products()
         self._ensure_default_admin()
@@ -505,12 +503,6 @@ class DBStorage:
         self.db.execute(
             "UPDATE products SET category=? WHERE category IS NULL OR trim(category)=''",
             (DEFAULT_PRODUCT_CATEGORY,),
-        )
-
-    def _cleanup_test_products(self):
-        self.db.execute(
-            "DELETE FROM products WHERE lower(name)=lower(?)",
-            (TEST_PRODUCT_NAME,),
         )
 
     def _ensure_demo_products(self):

@@ -85,10 +85,14 @@
   </header>
 
   <section class="catalog-d2c-controls" aria-label="Фильтры каталога">
-    <div class="catalog-d2c-active-category">
+    <a
+      class="catalog-d2c-active-category"
+      href="{{ module_url('products', q=search_query) if search_query else module_url('products') }}"
+      title="Сбросить фильтр категории"
+    >
       <span class="catalog-d2c-active-icon" aria-hidden="true"></span>
       <span class="catalog-d2c-active-text">{{ selected_category or 'Все' }}</span>
-    </div>
+    </a>
     <form class="catalog-d2c-search-form" action="{{ module_url('products') }}" method="get" role="search">
       {% if selected_category and selected_category != 'Все' %}
         <input type="hidden" name="category" value="{{ selected_category }}">
