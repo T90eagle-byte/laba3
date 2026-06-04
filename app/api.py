@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+﻿from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_user, logout_user
 
 from app.pharmacy import (
@@ -11,6 +11,7 @@ from app.pharmacy import (
 
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
+DEFAULT_PAYMENT = "\u043d\u0430\u043b\u0438\u0447\u043d\u044b\u0435"
 
 
 def api_ok(data=None, status=200):
@@ -59,6 +60,46 @@ def require_api_login():
     return None
 
 
+def get_json_payload():
+    payload = request.get_json(silent=True)
+    if not isinstance(payload, dict):
+        return None, api_error("Invalid JSON body", 400)
+    return payload, None
+
+
+def parse_product_ids(payload):
+    product_ids = payload.get("product_ids")
+    if not isinstance(product_ids, list) or not product_ids:
+        return None, api_error("product_ids must be a non-empty list", 400)
+
+    parsed_ids = []
+    for raw_id in product_ids:
+        try:
+            product_id = int(raw_id)
+        except (TypeError, ValueError):
+            return None, api_error("product_ids must contain product ids", 400)
+        if product_id <= 0:
+            return None, api_error("product_ids must contain product ids", 400)
+        parsed_ids.append(product_id)
+    return parsed_ids, None
+
+
+def build_order_items(storage, product_ids):
+    items = []
+    for product_id in product_ids:
+        product = storage.GetProduct(product_id)
+        if not product.id:
+            return None, api_error(f"Product not found: {product_id}", 404)
+        if not product.in_stock:
+            return None, api_error(f"Product is not available: {product_id}", 400)
+        items.append({
+            "name": product.name,
+            "dosage": product.dosage,
+            "price": product.price,
+        })
+    return items, None
+
+
 def find_product_snapshot(storage, name, dosage):
     cursor = storage.db.cursor()
     cursor.execute(
@@ -76,6 +117,7 @@ def find_product_snapshot(storage, name, dosage):
         "price": row["price"],
         "in_stock": bool(row["in_stock"]),
     }
+
 
 def serialize_order_item(item, storage):
     name = item.get("name", "")
@@ -104,6 +146,7 @@ def serialize_order_item(item, storage):
         "image": product_image_filename(name=name),
     }
 
+
 def serialize_order(order, storage):
     items = [serialize_order_item(item, storage) for item in order.items]
     return {
@@ -123,6 +166,15 @@ def get_all_orders(storage):
         order = OrderItem()
         order.DBLoad(row, storage.db.cursor())
         yield order
+
+
+def get_accessible_order(storage, order_id):
+    order = storage.GetOrder(order_id)
+    if not order.id:
+        return None, api_error("Order not found", 404)
+    if not is_current_user_admin() and order.user_id != int(current_user.get_id()):
+        return None, api_error("Order access denied", 403)
+    return order, None
 
 
 @api_bp.post("/auth/login")
@@ -184,6 +236,40 @@ def api_orders():
         storage.db.close()
 
 
+@api_bp.post("/orders")
+def api_create_order():
+    auth_error = require_api_login()
+    if auth_error:
+        return auth_error
+
+    payload, json_error = get_json_payload()
+    if json_error:
+        return json_error
+
+    product_ids, ids_error = parse_product_ids(payload)
+    if ids_error:
+        return ids_error
+
+    storage = get_storage()
+    try:
+        items, items_error = build_order_items(storage, product_ids)
+        if items_error:
+            return items_error
+
+        payment = (payload.get("payment") or DEFAULT_PAYMENT).strip() or DEFAULT_PAYMENT
+        order = OrderItem(
+            user_id=int(current_user.get_id()),
+            payment=payment,
+            items=items,
+        )
+        storage.AddOrder(order)
+        storage.db.commit()
+        created = storage.GetOrder(order.id)
+        return api_ok(serialize_order(created, storage), 201)
+    finally:
+        storage.db.close()
+
+
 @api_bp.get("/orders/<int:order_id>")
 def api_order_detail(order_id):
     auth_error = require_api_login()
@@ -192,16 +278,67 @@ def api_order_detail(order_id):
 
     storage = get_storage()
     try:
-        order = storage.GetOrder(order_id)
-        if not order.id:
-            return api_error("Order not found", 404)
-
-        if not is_current_user_admin() and order.user_id != int(current_user.get_id()):
-            return api_error("Order access denied", 403)
-
+        order, access_error = get_accessible_order(storage, order_id)
+        if access_error:
+            return access_error
         return api_ok(serialize_order(order, storage))
     finally:
         storage.db.close()
+
+
+@api_bp.put("/orders/<int:order_id>")
+def api_update_order(order_id):
+    auth_error = require_api_login()
+    if auth_error:
+        return auth_error
+
+    payload, json_error = get_json_payload()
+    if json_error:
+        return json_error
+
+    product_ids, ids_error = parse_product_ids(payload)
+    if ids_error:
+        return ids_error
+
+    storage = get_storage()
+    try:
+        order, access_error = get_accessible_order(storage, order_id)
+        if access_error:
+            return access_error
+
+        items, items_error = build_order_items(storage, product_ids)
+        if items_error:
+            return items_error
+
+        payment = (payload.get("payment") or order.payment or DEFAULT_PAYMENT).strip()
+        order.payment = payment or DEFAULT_PAYMENT
+        order.items = items
+        storage.AddOrder(order)
+        storage.db.commit()
+        updated = storage.GetOrder(order.id)
+        return api_ok(serialize_order(updated, storage))
+    finally:
+        storage.db.close()
+
+
+@api_bp.delete("/orders/<int:order_id>")
+def api_delete_order(order_id):
+    auth_error = require_api_login()
+    if auth_error:
+        return auth_error
+
+    storage = get_storage()
+    try:
+        order, access_error = get_accessible_order(storage, order_id)
+        if access_error:
+            return access_error
+
+        storage.DeleteOrder(order.id)
+        storage.db.commit()
+        return api_ok({"deleted": True, "id": order.id})
+    finally:
+        storage.db.close()
+
 
 @api_bp.get("/products")
 def api_products():
