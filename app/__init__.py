@@ -10,6 +10,9 @@ from app.pharmacy import bp as pharmacy_bp
 app.register_blueprint(pharmacy_bp)
 login_manager.login_view = f'{pharmacy_bp.name}.login'
 
+from app.api import api_bp
+app.register_blueprint(api_bp)
+
 @login_manager.user_loader
 def load_user(user_id):
     from app.pharmacy import DBStorage
