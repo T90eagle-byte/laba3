@@ -1,4 +1,4 @@
-﻿# ЛР4: REST API и консольный клиент
+# ЛР4: REST API и консольный клиент
 
 ## Цель
 
@@ -55,8 +55,11 @@ python console_client/main.py
 ### Товары
 
 ```text
-GET /api/products
-GET /api/products/<id>
+GET    /api/products
+GET    /api/products/<id>
+POST   /api/products
+PUT    /api/products/<id>
+DELETE /api/products/<id>
 ```
 
 `GET /api/products` поддерживает query params:
@@ -65,6 +68,20 @@ GET /api/products/<id>
 q=кур
 category=Лекарства
 ```
+
+`POST`, `PUT`, `DELETE` для товаров доступны только администратору. Поля записи товара:
+
+```json
+{
+  "name": "Новый товар",
+  "dosage": "100 мг",
+  "category": "Лекарства",
+  "price": 350.0,
+  "in_stock": true
+}
+```
+
+Если `category` пустая или не входит в список `Лекарства`, `Витамины и БАД`, `Красота`, `Гигиена`, backend использует категорию `Лекарства`. Колонка `image` не добавляется: имя изображения вычисляется существующей backend-логикой.
 
 ### Авторизация
 
@@ -87,6 +104,24 @@ DELETE /api/orders/<id>
 ```
 
 Обычный пользователь видит и изменяет только свои заказы. Администратор может работать с любыми заказами.
+
+### Пользователи
+
+```text
+GET    /api/users
+GET    /api/users/<id>
+POST   /api/users
+PUT    /api/users/<id>
+DELETE /api/users/<id>
+```
+
+Все endpoints пользователей доступны только администратору. Неавторизованный запрос получает `401`, авторизованный обычный пользователь получает `403`. Поля пользователя в JSON:
+
+```text
+id, login, name, surname, patronymic, address, is_admin
+```
+
+`password_hash` никогда не возвращается. При создании пользователя `password` обязателен и сохраняется как Werkzeug-хэш через текущую backend-логику. При обновлении `password` необязателен: если поле отсутствует или пустое, пароль не меняется. Удаление текущего администратора через API запрещено.
 
 ## Формат JSON
 
@@ -174,6 +209,17 @@ POST /api/orders
 }
 ```
 
+
+### Admin-сценарий через консоль
+
+1. Запустить Flask-сервер и войти в `python console_client/main.py` под администратором.
+2. В admin-меню выбрать добавление товара, заполнить `name`, `dosage`, `category`, `price`, `in_stock`.
+3. Открыть web-каталог `/products` и увидеть созданный товар, потому что консоль работает с той же базой через REST backend.
+4. В admin-меню выбрать добавление пользователя, указать логин, пароль, ФИО/адрес и роль.
+5. Выйти из admin-сессии и войти созданным пользователем через web `/login`.
+
+Admin-меню в консоли появляется только если `/api/auth/me` возвращает `is_admin: true`. Все операции консоли выполняются только через REST-маршруты `/api/...`; консольный клиент не читает SQLite и pickle напрямую.
+
 ## Проверка общей базы web и console
 
 1. Запустить Flask-сервер.
@@ -195,8 +241,11 @@ python -m py_compile main.py app/__init__.py app/pharmacy.py app/forms.py app/ap
 
 Также проверены:
 
-- все API endpoints товаров, авторизации и заказов;
+- все API endpoints товаров, пользователей, авторизации и заказов;
+- admin-only защита users/products write API: `401` без входа и `403` для обычного пользователя;
 - web routes `/products`, `/login`, `/orders`, `/cart`, `/profile`, `/admin`;
 - owner-check заказов в API;
 - отсутствие `password_hash` в JSON-ответах;
+- импорт console client и наличие методов users/products CRUD;
+- отсутствие прямых SQLite/pickle/DBStorage обращений в консольном клиенте;
 - работа консольного клиента через HTTP REST API.
