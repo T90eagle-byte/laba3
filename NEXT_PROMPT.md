@@ -1,69 +1,59 @@
-# NEXT_PROMPT
+﻿# NEXT_PROMPT
 
-## Final Continuation Prompt (2026-05-31)
+Работаем в актуальной папке:
 
-Ты работаешь с существующим Flask-проектом по пути:
-`C:\Users\User\DATA\Моя учеба\Web-razrab\pharmacy`
+```text
+C:\Users\User\DATA\Моя учеба\Web-razrab\pharmacy
+```
+
+Старый путь `C:\Users\User\Downloads\pharmacy` не использовать.
 
 Перед началом:
-1. Прочитай `WORK_CONTEXT.md` и `CHANGELOG.md`.
-2. Выполни `git status --short`.
-3. Убедись, что backend не меняется без отдельной необходимости.
+
+1. Прочитать `WORK_CONTEXT.md`, `CHANGELOG.md`, `README_LR4.md`.
+2. Проверить `git status --short`.
+3. Не менять backend, web routes, SQLite-схему, Flask-WTF/CSRF и дизайн без необходимости.
 
 Текущее состояние:
-- Backend стабилизирован.
-- Используются Flask / Flask-Login / Flask-WTF / SQLite.
-- Пароли: Werkzeug hash + legacy sha256 auto-upgrade.
-- Корзина: session-based (`/cart`, `/cart/add`, `/cart/remove`, `/cart/checkout`).
-- Owner-check заказов и POST+CSRF для destructive actions уже закрыты.
-- Logout работает через POST + CSRF.
-- Дизайн уже перенесён на `login/register/products/cart/orders/profile`.
-- Для админки выполнен light styling.
-- Для демонстрационного импорта ЛР1 доступен `data/catalog.pkl`.
 
-Ограничения:
-- Не ломать Flask/Jinja/WTForms/module_url/url_for.
-- Не ломать routes, CSRF, session-cart, owner-check, admin CRUD, import.
-- Не менять SQLite-схему и не делать миграции без отдельного запроса.
+- Flask web-приложение из ЛР3 сохранено.
+- SQLite база находится в `data/pharmacy.sqlite`.
+- Импорт из ЛР1 через `data/catalog.pkl` сохранён.
+- Пароли: Werkzeug hashes + legacy sha256 auto-upgrade.
+- Session-cart сохранён.
+- Owner-check заказов работает.
+- Destructive web actions и logout защищены POST + CSRF.
+- REST API ЛР4 добавлен в `app/api.py`.
+- Console client ЛР4 добавлен в `console_client/` и работает через `requests.Session`.
+- `requirements.txt` содержит `requests`.
 
-Следующий этап (если продолжаем):
-1. Финальная ручная визуальная сверка pixel-perfect против D2C/PDF.
-2. Точечная доводка spacing/typography/mobile без изменения backend.
-3. Финальный checkpoint и подготовка к сдаче (документация + чистый git status tracked-файлов).
+REST API endpoints:
 
-Ты работаешь с существующим Flask-проектом аптеки.
+```text
+GET    /api/products
+GET    /api/products/<id>
+POST   /api/auth/login
+POST   /api/auth/logout
+GET    /api/auth/me
+GET    /api/orders
+GET    /api/orders/<id>
+POST   /api/orders
+PUT    /api/orders/<id>
+DELETE /api/orders/<id>
+```
 
-Перед началом:
-1. Прочитай `WORK_CONTEXT.md` и `CHANGELOG.md`.
-2. Проверь `git status`.
+Следующий этап:
 
-Ключевые ограничения:
-- Не менять backend без необходимости.
-- Не переписывать проект с нуля.
-- Не ломать Flask / Flask-Login / Flask-WTF.
-- Не ломать Jinja, WTForms, `module_url` / `url_for`.
-- Не вводить миграции и не создавать Cart-модель в БД без отдельного согласования.
+1. Финальная ручная проверка перед сдачей ЛР4.
+2. При необходимости сделать commit/checkpoint.
+3. Опционально расширить API админскими endpoints пользователей/товаров:
+   - `GET/POST/PUT/DELETE /api/products`
+   - `GET/POST/PUT/DELETE /api/users`
 
-Главная цель сессии:
-Перейти к pixel-perfect переносу дизайна из `design_export` (и PDF, если будет приложен) в существующие шаблоны Flask.
+Правила:
 
-Работать по этапам:
-1. `login` / `register`
-2. `catalog`
-3. `cart`
-4. `orders`
-5. `profile`
-6. `admin` (только light styling, без ломки CRUD)
-
-Правила переноса:
-- Не копировать D2C HTML целиком.
-- Адаптировать дизайн в существующие Jinja-шаблоны.
-- Сохранять текущую backend-логику, form actions и имена полей.
-
-После каждого этапа:
-- Кратко перечислять измененные файлы.
-- Проверять, что сценарии страниц не сломаны.
-- Прогонять минимум:
-  - `python -m py_compile main.py`
-  - `python -m py_compile app/pharmacy.py`
-  - `python -m py_compile app/forms.py`
+- Консольный клиент не должен обращаться к SQLite или pickle напрямую.
+- API не должен отдавать `password_hash`.
+- SQL только через DB-API placeholders.
+- Web CSRF не ломать.
+- `PHARMACY_API_URL` должен оставаться способом настройки адреса API.
