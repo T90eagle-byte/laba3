@@ -1,4 +1,4 @@
-﻿import os
+import os
 from urllib.parse import urljoin
 
 import requests
@@ -95,3 +95,28 @@ class PharmacyApiClient:
 
     def delete_order(self, order_id):
         return self._request("DELETE", f"/api/orders/{order_id}")
+
+    def get_users(self):
+        return self._request("GET", "/api/users")
+
+    def get_user(self, user_id):
+        return self._request("GET", f"/api/users/{user_id}")
+
+    def create_user(self, payload):
+        return self._request("POST", "/api/users", json=payload)
+
+    def update_user(self, user_id, payload):
+        return self._request("PUT", f"/api/users/{user_id}", json=payload)
+
+    def delete_user(self, user_id):
+        return self._request("DELETE", f"/api/users/{user_id}")
+
+    def create_product(self, payload):
+        return self._request("POST", "/api/products", json=payload)
+
+    def update_product(self, product_id, payload):
+        return self._request("PUT", f"/api/products/{product_id}", json=payload)
+
+    def delete_product(self, product_id):
+        return self._request("DELETE", f"/api/products/{product_id}")
+

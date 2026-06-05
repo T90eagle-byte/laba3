@@ -1,10 +1,15 @@
-﻿from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_user, logout_user
 
 from app.pharmacy import (
     DBStorage,
+    DEFAULT_PRODUCT_CATEGORY,
     OrderItem,
+    ProductItem,
+    UserItem,
     hash_password,
+    normalize_category,
+    normalize_dosage,
     product_image_filename,
     verify_password,
 )
@@ -57,6 +62,15 @@ def is_current_user_admin():
 def require_api_login():
     if not current_user.is_authenticated:
         return api_error("Authentication required", 401)
+    return None
+
+
+def require_api_admin():
+    auth_error = require_api_login()
+    if auth_error:
+        return auth_error
+    if not is_current_user_admin():
+        return api_error("Admin access required", 403)
     return None
 
 
@@ -175,6 +189,93 @@ def get_accessible_order(storage, order_id):
     if not is_current_user_admin() and order.user_id != int(current_user.get_id()):
         return None, api_error("Order access denied", 403)
     return order, None
+
+
+def parse_bool(value, default=False):
+    if value is None:
+        return bool(default)
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return value != 0
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"1", "true", "yes", "y", "on", "да", "д", "есть"}:
+            return True
+        if normalized in {"0", "false", "no", "n", "off", "нет", "н"}:
+            return False
+    raise ValueError("Expected boolean value")
+
+
+def parse_price(value, *, required=False, default=0.0):
+    if value is None or value == "":
+        if required:
+            raise ValueError("price is required")
+        return float(default)
+    try:
+        price = float(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("price must be a number") from exc
+    if price < 0:
+        raise ValueError("price must be non-negative")
+    return price
+
+
+def fill_user_from_payload(user, payload, *, require_password=False):
+    login = (payload.get("login") or "").strip()
+    if not login:
+        return None, api_error("login is required", 400)
+
+    password = payload.get("password") or ""
+    if require_password and not password:
+        return None, api_error("password is required", 400)
+
+    user.login = login
+    user.name = (payload.get("name") or "").strip()
+    user.surname = (payload.get("surname") or "").strip()
+    user.patronymic = (payload.get("patronymic") or "").strip()
+    user.address = (payload.get("address") or "").strip()
+    try:
+        user.is_admin = 1 if parse_bool(payload.get("is_admin"), user.is_admin) else 0
+    except ValueError as exc:
+        return None, api_error(str(exc), 400)
+    if password:
+        user.password_hash = hash_password(password)
+    return user, None
+
+
+def fill_product_from_payload(product, payload, *, create=False):
+    name = payload.get("name")
+    if name is None:
+        name = "" if create else product.name
+    name = str(name).strip()
+    if not name:
+        return None, api_error("name is required", 400)
+
+    dosage = payload.get("dosage")
+    if dosage is None:
+        dosage = "" if create else product.dosage
+
+    category = payload.get("category")
+    if category is None:
+        category = DEFAULT_PRODUCT_CATEGORY if create else product.category
+
+    try:
+        price = parse_price(
+            payload.get("price"),
+            required=create,
+            default=product.price,
+        )
+        in_stock = parse_bool(payload.get("in_stock"), product.in_stock)
+    except ValueError as exc:
+        return None, api_error(str(exc), 400)
+
+    product.name = name
+    product.dosage = normalize_dosage(str(dosage or ""))
+    product.category = normalize_category(str(category or DEFAULT_PRODUCT_CATEGORY))
+    product.price = price
+    product.in_stock = 1 if in_stock else 0
+    return product, None
 
 
 @api_bp.post("/auth/login")
@@ -365,3 +466,187 @@ def api_product_detail(product_id):
         return api_ok(serialize_product(product))
     finally:
         storage.db.close()
+
+
+@api_bp.post("/products")
+def api_create_product():
+    admin_error = require_api_admin()
+    if admin_error:
+        return admin_error
+
+    payload, json_error = get_json_payload()
+    if json_error:
+        return json_error
+
+    product, product_error = fill_product_from_payload(ProductItem(), payload, create=True)
+    if product_error:
+        return product_error
+
+    storage = get_storage()
+    try:
+        storage.AddProduct(product)
+        product.id = storage.db.execute("SELECT last_insert_rowid()").fetchone()[0]
+        storage.db.commit()
+        created = storage.GetProduct(product.id)
+        return api_ok(serialize_product(created), 201)
+    finally:
+        storage.db.close()
+
+
+@api_bp.put("/products/<int:product_id>")
+def api_update_product(product_id):
+    admin_error = require_api_admin()
+    if admin_error:
+        return admin_error
+
+    payload, json_error = get_json_payload()
+    if json_error:
+        return json_error
+
+    storage = get_storage()
+    try:
+        product = storage.GetProduct(product_id)
+        if not product.id:
+            return api_error("Product not found", 404)
+
+        product, product_error = fill_product_from_payload(product, payload)
+        if product_error:
+            return product_error
+
+        storage.AddProduct(product)
+        storage.db.commit()
+        updated = storage.GetProduct(product.id)
+        return api_ok(serialize_product(updated))
+    finally:
+        storage.db.close()
+
+
+@api_bp.delete("/products/<int:product_id>")
+def api_delete_product(product_id):
+    admin_error = require_api_admin()
+    if admin_error:
+        return admin_error
+
+    storage = get_storage()
+    try:
+        product = storage.GetProduct(product_id)
+        if not product.id:
+            return api_error("Product not found", 404)
+
+        storage.DeleteProduct(product.id)
+        storage.db.commit()
+        return api_ok({"deleted": True, "id": product.id})
+    finally:
+        storage.db.close()
+
+
+@api_bp.get("/users")
+def api_users():
+    admin_error = require_api_admin()
+    if admin_error:
+        return admin_error
+
+    storage = get_storage()
+    try:
+        return api_ok([serialize_user(user) for user in storage.GetUsers()])
+    finally:
+        storage.db.close()
+
+
+@api_bp.get("/users/<int:user_id>")
+def api_user_detail(user_id):
+    admin_error = require_api_admin()
+    if admin_error:
+        return admin_error
+
+    storage = get_storage()
+    try:
+        user = storage.GetUser(user_id)
+        if not user.id:
+            return api_error("User not found", 404)
+        return api_ok(serialize_user(user))
+    finally:
+        storage.db.close()
+
+
+@api_bp.post("/users")
+def api_create_user():
+    admin_error = require_api_admin()
+    if admin_error:
+        return admin_error
+
+    payload, json_error = get_json_payload()
+    if json_error:
+        return json_error
+
+    user, user_error = fill_user_from_payload(UserItem(), payload, require_password=True)
+    if user_error:
+        return user_error
+
+    storage = get_storage()
+    try:
+        if storage.LoginExists(user.login):
+            return api_error("Login already exists", 400)
+        storage.RegisterUser(user)
+        storage.db.commit()
+        created = storage.GetUserByLogin(user.login)
+        return api_ok(serialize_user(created), 201)
+    finally:
+        storage.db.close()
+
+
+@api_bp.put("/users/<int:user_id>")
+def api_update_user(user_id):
+    admin_error = require_api_admin()
+    if admin_error:
+        return admin_error
+
+    payload, json_error = get_json_payload()
+    if json_error:
+        return json_error
+
+    storage = get_storage()
+    try:
+        user = storage.GetUser(user_id)
+        if not user.id:
+            return api_error("User not found", 404)
+
+        user, user_error = fill_user_from_payload(user, payload)
+        if user_error:
+            return user_error
+        if user.id == int(current_user.get_id()):
+            user.is_admin = 1
+        if storage.LoginExists(user.login, user.id):
+            return api_error("Login already exists", 400)
+
+        password_hash = user.password_hash
+        storage.UpdateUser(user)
+        if payload.get("password"):
+            storage.UpdatePassword(user.id, password_hash)
+        storage.db.commit()
+        updated = storage.GetUser(user.id)
+        return api_ok(serialize_user(updated))
+    finally:
+        storage.db.close()
+
+
+@api_bp.delete("/users/<int:user_id>")
+def api_delete_user(user_id):
+    admin_error = require_api_admin()
+    if admin_error:
+        return admin_error
+    if user_id == int(current_user.get_id()):
+        return api_error("Cannot delete current user", 400)
+
+    storage = get_storage()
+    try:
+        user = storage.GetUser(user_id)
+        if not user.id:
+            return api_error("User not found", 404)
+
+        storage.DeleteUser(user.id)
+        storage.db.commit()
+        return api_ok({"deleted": True, "id": user.id})
+    finally:
+        storage.db.close()
+
